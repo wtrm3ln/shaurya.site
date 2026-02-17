@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "db94941b4f646ce3",
+        "id": "e3905d91350bc241",
         "type": "tabs",
         "children": [
           {
-            "id": "59dd2bfccdab1066",
+            "id": "e5bf721b6a76e108",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "working/saves/index.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "index"
             }
           }
         ]
@@ -176,14 +180,25 @@
       "bases:Create new base": false
     }
   },
-  "active": "59dd2bfccdab1066",
+  "active": "e5bf721b6a76e108",
   "lastOpenFiles": [
+    "working/qaushey/image.png",
+    "working/pocket-gluca/image.png",
+    "working/pocket-gluca/image copy.png",
+    "working/scrp/image.png",
+    "working/qaushey/image copy.png",
+    "working/fast-cast/image.png",
+    "about.md",
+    "working/saves/image.png",
+    "working/saves/image copy.png",
+    "working/saves/index.md",
+    "working/saves",
+    "design.md",
+    "site.md",
+    "style.md",
+    "tech.md",
     "writing/consumption-and-privacy.md",
     "writing/_index.md",
-    "writing.md",
-    "about.md",
-    "style.md",
-    "site.md",
-    "design.md"
+    "writing.md"
   ]
 }

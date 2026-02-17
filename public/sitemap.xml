@@ -2,78 +2,78 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/working/pocket-gluca/</loc>
+    <loc>https://example.org/working/pocket-gluca/</loc>
     <lastmod>2025-12-12T09:34:37+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://example.org/tags/</loc>
     <lastmod>2025-12-12T09:34:37+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/web/</loc>
+    <loc>https://example.org/tags/web/</loc>
     <lastmod>2025-12-12T09:34:37+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://example.org/</loc>
+    <lastmod>2025-12-12T09:59:57+05:30</lastmod>
+  </url><url>
+    <loc>https://example.org/working/</loc>
     <lastmod>2025-12-12T09:34:37+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/working/</loc>
+    <loc>https://example.org/working/bloooom/</loc>
     <lastmod>2025-12-12T09:34:37+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/working/bloooom/</loc>
+    <loc>https://example.org/tags/building/</loc>
     <lastmod>2025-12-12T09:34:37+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/building/</loc>
+    <loc>https://example.org/working/fast-cast/</loc>
     <lastmod>2025-12-12T09:34:37+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/working/fast-cast/</loc>
+    <loc>https://example.org/working/carvers/</loc>
     <lastmod>2025-12-12T09:34:37+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/working/carvers/</loc>
+    <loc>https://example.org/tags/ux/</loc>
     <lastmod>2025-12-12T09:34:37+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/ux/</loc>
+    <loc>https://example.org/writing/why-designers-make-bad-founders/</loc>
+    <lastmod>2025-12-12T09:59:57+05:30</lastmod>
+  </url><url>
+    <loc>https://example.org/writing/consumption-and-privacy/</loc>
+    <lastmod>2025-12-12T09:59:57+05:30</lastmod>
+  </url><url>
+    <loc>https://example.org/working/scrp/</loc>
     <lastmod>2025-12-12T09:34:37+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/writing/why-designers-make-bad-founders/</loc>
-    <lastmod>2025-11-10T19:01:49+05:30</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/writing/consumption-and-privacy/</loc>
-    <lastmod>2025-11-08T00:07:22+05:30</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/working/scrp/</loc>
+    <loc>https://example.org/tags/visual-design/</loc>
     <lastmod>2025-12-12T09:34:37+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/visual-design/</loc>
+    <loc>https://example.org/working/qaushey/</loc>
     <lastmod>2025-12-12T09:34:37+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/working/qaushey/</loc>
-    <lastmod>2025-12-12T09:34:37+05:30</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/about/</loc>
+    <loc>https://example.org/about/</loc>
     <lastmod>2025-11-16T16:55:24+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/site/</loc>
+    <loc>https://example.org/site/</loc>
     <lastmod>2025-11-16T22:19:47+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://example.org/categories/</loc>
   </url><url>
-    <loc>http://localhost:1313/design/</loc>
+    <loc>https://example.org/design/</loc>
     <lastmod>2025-11-16T22:19:47+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/painting/</loc>
+    <loc>https://example.org/painting/</loc>
     <lastmod>2025-11-17T01:34:33+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/painting/1/</loc>
+    <loc>https://example.org/painting/1/</loc>
     <lastmod>2025-11-17T01:34:33+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/painting/2/</loc>
+    <loc>https://example.org/painting/2/</loc>
     <lastmod>2025-11-17T01:34:33+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/style/</loc>
+    <loc>https://example.org/style/</loc>
     <lastmod>2025-11-16T22:19:47+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tech/</loc>
+    <loc>https://example.org/tech/</loc>
     <lastmod>2025-11-16T22:19:47+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/writing/</loc>
+    <loc>https://example.org/writing/</loc>
     <lastmod>2025-10-30T22:48:27+05:30</lastmod>
   </url>
 </urlset>

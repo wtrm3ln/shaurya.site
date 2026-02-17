@@ -292,7 +292,7 @@ MAIN CONTENT
     min-height: 100vh;
     margin: 0 2em;
     border-top: 3px solid var(--gray);;
-    padding: 0 6em;
+    padding: 0 6em 2em  6em;
     color: var(--dark);
     z-index: 50;
     box-shadow: rgba(50, 50, 93, 0.15) 0px 50px 100px 20px, rgba(0, 0, 0, 0.1) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
@@ -396,7 +396,7 @@ RESPONSIVE BREAKPOINTS
   }
 
   .main-content {
-    padding: 0 2em;
+    padding: 0 2em 1em 2em;
   }
 
   footer {
@@ -435,7 +435,6 @@ RESPONSIVE BREAKPOINTS
 
   .main-content {
     margin: 0 1em;
-    padding: 0 2em;
     border-radius: 15px;
   }
 
@@ -507,7 +506,7 @@ RESPONSIVE BREAKPOINTS
 
   .main-content {
     margin: 0 0.5em;
-    padding: 0 1.5em;
+    padding: 0 1.5em 1em 1.5em;
     border-radius: 10px;
   }
 

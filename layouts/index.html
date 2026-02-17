@@ -63,20 +63,19 @@
 
                                 <!-- cover media (collapsed by default, expands on hover) -->
                                  {{ with .Resources.GetMatch .Params.cover }}
-                                <div class="cover-media">
                                         <img src="{{ .RelPermalink }}" alt="{{ $.Title }}" class="cover-image">
-                                </div>
                                 {{ end }}
 
                                 <!-- textual content stays the same, wrapped as project-body -->
                                 <div class="project-body">
                                     <div>
-                                        <h3>{{ .Title }}
-                                            {{ if .Params.external }} 🔗 {{ end }}
-                                        </h3>
-                                        {{ with .Params.description }}
-                                            <p class="project-description">{{ . }}</p>
-                                        {{ end }}
+                                            <p class="project-description">
+                                                <b>{{ .Title }}</b>
+
+                                                {{ with .Params.description }}
+                                                    {{ . }}
+                                                {{ end }}
+                                            </p>
                                     </div>
 
                                     <div>

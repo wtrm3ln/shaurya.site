@@ -5,7 +5,8 @@ year: 2024
 tags: [building]
 featured: true
 slug: "fast-cast"
-description: "Vibe coded an app to help design students find models for their shoots quickly"
+description: "Helping fashion students find models for their shoots in college"
 external: true
 externalurl: https://fastcast.space/
+cover: image.png
 ---

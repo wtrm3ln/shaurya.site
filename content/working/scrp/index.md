@@ -7,5 +7,5 @@ featured: true
 external: true
 externalurl: "https://scrp-labs.vercel.app/"
 description: "A website for a hobby 3d printing lab."
-cover: cover.png
+cover: image.png
 ---

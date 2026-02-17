@@ -8,7 +8,7 @@
 }
 
 .filter-btn {
-  font-family: 'IBM Plex Mono';
+  font-family: 'Geologica';
   font-weight: 400;
   transition: color 0.2s ease;
   color: var(--dark);
@@ -29,89 +29,97 @@
   color: var(--themed-secondary)
 }
 
+
+/* ===============================
+   PROJECTS SECTION
+   =============================== */
+.year-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.projects-year {
+  position: sticky;
+  top: 5rem;
+  flex: 0 0 200px;
+  height: fit-content;
+}
+
+.project-list {
+   gap: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+}
+
 .project-card {
   display: none;
-  border-bottom: 1px solid var(--gray);
   position: relative;
-  overflow: hidden;
   transition: all 0.3s ease;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.project-card:hover {
+  background-color: var(--gray);
+}
+
+.project-card:hover .tag-pill {
+  background-color: var(--white);
+}
+
+.project-card:hover .project-description {
+  color: #777777;
 }
 
 .project-card.show {
   display: block;
 }
 
-.project-card:hover {
-  border-bottom: 1px solid var(--dark);
-}
-
-.project-card:hover h3 {
-  color: var(--themed-primary);
-}
 
 .project-list a {
   text-decoration: none;
   color: var(--dark);
-  background: transparent;
 }
 
-.project-card h3 {
-  margin: 0;
+.project-card b {
+  color: var(--dark);
 }
 
 .project-content {
   height: 100%;
   min-height: 100px; /* fallback for older browsers */
-
   display: flex;
   flex-direction: row;
   justify-content: start;
+  gap: 1rem;
 }
 
 .project-body {
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
 }
 
 .project-description {
-  margin-top: 0.5rem;
-  color: var(--dark);
-  opacity: 0.6;
+  color: #a9a9a9;
+  font-size: medium;
 }
 
-/* Container that enforces the visual size for both real images and placeholders */
-.cover-media {
-  aspect-ratio: 16/9;
-  min-height: 100px; /* fallback for older browsers */
+.cover-image {
+  height: 200px;
+  width: 600px;
   position: relative;
   overflow: hidden;
-  border-bottom: 1px solid var(--gray);
-}
-
-.cover-media img.cover-image {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  border-radius: 7px;
+  box-shadow: rgba(100, 100, 111, 0.1) 0px 7px 29px 0px;
   object-fit: cover;
   display: block;
-}
-.cover-media{max-width:0;overflow:hidden;transition:max-width .50s ease,margin .25s}
-.project-card:hover .cover-media{max-width:220px;margin-right:12px}
-
-.cover-image{height:72px;width:auto;display:block}
-.cover-placeholder{display:flex;align-items:center;justify-content:center;height:72px;background:#f4f4f4;color:#333;padding:0 8px}
-.cover-title{font-weight:600}
-
-.cover-title {
-  font-size: 2.05rem;
-  padding: 0.4rem 0.8rem;
-  text-align: center;
-  line-height: 1.1;
-  opacity: 0.4;
 }
 
 .project-tags {
@@ -125,52 +133,23 @@
   padding: 0.25rem 0.6rem;
   background: #e8e8e8;
   border-radius: 999px;
-  font-size: 0.85rem;
-  line-height: 1;
 }
 
-/* ===============================
-   PROJECTS SECTION
-   =============================== */
-
-.year-container {
-  display: flex;
-  align-items: flex-start;
-  gap: 2rem;
-  position: relative;
-  padding: 2em 0;
-}
-
-.projects-year {
-  position: sticky;
-  top: 5rem;
-  flex: 0 0 200px;
-  height: fit-content;
-}
-
-.project-list {
-   gap: 2rem;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
 
 /* ===============================
    RESPONSIVE BREAKPOINTS
    =============================== */
 
-@media (min-width: 1290px) {
-  .project-list{
-      grid-template-columns: 1fr 1fr 1fr
-  }
-}
-
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .projects-year {
     flex: 0 0 120px;
     top: 4rem;
     border: none;
   }
+
+  .project-list {
+    grid-template-columns: 1fr;
+}
 }
 
 @media (max-width: 768px) {
@@ -181,13 +160,19 @@
   .projects-year {
     position: static;
     width: 100%;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
+    border-bottom: solid 1px var(--gray);
   }
 
   .project-list {
     gap: 2.5rem 1rem;
     width: 100%;
   }
+
+  .cover-image {
+  height: 150px;
+  width: 300px;
+}
 }
 
 @media (max-width: 480px) {

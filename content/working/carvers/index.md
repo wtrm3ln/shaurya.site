@@ -5,7 +5,7 @@ year: 2023
 tags: [ux]
 featured: true
 slug: "carvers"
-description: "An Infotainment system that rethinks the experience of driving a car"
+description: "Rethinking the experience of driving a car"
 external: false
 external-url: ""
 cover: cover.png

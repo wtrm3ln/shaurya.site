@@ -2,24 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Building on working</title>
-    <link>https://example.org/tags/building/</link>
+    <link>http://localhost:1313/tags/building/</link>
     <description>Recent content in Building on working</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 12 Dec 2025 09:34:37 +0530</lastBuildDate>
-    <atom:link href="https://example.org/tags/building/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 27 Feb 2026 20:44:09 +0530</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/building/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Watch When</title>
+      <link>http://localhost:1313/working/watch-when/</link>
+      <pubDate>Fri, 27 Feb 2026 20:44:09 +0530</pubDate>
+      <guid>http://localhost:1313/working/watch-when/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Bloooom</title>
-      <link>https://example.org/working/bloooom/</link>
+      <link>http://localhost:1313/working/bloooom/</link>
       <pubDate>Sun, 16 Nov 2025 15:49:14 +0530</pubDate>
-      <guid>https://example.org/working/bloooom/</guid>
+      <guid>http://localhost:1313/working/bloooom/</guid>
       <description></description>
     </item>
     <item>
       <title>Fast Cast</title>
-      <link>https://example.org/working/fast-cast/</link>
+      <link>http://localhost:1313/working/fast-cast/</link>
       <pubDate>Sun, 16 Nov 2025 15:32:05 +0530</pubDate>
-      <guid>https://example.org/working/fast-cast/</guid>
+      <guid>http://localhost:1313/working/fast-cast/</guid>
       <description></description>
     </item>
   </channel>

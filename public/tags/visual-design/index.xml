@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Visual Design on working</title>
-    <link>https://example.org/tags/visual-design/</link>
+    <link>http://localhost:1313/tags/visual-design/</link>
     <description>Recent content in Visual Design on working</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 12 Dec 2025 09:34:37 +0530</lastBuildDate>
-    <atom:link href="https://example.org/tags/visual-design/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 18 Feb 2026 02:52:10 +0530</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/visual-design/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Scrp</title>
-      <link>https://example.org/working/scrp/</link>
+      <link>http://localhost:1313/working/scrp/</link>
       <pubDate>Mon, 03 Nov 2025 00:41:08 +0530</pubDate>
-      <guid>https://example.org/working/scrp/</guid>
+      <guid>http://localhost:1313/working/scrp/</guid>
       <description></description>
     </item>
     <item>
       <title>Qaushey</title>
-      <link>https://example.org/working/qaushey/</link>
+      <link>http://localhost:1313/working/qaushey/</link>
       <pubDate>Sat, 11 Jan 2025 22:03:59 +0530</pubDate>
-      <guid>https://example.org/working/qaushey/</guid>
+      <guid>http://localhost:1313/working/qaushey/</guid>
       <description></description>
     </item>
   </channel>

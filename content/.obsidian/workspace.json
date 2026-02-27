@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "working/saves/index.md",
+                "file": "writing/battle.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "index"
+              "title": "battle"
             }
           }
         ]
@@ -182,6 +182,11 @@
   },
   "active": "e5bf721b6a76e108",
   "lastOpenFiles": [
+    "writing/being-annoying.md",
+    "writing/battle.md",
+    "writing/consumption-and-privacy.md",
+    "writing/being-annoyinggg.md",
+    "working/saves/index.md",
     "working/qaushey/image.png",
     "working/pocket-gluca/image.png",
     "working/pocket-gluca/image copy.png",
@@ -191,13 +196,11 @@
     "about.md",
     "working/saves/image.png",
     "working/saves/image copy.png",
-    "working/saves/index.md",
     "working/saves",
     "design.md",
     "site.md",
     "style.md",
     "tech.md",
-    "writing/consumption-and-privacy.md",
     "writing/_index.md",
     "writing.md"
   ]

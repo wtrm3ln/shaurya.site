@@ -7,7 +7,6 @@ categories: []
 featuredImage: ""
 slug: battle
 excerpt: ""
-type: essay
 draft: true
 ---
 #Essayy

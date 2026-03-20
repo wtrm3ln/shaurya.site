@@ -7,7 +7,6 @@ categories: []
 featuredImage: ""
 slug: "consumption-and-privacy"
 Excerpt: ""
-type: essay
 ---
 
 By this writing I want to explore digital privacy and consumption. My motivation for exploring this is trying to be more mindful of what I let into my life, not limited to food or air or people but products. I have always had the belief that the products we use have a considerable impact on our life but their impact is also overlooked, with the incorrect assumption that using them is a one way interaction where we extract value from them but they don’t have any affect on who we are.

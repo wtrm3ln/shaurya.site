@@ -20,8 +20,21 @@
               "icon": "lucide-file",
               "title": "battle"
             }
+          },
+          {
+            "id": "92c6ab9c07c0ef2c",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.12.4"
+              },
+              "icon": "lucide-book-up",
+              "title": "Release Notes 1.12.4"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -180,7 +193,7 @@
       "bases:Create new base": false
     }
   },
-  "active": "e5bf721b6a76e108",
+  "active": "6139cd7c03e5ea68",
   "lastOpenFiles": [
     "writing/being-annoying.md",
     "writing/battle.md",

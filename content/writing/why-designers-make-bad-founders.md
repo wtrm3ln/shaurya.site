@@ -7,7 +7,6 @@ categories: []
 featuredImage: ""
 slug: "why-designers-make-bad-founders"
 excerpt: ""
-type: essay
 ---
 
 # Problem

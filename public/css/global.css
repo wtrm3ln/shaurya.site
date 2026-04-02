@@ -120,6 +120,15 @@ p{
     opacity: 0.6;
 }
 
+blockquote {
+  border-left: 4px solid color-mix(in srgb, var(--themed-primary) 30%, transparent);
+  background: color-mix(in srgb, var(--themed-primary) 10%, transparent);
+  padding: 12px 16px;
+  margin: 1em 0;
+  width: 100%;
+}
+
+
 
 /* ==========================================
 LINKS

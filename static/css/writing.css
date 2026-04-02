@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    gap: 1rem;
 }
 .tag {
     font-size: 0.8rem;
@@ -17,4 +18,31 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.essay-list-item blockquote {
+    margin: 0;
+}
+
+.quote-author {
+    margin-top: 8px;
+}
+
+
+@media (max-width: 640px) {
+    .essay-list-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.35rem;
+    }
+
+    .quote-list-item {
+        padding: 0.9rem 0 1.2rem;
+    }
+
+    .quote-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
 }

@@ -49,10 +49,3 @@
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-
-.callout {
-  border-left: 4px solid var(--yellow-20);
-  background: var(--yellow-10);
-  padding: 12px 16px;
-  margin: 1em 0;
-}

@@ -1,6 +1,8 @@
-{{ define "header-content" }}
+{{ define "page-head" }}
 <link rel="stylesheet" href="/css/writing.css">
+{{ end }}
 
+{{ define "header-content" }}
 <canvas class="pixel-canvas" id="pixelCanvas"></canvas>
 <div class="heading-content">
         <span class="heading-quote">Design,tech and ideas</span>
@@ -15,6 +17,19 @@
 
 <div class="narrow-container">
 {{ range .Pages.ByDate.Reverse }}
+    {{ $isQuote := or (eq .Params.format "quote") (eq .Params.entryType "quote") (eq .Params.contentType "quote") .Params.isQuote .Params.quote }}
+    {{ if $isQuote }}
+    {{ $quoteText := .Params.quote | default .Params.text | default .RawContent }}
+    {{ $quoteAuthor := .Params.quoteAuthor | default .Params.author | default .Title }}
+    <div class="essay-list-item">
+            <blockquote>
+                {{ $quoteText | markdownify }}
+                    {{ with $quoteAuthor }}
+                    <div class="quote-author light-text">{{ . }}</div>
+                    {{ end }}
+            </blockquote>
+    </div>
+    {{ else }}
     <div class="essay-list-item">
         <div class="title-container">
             <a href="{{ .RelPermalink }}">{{ .Title }}</a>
@@ -22,6 +37,7 @@
         </div>
     <small class="light-text"> {{ .Date.Format "Jan 2, 2006" }}</small>
     </div>
+    {{ end }}
 {{ end }}
 </div>
 </div>

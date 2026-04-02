@@ -25,12 +25,14 @@
             "id": "92c6ab9c07c0ef2c",
             "type": "leaf",
             "state": {
-              "type": "release-notes",
+              "type": "markdown",
               "state": {
-                "currentVersion": "1.12.4"
+                "file": "writing/what-is-a-product.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-book-up",
-              "title": "Release Notes 1.12.4"
+              "icon": "lucide-file",
+              "title": "what-is-a-product"
             }
           }
         ],
@@ -193,11 +195,12 @@
       "bases:Create new base": false
     }
   },
-  "active": "6139cd7c03e5ea68",
+  "active": "92c6ab9c07c0ef2c",
   "lastOpenFiles": [
-    "writing/being-annoying.md",
     "writing/battle.md",
     "writing/consumption-and-privacy.md",
+    "writing/making-art.md",
+    "writing/being-annoying.md",
     "writing/being-annoyinggg.md",
     "working/saves/index.md",
     "working/qaushey/image.png",

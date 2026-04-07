@@ -3,17 +3,15 @@
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> writing </title>
-    <meta name="description" content="Portfolio of Shaurya - Software Designer &amp; Creative Technologist">
+    <title> Editions </title>
+    <meta name="description" content="Introducing print media to Gen Z">
     
 
     
 
     
-    
-    
 
-    <link rel="icon" href="/assets/text.png" type="image/png">
+    <link rel="icon" href="/assets/default.png" type="image/png">
 
     <link rel="stylesheet" href="/css/global.css">
 
@@ -23,15 +21,15 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
      
 <link rel="stylesheet" href="/css/writing.css">
+<link rel="stylesheet" href="/css/content.css">
 
 </head>
 <body>
     <header class="header-content">
         
-<canvas class="pixel-canvas" id="pixelCanvas"></canvas>
 <div class="heading-content">
-        <span class="heading-quote">Design,tech and ideas</span>
-        <p>If you’re thinking without writing, you only think you’re thinking.</p>
+    <span class="heading-quote">Editions</span>
+    <p>Introducing print media to Gen Z</p>
 </div>
 
     </header>
@@ -40,7 +38,7 @@
         <div class="navigation">
             <div class="navigation-center">
                 <a href="/" class="">working</a>
-                <a href="/writing/" class="active">writing</a>
+                <a href="/writing/" class="">writing</a>
                 <a href="/painting/" class="">painting</a>
             </div>
             
@@ -52,82 +50,34 @@
 
 
         
+<article class="narrow-container" style="padding-bottom: 2rem;">
+    <a href="/writing/">↩ Writing</a>
 
+    <div style="margin: 2rem 0;">
+        <h1>Editions</h1>
+        <p>Introducing print media to Gen Z</p>
+    </div>
 
-
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
     
-
-
-<div class="writing-layout">
-    <section class="writing-primary">
-        <div class="narrow-container">
-            <h1>writing</h1>
-            <p>I write about design, tech and anything I'm thinking about. This is an exercise in me understanding how things work.</p>
-
-            <div class="narrow-container">
-            
-                
-                
-                
-                
-                <div class="essay-list-item">
-                        <blockquote>
-                            You should probably work on raising the ceiling, not the floor
-                                
-                                <div class="quote-author light-text">Nat Friedman</div>
-                                
-                        </blockquote>
-                </div>
-                
-            
-                
-                
-                <div class="essay-list-item">
-                    <div class="title-container">
-                        <a href="/writing/why-designers-make-bad-founders/">Why designers make bad founders</a>
-                    </div>
-                    <small class="light-text">Nov 10, 2025</small>
-                </div>
-                
-            
-                
-                
-                <div class="essay-list-item">
-                    <div class="title-container">
-                        <a href="/writing/consumption-and-privacy/">Consumption and Privacy</a>
-                    </div>
-                    <small class="light-text">Nov 3, 2025</small>
-                </div>
-                
-            
+        <section style="border-top: 1px solid color-mix(in srgb, var(--themed-primary) 25%, transparent); padding-top: 1.5rem;">
+            <div class="light-text" style="margin-bottom: 0.75rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem;">
+                <time datetime="2026-04-05">Apr 5, 2026</time>
             </div>
-        </div>
-    </section>
+            <h3 style="margin-top: 0;">Planning the first recommendation flow</h3>
+            <p>Today I mapped the first pass of the recommendation flow.</p>
+<p>The goal is to make the site useful before the data model gets complicated. That means:</p>
+<ul>
+<li>asking for mood before genre</li>
+<li>showing fewer but stronger recommendations</li>
+<li>letting the user correct the recommendation quickly</li>
+</ul>
+<p>Next I want to test whether the decision tree should be explicit or feel more like browsing.</p>
 
-
+        </section>
     
-
-</div>
-
-<script>
-        (function () {
-            const colorSets = [
-                ['#FF6542', '#393939'],
-                ['#E80051', '#FFFFFF'],
-                ['#F6AD00', '#FFF1D0'],
-                ['#009B72', '#393939'],
-                ['#393939', '#FFFFED'],
-                ['#9747FF', '#FFFFED'],
-                ['#0017E8', '#FFFFED'],
-                ['#FF12AF', '#FFFFED'],
-            ];
-
-            const randomSet = colorSets[Math.floor(Math.random() * colorSets.length)];
-
-            document.documentElement.style.setProperty('--themed-primary', randomSet[0]);
-            document.documentElement.style.setProperty('--themed-secondary', randomSet[1]);
-        })();
-</script>
+    </div>
+</article>
 
     </main>
 

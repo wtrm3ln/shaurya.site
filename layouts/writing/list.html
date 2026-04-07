@@ -11,35 +11,71 @@
 {{ end }}
 
 {{ define "main" }}
-<div class="narrow-container">
-<h1>writing</h1>
-<p>I write about design, tech and anything I'm thinking about. This is an exercise in me understanding how things work.</p>
-
-<div class="narrow-container">
-{{ range .Pages.ByDate.Reverse }}
-    {{ $isQuote := or (eq .Params.format "quote") (eq .Params.entryType "quote") (eq .Params.contentType "quote") .Params.isQuote .Params.quote }}
-    {{ if $isQuote }}
-    {{ $quoteText := .Params.quote | default .Params.text | default .RawContent }}
-    {{ $quoteAuthor := .Params.quoteAuthor | default .Params.author | default .Title }}
-    <div class="essay-list-item">
-            <blockquote>
-                {{ $quoteText | markdownify }}
-                    {{ with $quoteAuthor }}
-                    <div class="quote-author light-text">{{ . }}</div>
-                    {{ end }}
-            </blockquote>
-    </div>
-    {{ else }}
-    <div class="essay-list-item">
-        <div class="title-container">
-            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-
-        </div>
-    <small class="light-text"> {{ .Date.Format "Jan 2, 2006" }}</small>
-    </div>
-    {{ end }}
+{{ $journalRoot := .Site.GetPage "/build-journal" }}
+{{ $journalProjects := slice }}
+{{ with $journalRoot }}
+    {{ $journalProjects = .Sections.ByTitle }}
 {{ end }}
-</div>
+
+<div class="writing-layout">
+    <section class="writing-primary">
+        <div class="narrow-container">
+            <h1>writing</h1>
+            <p>I write about design, tech and anything I'm thinking about. This is an exercise in me understanding how things work.</p>
+
+            <div class="narrow-container">
+            {{ range .Pages.ByDate.Reverse }}
+                {{ $isQuote := or (eq .Params.format "quote") (eq .Params.entryType "quote") (eq .Params.contentType "quote") .Params.isQuote .Params.quote }}
+                {{ if $isQuote }}
+                {{ $quoteText := .Params.quote | default .Params.text | default .RawContent }}
+                {{ $quoteAuthor := .Params.quoteAuthor | default .Params.author | default .Title }}
+                <div class="essay-list-item">
+                        <blockquote>
+                            {{ $quoteText | markdownify }}
+                                {{ with $quoteAuthor }}
+                                <div class="quote-author light-text">{{ . }}</div>
+                                {{ end }}
+                        </blockquote>
+                </div>
+                {{ else }}
+                <div class="essay-list-item">
+                    <div class="title-container">
+                        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                    </div>
+                    <small class="light-text">{{ .Date.Format "Jan 2, 2006" }}</small>
+                </div>
+                {{ end }}
+            {{ end }}
+            </div>
+        </div>
+    </section>
+
+
+    {{ if gt (len $journalProjects) 0 }}
+        <div style="position: sticky; top: 96px;">
+        <div class="build-journal-panel">
+            <div style="margin-bottom: 1.5rem;">
+                <h1>build journal</h1>
+            </div>
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                {{ range $journalProjects }}
+                    <section>
+                        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 0.5rem; flex-wrap: wrap;">
+                            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                            {{ with .Params.status }}
+                            <span class="tag tag-{{ . | urlize }}">{{ . }}</span>
+                            {{ end }}
+                        </div>
+                        {{ with .Params.description }}
+                        <p class="light-text">{{ . }}</p>
+                        {{ end }}
+                    </section>
+                {{ end }}
+                </div>
+            </div>
+        </div>
+    {{ end }}
+
 </div>
 
 <script>

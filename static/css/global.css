@@ -120,6 +120,25 @@ p{
     opacity: 0.6;
 }
 
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.45rem;
+  color: var(--themed-secondary);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  border-radius: 4px;
+}
+
+.tag-active {
+  background: var(--themed-primary);
+}
+
+.tag-inactive {
+  background: var(--gray);
+}
+
 blockquote {
   border-left: 4px solid color-mix(in srgb, var(--themed-primary) 30%, transparent);
   background: color-mix(in srgb, var(--themed-primary) 10%, transparent);

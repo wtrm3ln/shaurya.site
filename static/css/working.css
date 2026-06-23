@@ -117,13 +117,7 @@
 
 @media (max-width: 580px) {
   .project-list {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .project-list {
-    gap: 1.5rem;
+    columns: 1;
   }
 }
 

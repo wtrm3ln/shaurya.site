@@ -7,7 +7,7 @@
         <span class="heading-quote">{{ .Title }}</span>
         <p>{{ .Params.Description }}</p>
         <div class="project-meta-header">
-            
+
             <div class="project-meta-grid">
                 {{ if .Params.role }}
                 <div class="meta-item">
@@ -15,21 +15,21 @@
                     <span class="meta-value">{{ .Params.role }}</span>
                 </div>
                 {{ end }}
-                
+
                 {{ if .Params.timeline }}
                 <div class="meta-item">
                     <span class="meta-label">Timeline</span>
                     <span class="meta-value">{{ .Params.timeline }}</span>
                 </div>
                 {{ end }}
-                
+
                 {{ if .Params.client }}
                 <div class="meta-item">
                     <span class="meta-label">Client</span>
                     <span class="meta-value">{{ .Params.client }}</span>
                 </div>
                 {{ end }}
-                
+
                 {{ if .Params.tags }}
                 <div class="meta-item">
                     <span class="meta-value">
@@ -45,7 +45,7 @@
 {{ end }}
 
 {{ define "main" }}
-<article class="narrow-container">
+<article class="case-study-article">
     <a href="/">← Back to work</a>
 
     <div class="container">
@@ -58,7 +58,7 @@
             <span class="nav-title">{{ .Title }}</span>
         </a>
         {{ end }}
-        
+
         {{ with .NextInSection }}
         <a href="{{ .Permalink }}" class="nav-link nav-next">
             <span class="nav-label">Next →</span>

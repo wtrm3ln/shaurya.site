@@ -1,0 +1,49 @@
+{{ define "page-head" }}
+<link rel="stylesheet" href="/css/working.css">
+{{ end }}
+
+{{ define "main" }}
+<div>
+    <h2>experimenting</h2>
+    <p>More exploratory projects — small bets and curiosities.</p>
+</div>
+
+<div class="project-list" style="margin-top: 2rem;">
+    {{ $projects := where .Site.RegularPages "Section" "experimenting" }}
+    {{ $projects = sort $projects "Date" "desc" }}
+
+    {{ range $projects }}
+    <div class="project-card show">
+        {{ if .Params.external }}
+        <a class="external" href="{{ .Params.externalurl }}" target="_blank" rel="noopener">
+        {{ else }}
+        <a href="{{ .RelPermalink }}">
+        {{ end }}
+            <div class="project-content" data-project-content>
+                {{ with .Resources.GetMatch .Params.cover }}
+                <img src="{{ .RelPermalink }}" alt="{{ $.Title }}" class="cover-image">
+                {{ end }}
+                <div class="project-body">
+                    <div>
+                        <p class="project-description">
+                            <b>{{ .Title }}</b>
+                            {{ with .Params.description }}{{ . }}{{ end }}
+                        </p>
+                    </div>
+                    <div>
+                        {{ with .Params.tags }}
+                        <div class="project-tags">
+                            {{ range . }}
+                            <span class="tag-pill">{{ . }}</span>
+                            {{ end }}
+                        </div>
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    {{ end }}
+</div>
+
+{{ end }}

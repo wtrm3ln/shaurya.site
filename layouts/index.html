@@ -18,96 +18,70 @@
 </div>
 
 <div>
-    <div class="container">
+    {{ $projects := where .Site.RegularPages "Section" "working" }}
+    {{ $projects = sort $projects "Date" "desc" }}
+    {{ $allTags := slice }}
 
+    {{ range $projects }}
+    {{ range .Params.tags }}
+    {{ if not (in $allTags .) }}{{ $allTags = $allTags | append . }}{{ end }}
+    {{ end }}
+    {{ end }}
+
+    <div class="container">
         <div class="filter-section">
             <h1>work</h1>
             <span style="margin-bottom: 0;">I want to see</span>
             <div class="filter-buttons" id="filterButtons">
                 <button class="filter-btn active" onclick="filterProjects('all')">everything</button>
-                <!-- Dynamic filter buttons will be added here by JavaScript -->
             </div>
         </div>
     </div>
 
-    <div>
-        {{ $projects := where .Site.RegularPages "Section" "working" }} {{ $projects = sort $projects "Date" "desc" }} {{ $yearMap := dict }} {{ $years := slice }} {{ $allTags := slice }}
-
-        <!-- Group projects by year and collect all tags -->
-        {{ range $projects }} {{ $year := .Params.year }} {{ if $year }} {{ $yearStr := string $year }} {{ $existing := index $yearMap $yearStr }} {{ if $existing }} {{ $yearMap = merge $yearMap (dict $yearStr ($existing | append .)) }} {{ else }} {{ $yearMap
-        = merge $yearMap (dict $yearStr (slice .)) }} {{ $years = $years | append $year }} {{ end }} {{ end }}
-
-        <!-- Collect all tags -->
-        {{ range .Params.tags }} {{ if not (in $allTags .) }} {{ $allTags = $allTags | append . }} {{ end }} {{ end }} {{ end }}
-
-        <!-- Display projects grouped by year -->
-        {{ range $year := sort $years "value" "desc" }} {{ $projectsInYear := index $yearMap (string $year) }} {{ $summary := index $.Site.Data.years (string $year) }}
-
-
-        <div class="year-container">
-            <div class="projects-year">
-                <h2>{{ $year }}</h2> {{ with $summary }}
-                <p>{{ . }}</p>
-                {{ end }}
-            </div>
-
-            <div class="project-list">
-                {{ range $projectsInYear }}
-                <div class="project-card {{ range .Params.tags }}tag-{{ . | urlize }} {{ end }}" data-tags="{{ delimit .Params.tags " , " }}">
-                    {{ if .Params.external }}
-                    <a class="external" href="{{ .Params.externalurl }}" target="_blank" rel="noopener">
-                            {{ else }}
-                            <a href="{{ .RelPermalink }}">
-                        {{ end }}
-                            <div class="project-content" data-project-content>
-
-                                <!-- cover media (collapsed by default, expands on hover) -->
-                                 {{ with .Resources.GetMatch .Params.cover }}
-                                        <img src="{{ .RelPermalink }}" alt="{{ $.Title }}" class="cover-image">
+    <div class="project-list">
+        {{ range $projects }}
+        <div class="project-card {{ range .Params.tags }}tag-{{ . | urlize }} {{ end }}" data-tags="{{ delimit .Params.tags " , " }}">
+            {{ if .Params.external }}
+            <a class="external" href="{{ .Params.externalurl }}" target="_blank" rel="noopener">
+            {{ else }}
+            <a href="{{ .RelPermalink }}">
+            {{ end }}
+                <div class="project-content" data-project-content>
+                    {{ with .Resources.GetMatch .Params.cover }}
+                    <img src="{{ .RelPermalink }}" alt="{{ $.Title }}" class="cover-image">
+                    {{ end }}
+                    <div class="project-body">
+                        <div>
+                            <p class="project-description">
+                                <b>{{ .Title }}</b>
+                                {{ with .Params.description }}{{ . }}{{ end }}
+                            </p>
+                        </div>
+                        <div>
+                            {{ with .Params.tags }}
+                            <div class="project-tags">
+                                {{ range . }}
+                                <span class="tag-pill">{{ . }}</span>
                                 {{ end }}
-
-                                <!-- textual content stays the same, wrapped as project-body -->
-                                <div class="project-body">
-                                    <div>
-                                            <p class="project-description">
-                                                <b>{{ .Title }}</b>
-
-                                                {{ with .Params.description }}
-                                                    {{ . }}
-                                                {{ end }}
-                                            </p>
-                                    </div>
-
-                                    <div>
-                                        {{ with .Params.tags }}
-                                        <div class="project-tags">
-                                            {{ range . }}
-                                                <span class="tag-pill">{{ . }}</span>
-                                            {{ end }}
-                                        </div>
-                                        {{ end }}
-                                    </div>
-                                </div>
                             </div>
-                        </a>
+                            {{ end }}
+                        </div>
+                    </div>
                 </div>
-                {{ end }}
-
-            </div>
+            </a>
         </div>
         {{ end }}
+    </div>
 
+    <div class="experimenting-cta">
+        <p>Want to see more? <a href="/experimenting/">See what I'm tinkering on.</a></p>
     </div>
 </div>
 
 <script>
-    // All unique tags from Hugo
     const allTags = [{{ range $allTags }}"{{ . }}",{{ end }}];
-    
-    // Track active filters
     let activeFilters = new Set();
-    
-    // Create filter buttons dynamically
+
     const filterContainer = document.getElementById('filterButtons');
     allTags.forEach(tag => {
         const btn = document.createElement('button');
@@ -117,81 +91,44 @@
         filterContainer.appendChild(btn);
     });
 
-    // Show all projects initially
     filterProjects('all');
-
-    function updateYearVisibility() {
-        const yearContainers = document.getElementsByClassName('year-container');
-
-        for (let i = 0; i < yearContainers.length; i++) {
-            const container = yearContainers[i];
-            const projects = container.querySelectorAll('.project-card');
-
-            const anyVisible = Array.from(projects).some(p => p.classList.contains('show'));
-            container.style.display = anyVisible ? '' : 'none';
-        }
-    }
 
     function filterProjects(filter) {
         const projects = document.getElementsByClassName('project-card');
         const buttons = document.getElementsByClassName('filter-btn');
-        
+
         if (filter === 'all') {
             activeFilters.clear();
-
-            for (let i = 0; i < projects.length; i++) {
-                projects[i].classList.add('show');
-            }
-
-            for (let i = 0; i < buttons.length; i++) {
-                buttons[i].classList.remove('active');
-            }
-
+            for (let i = 0; i < projects.length; i++) projects[i].classList.add('show');
+            for (let i = 0; i < buttons.length; i++) buttons[i].classList.remove('active');
             buttons[0].classList.add('active');
-            updateYearVisibility();
         }
     }
 
     function toggleFilter(tag) {
         const buttons = document.getElementsByClassName('filter-btn');
 
-        // Toggle filter on/off
         if (activeFilters.has(tag)) {
             activeFilters.delete(tag);
         } else {
             activeFilters.add(tag);
         }
 
-        // If no filters left → show everything
         if (activeFilters.size === 0) {
             filterProjects('all');
             return;
         }
 
-        // Deactivate "everything" button
         buttons[0].classList.remove('active');
-
-        // Update individual button states
         for (let i = 1; i < buttons.length; i++) {
-            const btnTag = buttons[i].textContent;
-            buttons[i].classList.toggle('active', activeFilters.has(btnTag));
+            buttons[i].classList.toggle('active', activeFilters.has(buttons[i].textContent));
         }
 
-        // Apply filtering
         const projects = document.getElementsByClassName('project-card');
-
         for (let i = 0; i < projects.length; i++) {
-            const projectTags = projects[i]
-                .getAttribute('data-tags')
-                .split(',')
-                .map(t => t.trim());
-
-            const hasMatch = projectTags.some(t => activeFilters.has(t));
-
-            projects[i].classList.toggle('show', hasMatch);
+            const projectTags = projects[i].getAttribute('data-tags').split(',').map(t => t.trim());
+            projects[i].classList.toggle('show', projectTags.some(t => activeFilters.has(t)));
         }
-
-        updateYearVisibility();
     }
 </script>
 

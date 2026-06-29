@@ -24,6 +24,23 @@
 
     --themed-primary: var(--orange);
     --themed-secondary: var(--dark);
+
+    /* Shadow-as-border: layered transparent shadows that adapt to any
+       background, used for depth on buttons/cards instead of hard borders. */
+    --shadow-border:
+        0px 0px 0px 1px rgba(0, 0, 0, 0.06),
+        0px 1px 2px -1px rgba(0, 0, 0, 0.06),
+        0px 2px 4px 0px rgba(0, 0, 0, 0.04);
+    --shadow-border-hover:
+        0px 0px 0px 1px rgba(0, 0, 0, 0.08),
+        0px 1px 2px -1px rgba(0, 0, 0, 0.08),
+        0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+}
+
+/* Crisper, thinner text rendering on macOS */
+html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* ==========================================
@@ -92,6 +109,7 @@ h1{
     text-transform: uppercase;
     margin-bottom: 10px;
     opacity: 0.5;
+    text-wrap: balance;
 }
 
 h2{
@@ -102,18 +120,25 @@ h2{
     margin: 0;
     text-transform: uppercase;
     opacity: 0.5;
+    text-wrap: balance;
 }
 
 h3{
   font-family: Geologica, sans-serif;
   font-weight: 500;
   margin-bottom: 0.3rem;
+  text-wrap: balance;
 }
 
 p{
   margin: 0;
-  margin-bottom: 1em;  
-  line-height: 1.6; 
+  margin-bottom: 1em;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+li, figcaption, blockquote {
+  text-wrap: pretty;
 }
 
 .light-text {
@@ -155,7 +180,9 @@ LINKS
 
 a {
   font-weight: 400;
-  transition: all 0.2s ease;
+  transition-property: background-color, color, text-decoration-color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
   text-decoration: underline;
   text-decoration-style: wavy ;
   text-decoration-color: var(--gray);
@@ -176,6 +203,11 @@ a:hover {
 img {
   max-width: 100%;
   height: auto;
+  /* Subtle neutral outline gives images consistent depth against the
+     white surfaces. Pure black at low opacity — never a tinted neutral.
+     Inset offset so it doesn't change layout size. */
+  outline: 1px solid rgba(0, 0, 0, 0.1);
+  outline-offset: -1px;
 }
 
 
@@ -294,7 +326,7 @@ HEADER
     font-family: 'FT88 School', sans-serif;
     font-size: xx-large;
     margin-bottom: 0px;
-    transition: color 0.3s ease;
+    text-wrap: balance;
     transition: color 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
 }
@@ -324,7 +356,9 @@ MAIN CONTENT
     color: var(--dark);
     z-index: 50;
     box-shadow: rgba(50, 50, 93, 0.15) 0px 50px 100px 20px, rgba(0, 0, 0, 0.1) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-    transition: all 0.6s ease;
+    transition-property: margin, border-radius, transform, padding;
+    transition-duration: 0.6s;
+    transition-timing-function: ease;
     position: relative;
 }
 
@@ -373,6 +407,7 @@ footer {
   color: var(--themed-primary);
   line-height: 1;
   text-align: center;
+  text-wrap: balance;
 }
 
 .footer-content {
@@ -606,5 +641,78 @@ RESPONSIVE BREAKPOINTS
 
   .footer-head {
     font-size: 1.25rem;
+  }
+}
+
+/* ==========================================
+TABULAR NUMBERS
+========================================== */
+
+/* Dates and metadata sit in aligned columns (e.g. the writing index list),
+   so equal-width digits keep them from shifting line to line. */
+small,
+.quote-author,
+.footer-bottom,
+.footer-bottom + .light-text {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================
+ENTER ANIMATIONS — split & staggered
+========================================== */
+
+/* Each piece fades up from a small offset with a touch of blur. Applied to
+   semantic chunks (hero lines, intro, cards) and staggered ~90ms apart so
+   content arrives in sequence rather than all at once. */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.reveal > * {
+  opacity: 0;
+  animation: fadeInUp 520ms cubic-bezier(0.2, 0, 0, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.reveal > *:nth-child(1) { animation-delay: 60ms; }
+.reveal > *:nth-child(2) { animation-delay: 150ms; }
+.reveal > *:nth-child(3) { animation-delay: 240ms; }
+.reveal > *:nth-child(4) { animation-delay: 330ms; }
+.reveal > *:nth-child(5) { animation-delay: 420ms; }
+
+/* Stagger the project grid as it arrives — capped so later cards don't
+   wait too long. */
+.project-card.show {
+  animation: fadeInUp 520ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+.project-card.show:nth-child(1) { animation-delay: 120ms; }
+.project-card.show:nth-child(2) { animation-delay: 200ms; }
+.project-card.show:nth-child(3) { animation-delay: 280ms; }
+.project-card.show:nth-child(4) { animation-delay: 360ms; }
+.project-card.show:nth-child(n+5) { animation-delay: 440ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .reveal > *,
+  .project-card.show {
+    opacity: 1;
+    filter: none;
+    transform: none;
   }
 }

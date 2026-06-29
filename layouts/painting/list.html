@@ -9,7 +9,7 @@
             <p id="paintingMedium"></p>
             -->
         </div>
-    <script src="/scripts/scroll-switcher.js"></script>
+    <script src="/scripts/scroll-switcher.js?v={{ (os.Stat "static/scripts/scroll-switcher.js").ModTime.Unix }}"></script>
     <link rel="stylesheet" href="/css/painting.css">
 
 {{ end }}

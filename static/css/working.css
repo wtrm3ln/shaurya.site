@@ -10,18 +10,29 @@
 .filter-btn {
   font-family: 'Geologica';
   font-weight: 400;
-  transition: color 0.2s ease;
+  transition-property: scale, color, background-color, box-shadow;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-out;
   color: var(--dark);
   text-transform: lowercase;
-  border: 1px solid var(--gray);
-  padding: 0.3em 0.6em;
-  border-radius: 6px;
+  /* Shadow-as-border instead of a hard 1px border so the ring reads the
+     same against the white surface and any hover/active fill. */
+  box-shadow: var(--shadow-border);
+  border: none;
+  padding: 0.45em 0.75em;
+  border-radius: 8px;
   background-color: white;
   margin: 0.2em;
+  cursor: pointer;
 }
 
 .filter-btn:hover{
   background-color: var(--gray);
+  box-shadow: var(--shadow-border-hover);
+}
+
+.filter-btn:active {
+  scale: 0.96;
 }
 
 .filter-btn.active {
@@ -42,14 +53,22 @@
 .project-card {
   display: none;
   break-inside: avoid;
-  border-radius: 10px;
+  /* Concentric: 8px inner image radius + 8px padding = 16px outer */
+  border-radius: 16px;
   padding: 8px;
   margin-bottom: 1.5rem;
-  transition: background-color 0.2s ease;
+  transition-property: background-color, box-shadow, scale;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
 }
 
 .project-card:hover {
   background-color: var(--gray);
+  box-shadow: var(--shadow-border-hover);
+}
+
+.project-card:active {
+  scale: 0.96;
 }
 
 .project-card.show {
@@ -71,7 +90,8 @@
 .cover-image {
   width: 100%;
   height: auto;
-  border-radius: 7px;
+  /* Inner radius of the concentric pair with .project-card (16 − 8 padding) */
+  border-radius: 8px;
   display: block;
 }
 

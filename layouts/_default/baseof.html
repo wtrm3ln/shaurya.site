@@ -50,7 +50,7 @@
 
     {{ partial "footer.html" . }}
     
-    <script src="/scripts/scroller.js"></script>
-    <script src="/scripts/expander.js"></script>
+    <script src="/scripts/scroller.js?v={{ (os.Stat "static/scripts/scroller.js").ModTime.Unix }}"></script>
+    <script src="/scripts/expander.js?v={{ (os.Stat "static/scripts/expander.js").ModTime.Unix }}"></script>
 </body>
 </html>

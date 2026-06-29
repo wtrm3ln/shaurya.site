@@ -1,10 +1,13 @@
 const canvas = document.getElementById('pixelCanvas');
-const ctx = canvas.getContext('2d');
 const headerImage = document.getElementById('headerImage');
 const paintingTitle = document.getElementById('paintingTitle');
 const paintingArtist = document.getElementById('paintingArtist');
 const paintingYear = document.getElementById('paintingYear');
 const paintingMedium = document.getElementById('paintingMedium');
+
+// Bail early on pages without the pixel header so we never throw.
+if (canvas) {
+const ctx = canvas.getContext('2d');
 
 const basePadding = 40;
 const maxPadding = 120;
@@ -34,6 +37,10 @@ let currentPull = 0;
 let reachedThreshold = false;
 let currentSetIndex = 0;
 let currentPaintingIndex = 0;
+
+// Coalesce gesture updates into one render per animation frame so Safari
+// isn't reallocating the canvas + reflowing on every wheel event.
+let rafPending = false;
 
 // Pick random starting color set
 currentSetIndex = Math.floor(Math.random() * colorSets.length);
@@ -71,12 +78,13 @@ fetch('/painting/index.json')
 
 function initCanvas() {
     if (paintings.length === 0) return;
-    
+
     currentPaintingIndex = Math.floor(Math.random() * paintings.length);
     updatePaintingDisplay();
     applyThemeColors();
     initPixels();
-    resizeCanvas();
+    measureCanvas();
+    scheduleRender();
       console.log("paintings", paintings)
 
 }
@@ -84,10 +92,10 @@ function initCanvas() {
 function updatePaintingDisplay() {
     const painting = paintings[currentPaintingIndex];
     if (!painting) return;
-    
+
     headerImage.src = painting.url_image;
     headerImage.alt = painting.title;
-    
+
     if (paintingTitle) paintingTitle.textContent = painting.title;
     if (paintingArtist) paintingArtist.textContent = painting.artist ? `by ${painting.artist}` : '';
     if (paintingYear) paintingYear.textContent = painting.year || '';
@@ -97,13 +105,13 @@ function updatePaintingDisplay() {
 function initPixels() {
     pixelStates = new Array(totalPixels).fill(0);
     pixelOrder = Array.from({length: totalPixels}, (_, i) => i);
-    
+
     // Shuffle array
     for (let i = pixelOrder.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [pixelOrder[i], pixelOrder[j]] = [pixelOrder[j], pixelOrder[i]];
     }
-    
+
     generateDecorativePixels();
 }
 
@@ -159,31 +167,36 @@ function applyThemeColors() {
     document.documentElement.style.setProperty('--themed-secondary', secondaryColor);
 }
 
-function resizeCanvas() {
+// Size the bitmap to the header's max (fully-pulled) height once, so it never
+// reallocates mid-pull. Reads layout — call at gesture start / resize only.
+function measureCanvas() {
     const mainHeader = document.getElementById('mainHeader');
     if (!mainHeader) return;
-    
-    canvas.width = mainHeader.offsetWidth;
-    canvas.height = mainHeader.offsetHeight;
-    drawPixels();
+
+    const w = mainHeader.offsetWidth;
+    const maxH = mainHeader.offsetHeight + (maxPadding - basePadding) * 2;
+    if (canvas.width !== w || canvas.height < maxH) {
+        canvas.width = w;
+        canvas.height = maxH;
+    }
 }
 
 function drawPixels() {
     const pixelWidth = Math.ceil(canvas.width / gridWidth);
     const pixelHeight = Math.ceil(canvas.height / gridHeight);
-    
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
+
     // Check if we're transitioning
     let isTransitioning = pixelStates.some(state => state === 1);
-    
+
     if (isTransitioning) {
         // Draw active pixels during transition
         for (let i = 0; i < totalPixels; i++) {
             if (pixelStates[i] === 1) {
                 const x = Math.floor((i % gridWidth) * (canvas.width / gridWidth));
                 const y = Math.floor(Math.floor(i / gridWidth) * (canvas.height / gridHeight));
-                
+
                 ctx.fillStyle = colorSets[currentSetIndex][0];
                 ctx.fillRect(x, y, pixelWidth, pixelHeight);
             }
@@ -193,57 +206,65 @@ function drawPixels() {
         decorativePixels.forEach(pixelIndex => {
             const x = Math.floor((pixelIndex % gridWidth) * (canvas.width / gridWidth));
             const y = Math.floor(Math.floor(pixelIndex / gridWidth) * (canvas.height / gridHeight));
-            
+
             ctx.fillStyle = colorSets[currentSetIndex][0];
             ctx.fillRect(x, y, pixelWidth, pixelHeight);
         });
     }
 }
 
+// Pure state update — no drawing.
 function updatePixels(progress) {
     const pixelsToTurn = Math.floor(progress * totalPixels);
-    
+
     pixelStates.fill(0);
     for (let i = 0; i < pixelsToTurn; i++) {
         pixelStates[pixelOrder[i]] = 1;
     }
-    
-    drawPixels();
 }
 
-function setPadding(pull) {
+function scheduleRender() {
+    if (!rafPending) {
+        rafPending = true;
+        requestAnimationFrame(render);
+    }
+}
+
+// One padding write + one canvas draw per frame.
+function render() {
+    rafPending = false;
     const mainHeader = document.getElementById('mainHeader');
-    if (!mainHeader) return;
-    
-    const newPadding = basePadding + pull;
-    mainHeader.style.paddingTop = `${newPadding}px`;
-    mainHeader.style.paddingBottom = `${newPadding}px`;
+    if (mainHeader) {
+        const newPadding = basePadding + currentPull;
+        mainHeader.style.paddingTop = `${newPadding}px`;
+        mainHeader.style.paddingBottom = `${newPadding}px`;
+    }
+    drawPixels();
 }
 
 function handlePullStart(clientY) {
     if (window.scrollY !== 0) return false;
-    
+
     startY = clientY;
     reachedThreshold = false;
+    measureCanvas();
     return true;
 }
 
 function handlePullMove(clientY) {
     if (window.scrollY !== 0) return;
-    
+
     const pullDistance = Math.max(0, clientY - startY);
     currentPull = Math.min(pullDistance, maxPadding - basePadding);
-    
-    setPadding(currentPull);
-    
+
     const progress = currentPull / threshold;
     updatePixels(Math.min(progress, 1));
-    
+
     if (currentPull >= threshold) {
         reachedThreshold = true;
     }
-    
-    resizeCanvas();
+
+    scheduleRender();
 }
 
 function handlePullEnd() {
@@ -253,40 +274,67 @@ function handlePullEnd() {
         currentPaintingIndex = (currentPaintingIndex + 1) % paintings.length;
         updatePaintingDisplay();
     }
-    
-    setPadding(0);
-    
+
+    reachedThreshold = false;
     pixelStates.fill(0);
-    
+
     currentPull = 0;
     initPixels();
-    resizeCanvas();
+    scheduleRender();
 }
 
 // Window resize handler
-window.addEventListener('resize', resizeCanvas);
+window.addEventListener('resize', () => {
+    measureCanvas();
+    scheduleRender();
+});
 
 // Wheel event
-let wheelTimeout;
+//
+// One flick == one painting switch, held at max for a FIXED time, with
+// trailing trackpad momentum swallowed until the wheel goes quiet again.
+const holdAtMax = 400;      // ms held at full pull before settling (constant pause)
+const wheelQuietGap = 180;  // wheel must be silent this long to re-arm
+const partialSettle = 140;  // snap-back delay for a sub-threshold pull
+
+let wheelPhase = 'idle';    // 'idle' | 'pulling' | 'cooldown'
+let settleTimer = null;
+let rearmTimer = null;
+
 window.addEventListener('wheel', (e) => {
-    if (window.scrollY === 0 && e.deltaY < 0) {
-        e.preventDefault();
-        
-        const pullAmount = Math.abs(e.deltaY) * 0.5;
-        currentPull = Math.min(currentPull + pullAmount, maxPadding - basePadding);
-        
-        setPadding(currentPull);
-        
-        const progress = currentPull / threshold;
-        updatePixels(Math.min(progress, 1));
-        
-        if (currentPull >= threshold) {
-            reachedThreshold = true;
-        }
-        
-        resizeCanvas();
-        
-        clearTimeout(wheelTimeout);
-        wheelTimeout = setTimeout(handlePullEnd, 150);
+    if (window.scrollY !== 0 || e.deltaY >= 0) return;
+    e.preventDefault();
+
+    // Already committed — swallow trailing momentum, re-arm only once quiet.
+    if (wheelPhase === 'cooldown') {
+        clearTimeout(rearmTimer);
+        rearmTimer = setTimeout(() => { wheelPhase = 'idle'; }, wheelQuietGap);
+        return;
+    }
+
+    if (wheelPhase === 'idle') {
+        wheelPhase = 'pulling';
+        measureCanvas();
+    }
+
+    const pullAmount = Math.abs(e.deltaY) * 0.5;
+    currentPull = Math.min(currentPull + pullAmount, maxPadding - basePadding);
+    updatePixels(Math.min(currentPull / threshold, 1));
+    scheduleRender();
+
+    if (currentPull >= threshold) {
+        reachedThreshold = true;
+        wheelPhase = 'cooldown';
+        clearTimeout(settleTimer);
+        settleTimer = setTimeout(handlePullEnd, holdAtMax);
+        clearTimeout(rearmTimer);
+        rearmTimer = setTimeout(() => { wheelPhase = 'idle'; }, holdAtMax + wheelQuietGap);
+    } else {
+        clearTimeout(settleTimer);
+        settleTimer = setTimeout(() => {
+            handlePullEnd();
+            wheelPhase = 'idle';
+        }, partialSettle);
     }
 }, { passive: false });
+}

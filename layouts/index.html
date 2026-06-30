@@ -40,41 +40,63 @@
 
     <div class="project-list">
         {{ range $projects }}
-        <div class="project-card {{ range .Params.tags }}tag-{{ . | urlize }} {{ end }}" data-tags="{{ delimit .Params.tags " , " }}">
-            {{ if .Params.external }}
-            <a class="external" href="{{ .Params.externalurl }}" target="_blank" rel="noopener">
-            {{ else }}
-            <a href="{{ .RelPermalink }}">
-            {{ end }}
-                <div class="project-content" data-project-content>
-                    {{ with .Resources.GetMatch .Params.cover }}
-                    <img src="{{ .RelPermalink }}" alt="{{ $.Title }}" class="cover-image">
-                    {{ end }}
-                    <div class="project-body">
-                        <div>
-                            <p class="project-description">
-                                <b>{{ .Title }}</b>
-                                {{ with .Params.description }}{{ . }}{{ end }}
-                            </p>
-                        </div>
-                        <div>
-                            {{ with .Params.tags }}
-                            <div class="project-tags">
-                                {{ range . }}
-                                <span class="tag-pill">{{ . }}</span>
-                                {{ end }}
-                            </div>
-                            {{ end }}
-                        </div>
-                    </div>
-                </div>
+        {{/* Project type drives both behaviour and cursor:
+               case-study → internal link to the case study page (click cursor)
+               external   → opens the live site in a new tab (external cursor)
+               nda        → opens a modal with the limited info we can show (nda cursor)
+             Falls back to the legacy `external` boolean when `type` is unset. */}}
+        {{ $type := .Params.type }}
+        {{ if not $type }}{{ $type = cond (default false .Params.external) "external" "case-study" }}{{ end }}
+        {{/* The hover label baked into each card. Defaults by type; a project
+             can override with a `label` param in its front matter. */}}
+        {{ $labels := dict "case-study" "view case study" "external" "see the live site!" "nda" "view overview" }}
+        {{ $label := .Params.label | default (index $labels $type) }}
+        <div class="project-card is-{{ $type }} {{ range .Params.tags }}tag-{{ . | urlize }} {{ end }}" data-tags="{{ delimit .Params.tags " , " }}">
+            {{ if eq $type "external" }}
+            <a class="external" href="{{ .Params.externalurl }}" target="_blank" rel="noopener" data-label="{{ $label }}">
+                {{ partial "project-card-inner.html" . }}
             </a>
+            {{ else if eq $type "nda" }}
+            <button type="button" class="nda-trigger" data-nda-open="{{ .File.ContentBaseName }}" data-label="{{ $label }}" aria-haspopup="dialog">
+                {{ partial "project-card-inner.html" . }}
+            </button>
+            <template data-nda-template="{{ .File.ContentBaseName }}">
+                <article class="nda-detail">
+                    {{ with .Resources.GetMatch .Params.cover }}
+                    <img class="nda-detail__cover" src="{{ .RelPermalink }}" alt="{{ $.Title }}">
+                    {{ end }}
+                    <span class="nda-badge">Under NDA</span>
+                    <p class="project-name">{{ .Title }}</p>
+                    {{ with .Params.description }}<h1 class="nda-detail__headline">{{ . }}</h1>{{ end }}
+                    {{ with .Params.tags }}
+                    <div class="project-tags">
+                        {{ range . }}<span class="tag-pill">{{ . }}</span>{{ end }}
+                    </div>
+                    {{ end }}
+                    {{ with .Content }}<div class="nda-detail__content">{{ . }}</div>{{ end }}
+                    <p class="nda-note">{{ .Params.ndaNote | default "This work is covered by a non-disclosure agreement, so I can only share a limited overview here. Get in touch and I'd be happy to walk you through it." | markdownify }}</p>
+                </article>
+            </template>
+            {{ else }}
+            <a href="{{ .RelPermalink }}" data-label="{{ $label }}">
+                {{ partial "project-card-inner.html" . }}
+            </a>
+            {{ end }}
         </div>
         {{ end }}
     </div>
 
     <div class="experimenting-cta">
         <p>Want to see more? <a href="/experimenting/">See what I'm tinkering on.</a></p>
+    </div>
+</div>
+
+<!-- NDA modal: a single shell, filled at click-time from the matching card's <template>. -->
+<div class="nda-modal" id="ndaModal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Project details">
+    <div class="nda-modal__backdrop" data-nda-close></div>
+    <div class="nda-modal__panel" role="document">
+        <button type="button" class="nda-modal__close" data-nda-close aria-label="Close">&times;</button>
+        <div class="nda-modal__body" id="ndaModalBody"></div>
     </div>
 </div>
 
@@ -130,6 +152,51 @@
             projects[i].classList.toggle('show', projectTags.some(t => activeFilters.has(t)));
         }
     }
+</script>
+
+<script>
+    // NDA modal: clone the matching project's <template> into the shared shell.
+    (function () {
+        const modal = document.getElementById('ndaModal');
+        if (!modal) return;
+        const body = document.getElementById('ndaModalBody');
+        let lastFocus = null;
+
+        function open(id) {
+            const tpl = document.querySelector('template[data-nda-template="' + (window.CSS && CSS.escape ? CSS.escape(id) : id) + '"]');
+            if (!tpl) return;
+            body.replaceChildren(tpl.content.cloneNode(true));
+            lastFocus = document.activeElement;
+            modal.classList.add('is-open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            const closeBtn = modal.querySelector('.nda-modal__close');
+            if (closeBtn) closeBtn.focus();
+        }
+
+        function close() {
+            if (!modal.classList.contains('is-open')) return;
+            modal.classList.remove('is-open');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            body.replaceChildren();
+            if (lastFocus && lastFocus.focus) lastFocus.focus();
+        }
+
+        document.querySelectorAll('[data-nda-open]').forEach(function (trigger) {
+            trigger.addEventListener('click', function () {
+                open(trigger.getAttribute('data-nda-open'));
+            });
+        });
+
+        modal.querySelectorAll('[data-nda-close]').forEach(function (el) {
+            el.addEventListener('click', close);
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') close();
+        });
+    })();
 </script>
 
 {{ end }}

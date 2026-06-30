@@ -7,6 +7,13 @@
       "runtimeArgs": ["server", "--bind", "0.0.0.0"],
       "port": 1313,
       "autoPort": true
+    },
+    {
+      "name": "hugo-pinned",
+      "runtimeExecutable": "hugo",
+      "runtimeArgs": ["server", "--bind", "0.0.0.0", "--port", "1399"],
+      "port": 1399,
+      "autoPort": false
     }
   ]
 }

@@ -6,8 +6,7 @@ tags: [ux]
 featured: true
 slug: "carvers"
 description: "Rethinking the experience of driving a car"
-external: false
-external-url: ""
+type: "case-study"
 cover: cover.png
 bgColor: "#BFAFFE"
 ---

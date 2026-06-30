@@ -212,6 +212,93 @@ img {
 
 
 /* ==========================================
+CURSORS
+========================================== */
+
+/* Custom hand cursors, one per interaction state. The number pair after the
+   url is the hotspot (the "click point") in image pixels.
+   - click.svg    → the default everywhere, and every normal/internal link
+   - external.svg → links that open a live site in a new tab
+   - nda.svg      → project cards that open an NDA modal
+   Each falls back to a native cursor if the SVG can't load. */
+
+html,
+body {
+  cursor: url('/assets/click.svg') 5 3, auto;
+}
+
+a,
+button,
+summary,
+label,
+select,
+[role="button"],
+[onclick] {
+  cursor: url('/assets/click.svg') 5 3, pointer;
+}
+
+/* Anything that leaves the site for an external destination. The rule on the
+   card itself covers the 8px padding ring around the inner link. */
+a[target="_blank"],
+a.external,
+.project-card.is-external,
+.project-card.is-external a {
+  cursor: url('/assets/external.svg') 6 3, pointer;
+}
+
+/* NDA projects open a modal instead of navigating. */
+.project-card.is-nda,
+.nda-trigger,
+.nda-trigger * {
+  cursor: url('/assets/nda.svg') 6 3, pointer;
+}
+
+/* Keep a text caret where text is actually selected/entered. */
+input,
+textarea,
+[contenteditable="true"] {
+  cursor: text;
+}
+
+
+/* ==========================================
+CURSOR LABEL
+========================================== */
+
+/* A small caption that rides along with the cursor. Any element opts in with a
+   `data-label="..."` attribute; on hover, SplitText splits the text into
+   characters and GSAP staggers them — first rising up from below, then looping
+   a perpetual wave that keeps running while the label follows the cursor.
+   Project cards bake a label in per type (see layouts/index.html).
+   Driven by static/scripts/cursor-label.js. */
+.cursor-label {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10002;
+  pointer-events: none;
+  font-family: "FT88", sans-serif;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  /* White through `difference` inverts whatever sits behind the label, so it
+     stays legible over any background colour. The bold weight plus a soft white
+     halo thicken the glyphs so they read clearly even over busy areas.
+     Opacity is driven by GSAP. */
+  color: #fff;
+  mix-blend-mode: difference;
+  opacity: 0;
+  will-change: transform;
+}
+
+/* SplitText injects the per-character spans; promote them for smoother motion. */
+.cursor-label .char {
+  will-change: transform;
+}
+
+
+/* ==========================================
 LAYOUT
 ========================================== */
 body {

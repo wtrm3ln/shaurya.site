@@ -83,25 +83,29 @@
 }
 
 .case-study-header.has-section-nav {
-  display: grid;
-  grid-template-columns: minmax(140px, 180px) minmax(0, 760px) minmax(80px, 180px);
-  gap: clamp(2rem, 4vw, 4rem);
-  justify-content: center;
+  display: none;
 }
 
 .back-link {
   display: inline-block;
 }
 
+.mobile-back-link {
+  display: none;
+}
+
 .case-study-layout {
   display: grid;
   justify-content: center;
+  width: 100%;
 }
 
 .case-study-layout.has-section-nav {
-  grid-template-columns: minmax(140px, 180px) minmax(0, 760px) minmax(80px, 180px);
+  grid-template-columns: minmax(140px, 180px) minmax(0, 760px) minmax(140px, 180px);
   gap: clamp(2rem, 4vw, 4rem);
   align-items: start;
+  justify-content: start;
+  padding: 0 clamp(1rem, 3vw, 2rem);
 }
 
 .case-study-main {
@@ -117,6 +121,14 @@
 .case-study-sidebar {
   position: sticky;
   top: 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.case-study-sidebar .back-link {
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
 .case-study-sidebar nav ul {
@@ -310,14 +322,20 @@
 @media (max-width: 1024px) {
   .case-study-header.has-section-nav {
     display: flex;
+    padding: 0 clamp(1rem, 3vw, 2rem);
   }
 
   .case-study-layout.has-section-nav {
     grid-template-columns: minmax(0, 760px);
+    justify-content: center;
   }
 
   .case-study-sidebar {
     display: none;
+  }
+
+  .mobile-back-link {
+    display: inline-block;
   }
 }
 

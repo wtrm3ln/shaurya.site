@@ -49,8 +49,16 @@
     </main>
 
     {{ partial "footer.html" . }}
-    
+
+    <!-- Cursor-following hover label; filled per-link from data-label. -->
+    <div class="cursor-label" id="cursorLabel" aria-hidden="true"></div>
+
     <script src="/scripts/scroller.js?v={{ (os.Stat "static/scripts/scroller.js").ModTime.Unix }}"></script>
     <script src="/scripts/expander.js?v={{ (os.Stat "static/scripts/expander.js").ModTime.Unix }}"></script>
+
+    <!-- GSAP + SplitText (self-hosted) power the cursor label's per-character stagger. -->
+    <script src="/scripts/gsap.min.js?v=3.13.0"></script>
+    <script src="/scripts/SplitText.min.js?v=3.13.0"></script>
+    <script src="/scripts/cursor-label.js?v={{ (os.Stat "static/scripts/cursor-label.js").ModTime.Unix }}"></script>
 </body>
 </html>

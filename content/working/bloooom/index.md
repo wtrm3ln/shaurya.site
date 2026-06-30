@@ -6,7 +6,7 @@ tags: [building]
 featured: true
 slug: "bloooom"
 description: "A project board"
-external: true
+type: "external"
 externalurl: "https://bloooom-gm9ml0a4x-shauryas-projects-e090a542.vercel.app/"
 cover: image.png
 bgColor: "#5FDD97"

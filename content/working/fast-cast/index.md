@@ -8,5 +8,5 @@ slug: "fast-cast"
 description: "Helping fashion students find models for their shoots in college"
 external: true
 externalurl: https://fast-cast.vercel.app
-cover: image.png
+cover: image.jpg
 ---

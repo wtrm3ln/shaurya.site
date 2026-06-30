@@ -1,57 +1,100 @@
 {{ define "page-head" }}
 <link rel="stylesheet" href="/css/content.css">
+{{ with .Params.bgColor }}<style>body { background-color: {{ . }}; }</style>{{ end }}
 {{ end }}
 
 {{ define "header-content" }}
-<div class="heading-content">
-        <span class="heading-quote">{{ .Title }}</span>
-        <p>{{ .Params.Description }}</p>
-        <div class="project-meta-header">
-
-            <div class="project-meta-grid">
-                {{ if .Params.role }}
-                <div class="meta-item">
-                    <span class="meta-label">Role</span>
-                    <span class="meta-value">{{ .Params.role }}</span>
-                </div>
-                {{ end }}
-
-                {{ if .Params.timeline }}
-                <div class="meta-item">
-                    <span class="meta-label">Timeline</span>
-                    <span class="meta-value">{{ .Params.timeline }}</span>
-                </div>
-                {{ end }}
-
-                {{ if .Params.client }}
-                <div class="meta-item">
-                    <span class="meta-label">Client</span>
-                    <span class="meta-value">{{ .Params.client }}</span>
-                </div>
-                {{ end }}
-
-                {{ if .Params.tags }}
-                <div class="meta-item">
-                    <span class="meta-value">
-                        {{ range .Params.tags }}
-                        <span class="tag">{{ . }}</span>
-                        {{ end }}
-                    </span>
-                </div>
-                {{ end }}
-            </div>
-        </div>
+{{ $cover := "" }}
+{{ with .Params.cover }}
+    {{ $cover = . }}
+{{ end }}
+{{ if $cover }}
+{{ with .Resources.GetMatch $cover }}
+    {{ $cover = .RelPermalink }}
+{{ end }}
+{{ end }}
+<div class="heading-content case-study-hero">
+    {{ with $cover }}
+    <img class="case-study-cover" src="{{ . }}" alt="{{ $.Title }}">
+    {{ end }}
 </div>
 {{ end }}
 
 {{ define "main" }}
-<article class="case-study-article">
-    <a href="/">← Back to work</a>
+{{ $sectionNav := .TableOfContents }}
+{{ $hasSectionNav := in $sectionNav "<li>" }}
+<article class="case-study-article{{ if $hasSectionNav }} has-section-nav{{ end }}">
+    <div class="case-study-header{{ if $hasSectionNav }} has-section-nav{{ end }}">
+        <a class="back-link" href="/">← Back to work</a>
+    </div>
 
-    <div class="container">
-        {{ .Content }}
+    <div class="case-study-layout{{ if $hasSectionNav }} has-section-nav{{ end }}">
+        {{ if $hasSectionNav }}
+        <aside class="case-study-sidebar" aria-label="Case study sections">
+            {{ $sectionNav }}
+        </aside>
+        {{ end }}
 
-        <nav class="project-navigation">
+        <div class="case-study-main">
+            <section class="case-study-intro">
+                <p class="project-name">{{ .Title }}</p>
+                {{ with .Params.Description }}
+                <h1>{{ . }}</h1>
+                {{ end }}
+
+                <div class="project-meta-grid" aria-label="Project details">
+                    {{ if .Params.role }}
+                    <div class="meta-item">
+                        <span class="meta-label">Role</span>
+                        <span class="meta-value">{{ .Params.role }}</span>
+                    </div>
+                    {{ end }}
+
+                    {{ if .Params.timeline }}
+                    <div class="meta-item">
+                        <span class="meta-label">Timeline</span>
+                        <span class="meta-value">{{ .Params.timeline }}</span>
+                    </div>
+                    {{ else if .Params.year }}
+                    <div class="meta-item">
+                        <span class="meta-label">Year</span>
+                        <span class="meta-value">{{ .Params.year }}</span>
+                    </div>
+                    {{ end }}
+
+                    {{ if .Params.team }}
+                    <div class="meta-item">
+                        <span class="meta-label">Team</span>
+                        <span class="meta-value">{{ .Params.team }}</span>
+                    </div>
+                    {{ else if .Params.client }}
+                    <div class="meta-item">
+                        <span class="meta-label">Client</span>
+                        <span class="meta-value">{{ .Params.client }}</span>
+                    </div>
+                    {{ end }}
+
+                    {{ if .Params.skills }}
+                    <div class="meta-item">
+                        <span class="meta-label">Skills</span>
+                        <span class="meta-value">{{ delimit .Params.skills "<br>" | safeHTML }}</span>
+                    </div>
+                    {{ else if .Params.tags }}
+                    <div class="meta-item">
+                        <span class="meta-label">Tags</span>
+                        <span class="meta-value">{{ delimit .Params.tags "<br>" | safeHTML }}</span>
+                    </div>
+                    {{ end }}
+                </div>
+            </section>
+
+            <div class="container case-study-content">
+                {{ .Content }}
+            </div>
+        </div>
+    </div>
+
+    <nav class="project-navigation">
         {{ with .PrevInSection }}
         <a href="{{ .Permalink }}" class="nav-link nav-prev">
             <span class="nav-label">← Previous</span>
@@ -65,7 +108,9 @@
             <span class="nav-title">{{ .Title }}</span>
         </a>
         {{ end }}
-        </nav>
-    </div>
+    </nav>
 </article>
+{{ if $hasSectionNav }}
+<script src="/scripts/toc-scrollspy.js"></script>
+{{ end }}
 {{ end }}

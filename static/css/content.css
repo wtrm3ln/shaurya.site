@@ -1,12 +1,258 @@
-.case-study-article {
-  max-width: 800px;
+.case-study-hero {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
-.case-study-article img {
+.case-study-intro {
+  width: min(100%, 760px);
+  margin: 0 auto 2.5rem;
+}
+
+.case-study-intro .project-name {
+  margin: 0 0 0.6rem;
+  color: color-mix(in srgb, var(--dark) 58%, transparent);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.9rem;
+  line-height: 1.25;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.case-study-intro h1 {
+  margin: 0 0 2rem;
+  color: var(--dark);
+  font-family: "Geologica", sans-serif;
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+  font-weight: 420;
+  line-height: 1.08;
+  letter-spacing: 0;
+  text-transform: none;
+  opacity: 1;
+  text-wrap: balance;
+}
+
+.case-study-cover {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: 0;
+  object-fit: cover;
+}
+
+.project-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2rem;
+  color: color-mix(in srgb, var(--themed-secondary) 64%, transparent);
+}
+
+.meta-item {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.meta-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: clamp(0.8rem, 1.2vw, 0.95rem);
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.meta-value {
+  color: color-mix(in srgb, var(--themed-secondary) 76%, transparent);
+  font-size: clamp(1rem, 1.7vw, 1.25rem);
+  line-height: 1.35;
+}
+
+.case-study-article {
+  width: 100%;
+}
+
+.case-study-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2.5rem;
+}
+
+.case-study-header.has-section-nav {
+  display: grid;
+  grid-template-columns: minmax(140px, 180px) minmax(0, 760px) minmax(80px, 180px);
+  gap: clamp(2rem, 4vw, 4rem);
+  justify-content: center;
+}
+
+.back-link {
+  display: inline-block;
+}
+
+.case-study-layout {
+  display: grid;
+  justify-content: center;
+}
+
+.case-study-layout.has-section-nav {
+  grid-template-columns: minmax(140px, 180px) minmax(0, 760px) minmax(80px, 180px);
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: start;
+}
+
+.case-study-main {
+  width: 100%;
+  min-width: 0;
+}
+
+.case-study-content {
+  width: 100%;
+  padding-top: 0;
+}
+
+.case-study-sidebar {
+  position: sticky;
+  top: 6rem;
+}
+
+.case-study-sidebar nav ul {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.case-study-sidebar nav ul ul {
+  display: none;
+}
+
+.case-study-sidebar a {
+  display: inline-block;
+  color: color-mix(in srgb, var(--dark) 58%, transparent);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.82rem;
+  line-height: 1.25;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.case-study-sidebar a:hover {
+  background: transparent;
+  color: var(--themed-primary);
+}
+
+.case-study-sidebar a.active {
+  color: var(--dark);
+}
+
+.case-study-content h1,
+.case-study-content h2,
+.case-study-content h3,
+.case-study-content h5 {
+  color: var(--dark);
+  font-family: "Geologica", sans-serif;
+  font-weight: 420;
+  letter-spacing: 0;
+  text-transform: none;
+  opacity: 1;
+  text-wrap: balance;
+}
+
+.case-study-content h1 {
+  margin: 0 0 1.2rem;
+  font-size: clamp(2.15rem, 3.8vw, 3.25rem);
+  line-height: 1.04;
+}
+
+.case-study-content h2 {
+  margin: 3rem 0 1rem;
+  font-size: clamp(1.65rem, 2.7vw, 2.3rem);
+  line-height: 1.1;
+}
+
+.case-study-content h3 {
+  margin: 2.3rem 0 0.8rem;
+  font-size: clamp(1.18rem, 1.75vw, 1.55rem);
+  line-height: 1.18;
+}
+
+.case-study-content h5 {
+  margin: 1.8rem 0 0.6rem;
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  line-height: 1.2;
+}
+
+.case-study-content h4 {
+  scroll-margin-top: 7rem;
+  margin: 4rem 0 1rem;
+  color: color-mix(in srgb, var(--dark) 52%, transparent);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.88rem;
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.case-study-content p,
+.case-study-content li,
+.case-study-content blockquote {
+  font-size: 1rem;
+  text-wrap: pretty;
+}
+
+.case-study-content blockquote {
+  box-sizing: border-box;
+}
+
+.case-study-content img {
+  display: block;
   width: 100%;
   height: auto;
+  margin: 1.25rem 0 1.8rem;
   border-radius: 8px;
-  margin: 1rem 0;
+  outline: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.case-study-content img + img {
+  margin-top: 0;
+}
+
+.project-navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 760px;
+  margin: 4rem auto 0;
+  padding-top: 2rem;
+  border-top: 1px solid var(--gray);
+}
+
+.nav-link {
+  display: grid;
+  gap: 0.35rem;
+  max-width: 45%;
+}
+
+.nav-next {
+  margin-left: auto;
+  text-align: right;
+}
+
+.nav-label {
+  color: color-mix(in srgb, var(--dark) 50%, transparent);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+.nav-title {
+  color: var(--dark);
 }
 
 .ai-tag {
@@ -17,7 +263,7 @@
 }
 
 /* On hover: gradient text */
-.ai-tag:hover { 
+.ai-tag:hover {
   background: linear-gradient(90deg, #4964db, #8b5ac7, #98296f, #390e6d);
   background-size: 300% 300%;
   -webkit-background-clip: text;
@@ -59,4 +305,63 @@
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+
+@media (max-width: 1024px) {
+  .case-study-header.has-section-nav {
+    display: flex;
+  }
+
+  .case-study-layout.has-section-nav {
+    grid-template-columns: minmax(0, 760px);
+  }
+
+  .case-study-sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .case-study-intro h1 {
+    margin-bottom: 1.6rem;
+  }
+
+  .case-study-hero {
+    height: 70vh;
+  }
+
+  .project-meta-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .case-study-content h4 {
+    margin-top: 3rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .case-study-intro h1 {
+    font-size: clamp(2.1rem, 11vw, 3.2rem);
+  }
+
+  .project-meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .case-study-content h1 {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  .case-study-content h2 {
+    font-size: clamp(1.55rem, 8vw, 2.35rem);
+  }
+
+  .project-navigation {
+    display: grid;
+  }
+
+  .nav-link {
+    max-width: none;
+  }
 }

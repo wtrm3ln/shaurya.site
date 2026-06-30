@@ -90,6 +90,10 @@
   display: inline-block;
 }
 
+.mobile-back-link {
+  display: none;
+}
+
 .case-study-layout {
   display: grid;
   justify-content: center;
@@ -318,14 +322,20 @@
 @media (max-width: 1024px) {
   .case-study-header.has-section-nav {
     display: flex;
+    padding: 0 clamp(1rem, 3vw, 2rem);
   }
 
   .case-study-layout.has-section-nav {
     grid-template-columns: minmax(0, 760px);
+    justify-content: center;
   }
 
   .case-study-sidebar {
     display: none;
+  }
+
+  .mobile-back-link {
+    display: inline-block;
   }
 }
 

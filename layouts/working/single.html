@@ -25,9 +25,7 @@
 {{ $hasSectionNav := in $sectionNav "<li>" }}
 <article class="case-study-article{{ if $hasSectionNav }} has-section-nav{{ end }}">
     <div class="case-study-header{{ if $hasSectionNav }} has-section-nav{{ end }}">
-        {{ if not $hasSectionNav }}
-        <a class="back-link" href="/">← Back to work</a>
-        {{ end }}
+        <a class="back-link mobile-back-link" href="/">← Back to work</a>
     </div>
 
     <div class="case-study-layout{{ if $hasSectionNav }} has-section-nav{{ end }}">

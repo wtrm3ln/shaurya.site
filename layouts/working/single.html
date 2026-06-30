@@ -25,12 +25,15 @@
 {{ $hasSectionNav := in $sectionNav "<li>" }}
 <article class="case-study-article{{ if $hasSectionNav }} has-section-nav{{ end }}">
     <div class="case-study-header{{ if $hasSectionNav }} has-section-nav{{ end }}">
+        {{ if not $hasSectionNav }}
         <a class="back-link" href="/">← Back to work</a>
+        {{ end }}
     </div>
 
     <div class="case-study-layout{{ if $hasSectionNav }} has-section-nav{{ end }}">
         {{ if $hasSectionNav }}
         <aside class="case-study-sidebar" aria-label="Case study sections">
+            <a class="back-link" href="/">← Back to work</a>
             {{ $sectionNav }}
         </aside>
         {{ end }}

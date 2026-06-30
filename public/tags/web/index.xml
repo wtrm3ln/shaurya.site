@@ -2,38 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Web on working</title>
-    <link>https://example.org/tags/web/</link>
+    <link>http://localhost:1313/tags/web/</link>
     <description>Recent content in Web on working</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 18 Feb 2026 02:52:10 +0530</lastBuildDate>
-    <atom:link href="https://example.org/tags/web/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 24 Jun 2026 04:22:50 +0530</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/web/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Saves</title>
-      <link>https://example.org/working/saves/</link>
+      <link>http://localhost:1313/experimenting/saves/</link>
       <pubDate>Wed, 18 Feb 2026 01:23:20 +0530</pubDate>
-      <guid>https://example.org/working/saves/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Pocket Gluca</title>
-      <link>https://example.org/working/pocket-gluca/</link>
-      <pubDate>Thu, 11 Dec 2025 21:59:09 +0530</pubDate>
-      <guid>https://example.org/working/pocket-gluca/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Scrp</title>
-      <link>https://example.org/working/scrp/</link>
-      <pubDate>Mon, 03 Nov 2025 00:41:08 +0530</pubDate>
-      <guid>https://example.org/working/scrp/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Qaushey</title>
-      <link>https://example.org/working/qaushey/</link>
-      <pubDate>Sat, 11 Jan 2025 22:03:59 +0530</pubDate>
-      <guid>https://example.org/working/qaushey/</guid>
+      <guid>http://localhost:1313/experimenting/saves/</guid>
       <description></description>
     </item>
   </channel>

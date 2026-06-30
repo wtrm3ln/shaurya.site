@@ -260,21 +260,22 @@ function handlePullMove(clientY) {
     const progress = currentPull / threshold;
     updatePixels(Math.min(progress, 1));
 
-    if (currentPull >= threshold) {
+    if (currentPull >= threshold && !reachedThreshold) {
         reachedThreshold = true;
+        commitPainting();
     }
 
     scheduleRender();
 }
 
-function handlePullEnd() {
-    // Check if threshold was reached and switch theme/image
-    if (reachedThreshold && paintings.length > 0) {
-        // Switch to next painting
-        currentPaintingIndex = (currentPaintingIndex + 1) % paintings.length;
-        updatePaintingDisplay();
-    }
+// Swap to next painting the moment the pull hits max, while canvas covers it
+function commitPainting() {
+    if (paintings.length === 0) return;
+    currentPaintingIndex = (currentPaintingIndex + 1) % paintings.length;
+    updatePaintingDisplay();
+}
 
+function handlePullEnd() {
     reachedThreshold = false;
     pixelStates.fill(0);
 
@@ -293,7 +294,7 @@ window.addEventListener('resize', () => {
 //
 // One flick == one painting switch, held at max for a FIXED time, with
 // trailing trackpad momentum swallowed until the wheel goes quiet again.
-const holdAtMax = 400;      // ms held at full pull before settling (constant pause)
+const holdAtMax = 750;      // ms held at full pull before settling (constant pause)
 const wheelQuietGap = 180;  // wheel must be silent this long to re-arm
 const partialSettle = 140;  // snap-back delay for a sub-threshold pull
 
@@ -323,7 +324,10 @@ window.addEventListener('wheel', (e) => {
     scheduleRender();
 
     if (currentPull >= threshold) {
-        reachedThreshold = true;
+        if (!reachedThreshold) {
+            reachedThreshold = true;
+            commitPainting();
+        }
         wheelPhase = 'cooldown';
         clearTimeout(settleTimer);
         settleTimer = setTimeout(handlePullEnd, holdAtMax);

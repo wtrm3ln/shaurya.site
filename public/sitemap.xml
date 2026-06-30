@@ -3,37 +3,34 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>http://localhost:1313/</loc>
-    <lastmod>2026-04-05T10:00:00+05:30</lastmod>
+    <lastmod>2026-06-24T04:22:50+05:30</lastmod>
   </url><url>
     <loc>http://localhost:1313/writing/nat-friedman/</loc>
     <lastmod>2026-04-03T03:21:01+05:30</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/building/</loc>
-    <lastmod>2026-02-27T20:56:11+05:30</lastmod>
+    <lastmod>2026-06-24T04:22:50+05:30</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2026-02-27T20:56:11+05:30</lastmod>
+    <lastmod>2026-06-24T04:22:50+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/working/watch-when/</loc>
-    <lastmod>2026-02-27T20:56:11+05:30</lastmod>
+    <loc>http://localhost:1313/experimenting/watch-when/</loc>
+    <lastmod>2026-06-24T04:22:50+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/working/</loc>
-    <lastmod>2026-02-27T20:56:11+05:30</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/working/saves/</loc>
-    <lastmod>2026-02-18T02:52:10+05:30</lastmod>
+    <loc>http://localhost:1313/experimenting/saves/</loc>
+    <lastmod>2026-06-24T04:22:50+05:30</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/web/</loc>
-    <lastmod>2026-02-18T02:52:10+05:30</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/working/pocket-gluca/</loc>
-    <lastmod>2025-12-12T09:34:37+05:30</lastmod>
+    <lastmod>2026-06-24T04:22:50+05:30</lastmod>
   </url><url>
     <loc>http://localhost:1313/working/bloooom/</loc>
     <lastmod>2025-12-12T09:34:37+05:30</lastmod>
   </url><url>
+    <loc>http://localhost:1313/working/</loc>
+    <lastmod>2026-06-24T04:22:50+05:30</lastmod>
+  </url><url>
     <loc>http://localhost:1313/working/fast-cast/</loc>
-    <lastmod>2026-02-18T02:52:10+05:30</lastmod>
+    <lastmod>2026-06-24T04:22:50+05:30</lastmod>
   </url><url>
     <loc>http://localhost:1313/working/carvers/</loc>
     <lastmod>2026-02-18T02:52:10+05:30</lastmod>
@@ -47,15 +44,6 @@
     <loc>http://localhost:1313/writing/consumption-and-privacy/</loc>
     <lastmod>2026-03-20T22:46:40+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/working/scrp/</loc>
-    <lastmod>2026-02-18T02:52:10+05:30</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/visual-design/</loc>
-    <lastmod>2026-02-18T02:52:10+05:30</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/working/qaushey/</loc>
-    <lastmod>2025-12-12T09:34:37+05:30</lastmod>
-  </url><url>
     <loc>http://localhost:1313/about/</loc>
     <lastmod>2025-11-16T16:55:24+05:30</lastmod>
   </url><url>
@@ -66,6 +54,9 @@
   </url><url>
     <loc>http://localhost:1313/design/</loc>
     <lastmod>2025-11-16T22:19:47+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/experimenting/</loc>
+    <lastmod>2026-06-24T04:22:50+05:30</lastmod>
   </url><url>
     <loc>http://localhost:1313/painting/</loc>
     <lastmod>2025-11-17T01:34:33+05:30</lastmod>

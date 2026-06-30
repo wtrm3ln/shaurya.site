@@ -248,7 +248,7 @@ window.addEventListener('mouseup', () => {
 // header stayed stuck at max for as long as momentum lasted. Instead we run a
 // tiny state machine: one flick == one commit, held at max for a FIXED time,
 // with trailing momentum swallowed until the wheel goes quiet again.
-const holdAtMax = 400;      // ms held at full pull before settling (constant pause)
+const holdAtMax = 750;      // ms held at full pull before settling (constant pause)
 const wheelQuietGap = 180;  // wheel must be silent this long to re-arm
 const partialSettle = 140;  // snap-back delay for a sub-threshold pull
 

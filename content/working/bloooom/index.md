@@ -7,7 +7,8 @@ featured: true
 slug: "bloooom"
 description: "A project board"
 type: "external"
-externalurl: "https://bloooom-gm9ml0a4x-shauryas-projects-e090a542.vercel.app/"
+messages: "see the live site!"
+externalurl: "https://bloooom.vercel.app"
 cover: image.png
 bgColor: "#5FDD97"
 ---

@@ -219,7 +219,7 @@ CURSORS
    url is the hotspot (the "click point") in image pixels.
    - click.svg    → the default everywhere, and every normal/internal link
    - external.svg → links that open a live site in a new tab
-   - nda.svg      → project cards that open an NDA modal
+   - nda.svg      → elements that open an NDA modal
    Each falls back to a native cursor if the SVG can't load. */
 
 html,
@@ -237,19 +237,29 @@ select,
   cursor: url('/assets/click.svg') 5 3, pointer;
 }
 
-/* Anything that leaves the site for an external destination. The rule on the
-   card itself covers the 8px padding ring around the inner link. */
+/* Auto default: anything that opens in a new tab gets the external cursor,
+   unless an explicit data-cursor overrides it below. */
 a[target="_blank"],
-a.external,
-.project-card.is-external,
-.project-card.is-external a {
+a.external {
   cursor: url('/assets/external.svg') 6 3, pointer;
 }
 
-/* NDA projects open a modal instead of navigating. */
-.project-card.is-nda,
-.nda-trigger,
-.nda-trigger * {
+/* Explicit per-element cursor via `data-cursor` (used on link tags directly and,
+   through Hugo, on project cards). The doubled `[data-cursor]` bumps specificity
+   so an author's choice wins over the auto rules above; the ` *` variants extend
+   the cursor to child content (e.g. a card's inner link and cover image). */
+[data-cursor="click"][data-cursor],
+[data-cursor="click"] * {
+  cursor: url('/assets/click.svg') 5 3, pointer;
+}
+
+[data-cursor="external"][data-cursor],
+[data-cursor="external"] * {
+  cursor: url('/assets/external.svg') 6 3, pointer;
+}
+
+[data-cursor="nda"][data-cursor],
+[data-cursor="nda"] * {
   cursor: url('/assets/nda.svg') 6 3, pointer;
 }
 
@@ -266,10 +276,11 @@ CURSOR LABEL
 ========================================== */
 
 /* A small caption that rides along with the cursor. Any element opts in with a
-   `data-label="..."` attribute; on hover, SplitText splits the text into
-   characters and GSAP staggers them — first rising up from below, then looping
-   a perpetual wave that keeps running while the label follows the cursor.
-   Project cards bake a label in per type (see layouts/index.html).
+   `data-label` attribute (a single message, or a JSON array to cycle through);
+   on hover, SplitText splits the text into characters and GSAP staggers them —
+   first rising up from below, then looping a perpetual wave that keeps running
+   while the label follows the cursor. Project cards set their message(s) from
+   the `messages` front-matter param (see layouts/index.html).
    Driven by static/scripts/cursor-label.js. */
 .cursor-label {
   position: fixed;

@@ -40,24 +40,31 @@
 
     <div class="project-list">
         {{ range $projects }}
-        {{/* Project type drives both behaviour and cursor:
-               case-study → internal link to the case study page (click cursor)
-               external   → opens the live site in a new tab (external cursor)
-               nda        → opens a modal with the limited info we can show (nda cursor)
+        {{/* Project type drives behaviour:
+               case-study → internal link to the case study page
+               external   → opens the live site in a new tab
+               nda        → opens a modal with the info below
              Falls back to the legacy `external` boolean when `type` is unset. */}}
         {{ $type := .Params.type }}
         {{ if not $type }}{{ $type = cond (default false .Params.external) "external" "case-study" }}{{ end }}
-        {{/* The hover label baked into each card. Defaults by type; a project
-             can override with a `label` param in its front matter. */}}
-        {{ $labels := dict "case-study" "view case study" "external" "see the live site!" "nda" "view overview" }}
-        {{ $label := .Params.label | default (index $labels $type) }}
-        <div class="project-card is-{{ $type }} {{ range .Params.tags }}tag-{{ . | urlize }} {{ end }}" data-tags="{{ delimit .Params.tags " , " }}">
+
+        {{/* Cursor shown on hover — from the `cursor` param, else by type. */}}
+        {{ $cursorMap := dict "case-study" "click" "external" "external" "nda" "nda" }}
+        {{ $cursor := .Params.cursor | default (index $cursorMap $type) }}
+
+        {{/* Hover message(s) from the `messages` param — a single string or a
+             list. No default: with none, the card shows no label. A list is
+             emitted as JSON so cursor-label.js can cycle through it. */}}
+        {{ $labelAttr := "" }}
+        {{ with .Params.messages }}{{ if reflect.IsSlice . }}{{ $labelAttr = jsonify . }}{{ else }}{{ $labelAttr = printf "%v" . }}{{ end }}{{ end }}
+
+        <div class="project-card is-{{ $type }} {{ range .Params.tags }}tag-{{ . | urlize }} {{ end }}" data-tags="{{ delimit .Params.tags " , " }}" data-cursor="{{ $cursor }}"{{ with $labelAttr }} data-label='{{ . }}'{{ end }}>
             {{ if eq $type "external" }}
-            <a class="external" href="{{ .Params.externalurl }}" target="_blank" rel="noopener" data-label="{{ $label }}">
+            <a class="external" href="{{ .Params.externalurl }}" target="_blank" rel="noopener">
                 {{ partial "project-card-inner.html" . }}
             </a>
             {{ else if eq $type "nda" }}
-            <button type="button" class="nda-trigger" data-nda-open="{{ .File.ContentBaseName }}" data-label="{{ $label }}" aria-haspopup="dialog">
+            <button type="button" class="nda-trigger" data-nda-open="{{ .File.ContentBaseName }}" aria-haspopup="dialog">
                 {{ partial "project-card-inner.html" . }}
             </button>
             <template data-nda-template="{{ .File.ContentBaseName }}">
@@ -65,7 +72,7 @@
                     {{ with .Resources.GetMatch .Params.cover }}
                     <img class="nda-detail__cover" src="{{ .RelPermalink }}" alt="{{ $.Title }}">
                     {{ end }}
-                    <span class="nda-badge">Under NDA</span>
+                    {{ with .Params.ndaBadge | default "Under NDA" }}<span class="nda-badge">{{ . }}</span>{{ end }}
                     <p class="project-name">{{ .Title }}</p>
                     {{ with .Params.description }}<h1 class="nda-detail__headline">{{ . }}</h1>{{ end }}
                     {{ with .Params.tags }}
@@ -74,11 +81,11 @@
                     </div>
                     {{ end }}
                     {{ with .Content }}<div class="nda-detail__content">{{ . }}</div>{{ end }}
-                    <p class="nda-note">{{ .Params.ndaNote | default "This work is covered by a non-disclosure agreement, so I can only share a limited overview here. Get in touch and I'd be happy to walk you through it." | markdownify }}</p>
+                    {{ with .Params.ndaNote | default "This work is covered by a non-disclosure agreement, so I can only share a limited overview here. Get in touch and I'd be happy to walk you through it." }}<p class="nda-note">{{ . | markdownify }}</p>{{ end }}
                 </article>
             </template>
             {{ else }}
-            <a href="{{ .RelPermalink }}" data-label="{{ $label }}">
+            <a href="{{ .RelPermalink }}">
                 {{ partial "project-card-inner.html" . }}
             </a>
             {{ end }}

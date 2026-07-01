@@ -7,15 +7,14 @@ featured: true
 slug: "carvers"
 description: "Rethinking the experience of driving a car"
 type: "case-study"
+messages: "view case study"
 cover: cover.png
 bgColor: "#BFAFFE"
 taggrid:
-  - title: "Platform"
-    value: "Android Automotive OS"
+  - title: "Role played"
+    value: "Sole Designer"
   - title: "Duration"
-    value: "4 months"
-  - title: "Users Surveyed"
-    value: "55 car owners"
+    value: "2 months"
   - title: "Deliverables"
     value: "Research, IA, UI Kit"
 ---

@@ -2,82 +2,84 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2026-06-30T19:15:10+05:30</lastmod>
+    <loc>http://localhost:1399/</loc>
+    <lastmod>2026-07-01T21:22:52+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/writing/nat-friedman/</loc>
+    <loc>http://localhost:1399/writing/nat-friedman/</loc>
     <lastmod>2026-04-03T03:21:01+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/building/</loc>
+    <loc>http://localhost:1399/tags/building/</loc>
     <lastmod>2026-06-30T19:15:10+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2026-06-30T19:15:10+05:30</lastmod>
+    <loc>http://localhost:1399/tags/</loc>
+    <lastmod>2026-07-01T21:22:52+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/experimenting/watch-when/</loc>
+    <loc>http://localhost:1399/experimenting/watch-when/</loc>
     <lastmod>2026-06-24T04:22:50+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/experimenting/saves/</loc>
+    <loc>http://localhost:1399/experimenting/saves/</loc>
     <lastmod>2026-06-24T04:22:50+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/web/</loc>
+    <loc>http://localhost:1399/tags/web/</loc>
     <lastmod>2026-06-24T04:22:50+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/working/bloooom/</loc>
+    <loc>http://localhost:1399/working/bloooom/</loc>
     <lastmod>2026-06-30T19:15:10+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/working/</loc>
+    <loc>http://localhost:1399/working/</loc>
+    <lastmod>2026-07-01T21:22:52+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1399/working/fast-cast/</loc>
     <lastmod>2026-06-30T19:15:10+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/working/fast-cast/</loc>
-    <lastmod>2026-06-30T19:15:10+05:30</lastmod>
+    <loc>http://localhost:1399/working/carvers/</loc>
+    <lastmod>2026-07-01T21:22:52+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/working/carvers/</loc>
-    <lastmod>2026-06-30T19:15:10+05:30</lastmod>
+    <loc>http://localhost:1399/tags/ux/</loc>
+    <lastmod>2026-07-01T21:22:52+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/ux/</loc>
-    <lastmod>2026-06-30T19:15:10+05:30</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/writing/why-designers-make-bad-founders/</loc>
+    <loc>http://localhost:1399/writing/why-designers-make-bad-founders/</loc>
     <lastmod>2026-04-03T03:21:01+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/writing/consumption-and-privacy/</loc>
+    <loc>http://localhost:1399/writing/consumption-and-privacy/</loc>
     <lastmod>2026-03-20T22:46:40+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/about/</loc>
+    <loc>http://localhost:1399/about/</loc>
     <lastmod>2025-11-16T16:55:24+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/site/</loc>
+    <loc>http://localhost:1399/site/</loc>
     <lastmod>2025-11-16T22:19:47+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>http://localhost:1399/categories/</loc>
   </url><url>
-    <loc>http://localhost:1313/design/</loc>
+    <loc>http://localhost:1399/design/</loc>
     <lastmod>2025-11-16T22:19:47+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/experimenting/</loc>
+    <loc>http://localhost:1399/experimenting/</loc>
     <lastmod>2026-06-24T04:22:50+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/painting/</loc>
+    <loc>http://localhost:1399/painting/</loc>
     <lastmod>2025-11-17T01:34:33+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/product-design/</loc>
+    <loc>http://localhost:1399/tags/product-design/</loc>
+    <lastmod>2026-07-01T21:22:52+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/painting/1/</loc>
+    <loc>http://localhost:1399/painting/1/</loc>
     <lastmod>2025-11-17T01:34:33+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/painting/2/</loc>
+    <loc>http://localhost:1399/painting/2/</loc>
     <lastmod>2025-11-17T01:34:33+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/style/</loc>
+    <loc>http://localhost:1399/style/</loc>
     <lastmod>2025-11-16T22:19:47+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tech/</loc>
+    <loc>http://localhost:1399/tech/</loc>
     <lastmod>2025-11-16T22:19:47+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/working/fabric/</loc>
+    <loc>http://localhost:1399/working/fabric/</loc>
+    <lastmod>2026-07-01T21:22:52+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:1313/writing/</loc>
+    <loc>http://localhost:1399/writing/</loc>
     <lastmod>2025-10-30T22:48:27+05:30</lastmod>
   </url>
 </urlset>

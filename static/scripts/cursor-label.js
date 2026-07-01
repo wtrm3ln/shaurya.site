@@ -23,7 +23,7 @@
 
   const OFFSET_X = 16;
   const OFFSET_Y = 4;
-  const CYCLE_MS = 5000;
+  const CYCLE_MS = 3000;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   let current = null;

@@ -1,5 +1,6 @@
 ---
 title: "Topaz Fabric"
+weight: 1
 year: 2026
 tags: [ux, product design, ]
 featured: true

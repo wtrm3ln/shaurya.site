@@ -43,51 +43,6 @@
                 <h1>{{ . }}</h1>
                 {{ end }}
 
-                <div class="project-meta-grid" aria-label="Project details">
-                    {{ if .Params.role }}
-                    <div class="meta-item">
-                        <span class="meta-label">Role</span>
-                        <span class="meta-value">{{ .Params.role }}</span>
-                    </div>
-                    {{ end }}
-
-                    {{ if .Params.timeline }}
-                    <div class="meta-item">
-                        <span class="meta-label">Timeline</span>
-                        <span class="meta-value">{{ .Params.timeline }}</span>
-                    </div>
-                    {{ else if .Params.year }}
-                    <div class="meta-item">
-                        <span class="meta-label">Year</span>
-                        <span class="meta-value">{{ .Params.year }}</span>
-                    </div>
-                    {{ end }}
-
-                    {{ if .Params.team }}
-                    <div class="meta-item">
-                        <span class="meta-label">Team</span>
-                        <span class="meta-value">{{ .Params.team }}</span>
-                    </div>
-                    {{ else if .Params.client }}
-                    <div class="meta-item">
-                        <span class="meta-label">Client</span>
-                        <span class="meta-value">{{ .Params.client }}</span>
-                    </div>
-                    {{ end }}
-
-                    {{ if .Params.skills }}
-                    <div class="meta-item">
-                        <span class="meta-label">Skills</span>
-                        <span class="meta-value">{{ delimit .Params.skills "<br>" | safeHTML }}</span>
-                    </div>
-                    {{ else if .Params.tags }}
-                    <div class="meta-item">
-                        <span class="meta-label">Tags</span>
-                        <span class="meta-value">{{ delimit .Params.tags "<br>" | safeHTML }}</span>
-                    </div>
-                    {{ end }}
-                </div>
-
                 {{/* Tag grid: an array of {title, value} objects in front matter
                      (key: `taggrid`). Rendered as white 3D tags in a 4-col grid. */}}
                 {{ with .Params.taggrid }}

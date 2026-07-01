@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Web on working</title>
-    <link>http://localhost:1399/tags/web/</link>
+    <link>http://localhost:1313/tags/web/</link>
     <description>Recent content in Web on working</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 24 Jun 2026 04:22:50 +0530</lastBuildDate>
-    <atom:link href="http://localhost:1399/tags/web/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/web/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Saves</title>
-      <link>http://localhost:1399/experimenting/saves/</link>
+      <link>http://localhost:1313/experimenting/saves/</link>
       <pubDate>Wed, 18 Feb 2026 01:23:20 +0530</pubDate>
-      <guid>http://localhost:1399/experimenting/saves/</guid>
+      <guid>http://localhost:1313/experimenting/saves/</guid>
       <description></description>
     </item>
   </channel>

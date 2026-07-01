@@ -100,34 +100,53 @@ header{
   transition: transform 0.3s ease, background-color 0.5s ease;
 }
 
+h1,
+h2,
+h3,
+h5 {
+  color: var(--dark);
+  font-family: "Geologica", sans-serif;
+  font-weight: 420;
+  letter-spacing: 0;
+  text-transform: none;
+  opacity: 1;
+  text-wrap: balance;
+    margin: 0 0 1rem;
+
+}
+
 h1{
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 14px;
-    margin: 0;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    opacity: 0.5;
-    text-wrap: balance;
+  font-size: clamp(2.15rem, 3.8vw, 3.25rem);
+  line-height: 1.04;
 }
 
 h2{
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 14px;
-    margin: 0;
-    text-transform: uppercase;
-    opacity: 0.5;
-    text-wrap: balance;
+  font-size: clamp(1.65rem, 2.7vw, 2.3rem);
+  line-height: 1.1;
 }
 
 h3{
-  font-family: Geologica, sans-serif;
-  font-weight: 500;
-  margin-bottom: 0.3rem;
+  font-size: clamp(1.18rem, 1.75vw, 1.55rem);
+  line-height: 1.18;
+}
+
+h4 {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
+  margin: 0;
+  text-transform: uppercase;
+  opacity: 0.5;
   text-wrap: balance;
+  margin: 3rem 0 1rem;
+
+}
+
+h5 {
+  margin: 1.8rem 0 0.6rem;
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  line-height: 1.2;
 }
 
 p{
@@ -329,7 +348,7 @@ body {
 
 hr {
   border: none;
-  border-top: 2px solid var(--gray);
+  border-top: 1px solid var(--gray);
   margin-bottom: 1em;
 }
 

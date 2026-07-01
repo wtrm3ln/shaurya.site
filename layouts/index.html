@@ -12,14 +12,14 @@
 
 {{ end }} {{ define "main" }}
 <div class="reveal">
-    <h2>{{ .Site.Params.authorName | default "Shaurya singh" }}</h2>
+    <h4>{{ .Site.Params.authorName | default "Shaurya singh" }}</h4>
     <p>{{ .Site.Params.currentRole | markdownify }}</p>
     <p>I design and build software, and tinker with physical products. I believe in technology as a tool to empower people. If you have an interesting idea, get in touch.</p>
 </div>
 
 <div>
     {{ $projects := where .Site.RegularPages "Section" "working" }}
-    {{ $projects = sort $projects "Date" "desc" }}
+
     {{ $allTags := slice }}
 
     {{ range $projects }}
@@ -30,7 +30,7 @@
 
     <div class="container">
         <div class="filter-section">
-            <h1>work</h1>
+            <h4>work</h4>
             <span style="margin-bottom: 0;">I want to see</span>
             <div class="filter-buttons" id="filterButtons">
                 <button class="filter-btn active" onclick="filterProjects('all')">everything</button>

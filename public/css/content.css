@@ -8,7 +8,6 @@
 }
 
 .case-study-intro {
-  width: min(100%, 760px);
   margin: 0 auto 2.5rem;
 }
 
@@ -136,11 +135,10 @@
 }
 
 .case-study-layout.has-section-nav {
-  grid-template-columns: minmax(140px, 180px) minmax(0, 760px) minmax(140px, 180px);
+    grid-template-columns: 1fr 5fr;
   gap: clamp(2rem, 4vw, 4rem);
   align-items: start;
   justify-content: start;
-  padding: 0 clamp(1rem, 3vw, 2rem);
 }
 
 .case-study-main {
@@ -197,54 +195,6 @@
   color: var(--dark);
 }
 
-.case-study-content h1,
-.case-study-content h2,
-.case-study-content h3,
-.case-study-content h5 {
-  color: var(--dark);
-  font-family: "Geologica", sans-serif;
-  font-weight: 420;
-  letter-spacing: 0;
-  text-transform: none;
-  opacity: 1;
-  text-wrap: balance;
-}
-
-.case-study-content h1 {
-  margin: 0 0 1.2rem;
-  font-size: clamp(2.15rem, 3.8vw, 3.25rem);
-  line-height: 1.04;
-}
-
-.case-study-content h2 {
-  margin: 3rem 0 1rem;
-  font-size: clamp(1.65rem, 2.7vw, 2.3rem);
-  line-height: 1.1;
-}
-
-.case-study-content h3 {
-  margin: 2.3rem 0 0.8rem;
-  font-size: clamp(1.18rem, 1.75vw, 1.55rem);
-  line-height: 1.18;
-}
-
-.case-study-content h5 {
-  margin: 1.8rem 0 0.6rem;
-  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
-  line-height: 1.2;
-}
-
-.case-study-content h4 {
-  scroll-margin-top: 7rem;
-  margin: 4rem 0 1rem;
-  color: color-mix(in srgb, var(--dark) 52%, transparent);
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.88rem;
-  font-weight: 400;
-  line-height: 1.25;
-  letter-spacing: 0;
-  text-transform: uppercase;
-}
 
 .case-study-content p,
 .case-study-content li,

@@ -2,32 +2,32 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Building on working</title>
-    <link>http://localhost:1399/tags/building/</link>
+    <link>http://localhost:1313/tags/building/</link>
     <description>Recent content in Building on working</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 30 Jun 2026 19:15:10 +0530</lastBuildDate>
-    <atom:link href="http://localhost:1399/tags/building/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 01 Jul 2026 23:26:27 +0530</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/building/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Watch When</title>
-      <link>http://localhost:1399/experimenting/watch-when/</link>
+      <link>http://localhost:1313/experimenting/watch-when/</link>
       <pubDate>Fri, 27 Feb 2026 20:44:09 +0530</pubDate>
-      <guid>http://localhost:1399/experimenting/watch-when/</guid>
+      <guid>http://localhost:1313/experimenting/watch-when/</guid>
       <description></description>
     </item>
     <item>
       <title>Bloooom</title>
-      <link>http://localhost:1399/working/bloooom/</link>
+      <link>http://localhost:1313/working/bloooom/</link>
       <pubDate>Sun, 16 Nov 2025 15:49:14 +0530</pubDate>
-      <guid>http://localhost:1399/working/bloooom/</guid>
+      <guid>http://localhost:1313/working/bloooom/</guid>
       <description></description>
     </item>
     <item>
       <title>Fast Cast</title>
-      <link>http://localhost:1399/working/fast-cast/</link>
+      <link>http://localhost:1313/working/fast-cast/</link>
       <pubDate>Sun, 16 Nov 2025 15:32:05 +0530</pubDate>
-      <guid>http://localhost:1399/working/fast-cast/</guid>
-      <description>&lt;p&gt;Fast Cast is a marketplace that helps fashion students quickly find and book&#xA;models for their college shoots. I can&amp;rsquo;t share the full case study publicly, but&#xA;happy to walk through the design work, the research, and the outcomes one-on-one.&lt;/p&gt;</description>
+      <guid>http://localhost:1313/working/fast-cast/</guid>
+      <description>&lt;p&gt;Fast Cast is a marketplace that helps fashion students quickly find and book&#xA;models for their college shoots.&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://fast-cast.vercel.app&#34;&gt;Visit site&lt;/a&gt;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

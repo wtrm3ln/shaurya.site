@@ -209,10 +209,10 @@
 
 .nda-modal__panel {
   position: relative;
-  width: min(100%, 560px);
-  max-height: min(85vh, 720px);
+  width: min(92vw, 900px);
+  max-height: min(88vh, 820px);
   overflow-y: auto;
-  padding: 2rem;
+  overflow-x: hidden;
   border-radius: 20px;
   background: var(--white);
   color: var(--dark);
@@ -227,10 +227,13 @@
   transform: translateY(0) scale(1);
 }
 
+/* No fill — just the glyph. `difference` keeps it visible over the cover
+   image, the white panel, or anything else it happens to sit on. */
 .nda-modal__close {
   position: absolute;
   top: 0.85rem;
   right: 0.85rem;
+  z-index: 1;
   width: 2rem;
   height: 2rem;
   display: flex;
@@ -238,31 +241,42 @@
   justify-content: center;
   border: none;
   border-radius: 999px;
-  background: var(--gray);
-  color: var(--dark);
-  font-size: 1.4rem;
+  background: none;
+  color: #fff;
+  mix-blend-mode: difference;
+  font-size: 1.6rem;
   line-height: 1;
-  box-shadow: var(--shadow-border);
-  transition: background-color 0.15s ease, scale 0.15s ease;
+  transition: transform 0.15s ease;
 }
 
 .nda-modal__close:hover {
-  background: var(--themed-primary);
-  color: var(--themed-secondary);
+  transform: scale(1.12);
 }
 
 .nda-modal__close:active {
-  scale: 0.94;
+  transform: scale(0.9);
 }
 
 /* ---- Modal body / NDA detail ---- */
 
+/* Padding lives here instead of on the panel, so the cover image (its first
+   child) can bleed edge-to-edge above it — see .nda-detail__cover below. */
+.nda-detail {
+  padding: 0 2rem 2rem;
+}
+
 .nda-detail__cover {
   display: block;
-  width: 100%;
+  /* Cancel the parent's side padding and sit flush against the top: full
+     width, no top gap. The panel's own border-radius + overflow clip the
+     top corners to match. Overrides the global `img { max-width: 100% }`
+     rule, which would otherwise clamp this back to the padded width. */
+  width: calc(100% + 4rem);
+  max-width: calc(100% + 4rem);
+  margin: 0 -2rem 1.25rem;
   height: auto;
-  margin-bottom: 1.25rem;
-  border-radius: 8px;
+  border-radius: 0;
+  outline: none;
 }
 
 .nda-badge {
@@ -321,13 +335,27 @@
   font-size: 0.95em;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .nda-modal {
-    padding: 1rem;
+    padding: 0.75rem;
   }
 
   .nda-modal__panel {
-    padding: 1.5rem;
-    border-radius: 15px;
+    width: 100%;
+    /* dvh accounts for mobile browser chrome so this reads as "almost full
+       height" rather than overshooting behind the address bar. */
+    height: 92dvh;
+    max-height: 92dvh;
+    border-radius: 16px;
+  }
+
+  .nda-detail {
+    padding: 0 1.25rem 1.5rem;
+  }
+
+  .nda-detail__cover {
+    width: calc(100% + 2.5rem);
+    max-width: calc(100% + 2.5rem);
+    margin: 0 -1.25rem 1.25rem;
   }
 }

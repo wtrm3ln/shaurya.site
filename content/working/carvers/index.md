@@ -9,6 +9,15 @@ description: "Rethinking the experience of driving a car"
 type: "case-study"
 cover: cover.png
 bgColor: "#BFAFFE"
+taggrid:
+  - title: "Platform"
+    value: "Android Automotive OS"
+  - title: "Duration"
+    value: "4 months"
+  - title: "Users Surveyed"
+    value: "55 car owners"
+  - title: "Deliverables"
+    value: "Research, IA, UI Kit"
 ---
 
 

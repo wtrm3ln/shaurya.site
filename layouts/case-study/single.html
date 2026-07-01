@@ -87,6 +87,19 @@
                     </div>
                     {{ end }}
                 </div>
+
+                {{/* Tag grid: an array of {title, value} objects in front matter
+                     (key: `taggrid`). Rendered as white 3D tags in a 4-col grid. */}}
+                {{ with .Params.taggrid }}
+                <div class="tag-grid" aria-label="Project tags">
+                    {{ range . }}
+                    <div class="info-tag">
+                        <span class="info-tag-title">{{ .title }}</span>
+                        <span class="info-tag-value">{{ .value }}</span>
+                    </div>
+                    {{ end }}
+                </div>
+                {{ end }}
             </section>
 
             <div class="container case-study-content">

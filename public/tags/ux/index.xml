@@ -2,18 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ux on working</title>
-    <link>http://localhost:1399/tags/ux/</link>
+    <link>http://localhost:1313/tags/ux/</link>
     <description>Recent content in Ux on working</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 30 Jun 2026 19:15:10 +0530</lastBuildDate>
-    <atom:link href="http://localhost:1399/tags/ux/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/ux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Carvers</title>
-      <link>http://localhost:1399/working/carvers/</link>
+      <link>http://localhost:1313/working/carvers/</link>
       <pubDate>Sun, 16 Nov 2025 14:33:31 +0530</pubDate>
-      <guid>http://localhost:1399/working/carvers/</guid>
+      <guid>http://localhost:1313/working/carvers/</guid>
       <description>&lt;p&gt;Designing for a productive and unique driving experience through an Infotainment system while ensuring road safety and driver concentration.&lt;/p&gt;&#xA;&lt;h4 id=&#34;the-challenge&#34;&gt;The Challenge&lt;/h4&gt;&#xA;&lt;h3 id=&#34;rethinking-the-experience-of-driving-a-car&#34;&gt;Rethinking the experience of driving a car&lt;/h3&gt;&#xA;&lt;p&gt;My interest in the domain of UX for automobiles began from a simple realisation that a car is nothing but a small metal enclosure that forces a kind of proximity among people that is rare to find today. This presents a plethora of frustrations (especially if you drive on Indian roads) but also opportunities where design could intervene.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Topaz Fabric</title>
+      <link>http://localhost:1313/working/fabric/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/working/fabric/</guid>
+      <description></description>
     </item>
   </channel>
 </rss>

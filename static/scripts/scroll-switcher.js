@@ -165,6 +165,12 @@ function applyThemeColors() {
 
     document.documentElement.style.setProperty('--themed-primary', primaryColor);
     document.documentElement.style.setProperty('--themed-secondary', secondaryColor);
+
+    // Safari doesn't reliably repaint an element that reads a :root custom
+    // property when that property changes — the paint only lands when devtools
+    // is open (it forces repaints). Set the body background to the resolved
+    // colour directly so the theme switch is visible everywhere.
+    if (document.body) document.body.style.backgroundColor = primaryColor;
 }
 
 // Size the bitmap to the header's max (fully-pulled) height once, so it never
@@ -272,7 +278,9 @@ function handlePullMove(clientY) {
 function commitPainting() {
     if (paintings.length === 0) return;
     currentPaintingIndex = (currentPaintingIndex + 1) % paintings.length;
+    currentSetIndex = (currentSetIndex + 1) % colorSets.length;
     updatePaintingDisplay();
+    applyThemeColors();
 }
 
 function handlePullEnd() {
@@ -302,8 +310,33 @@ let wheelPhase = 'idle';    // 'idle' | 'pulling' | 'cooldown'
 let settleTimer = null;
 let rearmTimer = null;
 
+// A pull may only begin when a fresh upward gesture starts while the page has
+// actually been *resting at the very top*. A scroll-up-from-below is one
+// continuous wheel gesture whose momentum coasts into the top; suppressing it
+// keeps the animation from firing unintentionally on arrival.
+const gestureGap = 200;    // ms of wheel silence that separates one gesture from the next
+const settleDelay = 250;   // ms the page must sit at the very top before a pull can arm
+let lastWheelTime = 0;
+let lastAwayFromTop = 0;   // last time the page was scrolled anywhere below the very top
+let gestureArmed = false;
+
+// Momentum from a scroll-up keeps this fresh right until it lands on scrollY 0,
+// so a pull can't arm until the page has genuinely settled at the top.
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 0) lastAwayFromTop = performance.now();
+}, { passive: true });
+
 window.addEventListener('wheel', (e) => {
+    // Track gesture boundaries before any early return so momentum from a
+    // scroll-up-from-below stays one continuous, disarmed gesture.
+    const now = performance.now();
+    if (now - lastWheelTime > gestureGap) {
+        gestureArmed = window.scrollY === 0 && now - lastAwayFromTop >= settleDelay;
+    }
+    lastWheelTime = now;
+
     if (window.scrollY !== 0 || e.deltaY >= 0) return;
+    if (!gestureArmed) return;
     e.preventDefault();
 
     // Already committed — swallow trailing momentum, re-arm only once quiet.

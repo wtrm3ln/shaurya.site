@@ -3,16 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>http://localhost:1399/</loc>
-    <lastmod>2026-06-30T13:18:38+05:30</lastmod>
+    <lastmod>2026-06-30T19:15:10+05:30</lastmod>
   </url><url>
     <loc>http://localhost:1399/writing/nat-friedman/</loc>
     <lastmod>2026-04-03T03:21:01+05:30</lastmod>
   </url><url>
     <loc>http://localhost:1399/tags/building/</loc>
-    <lastmod>2026-06-30T13:18:38+05:30</lastmod>
+    <lastmod>2026-06-30T19:15:10+05:30</lastmod>
   </url><url>
     <loc>http://localhost:1399/tags/</loc>
-    <lastmod>2026-06-30T13:18:38+05:30</lastmod>
+    <lastmod>2026-06-30T19:15:10+05:30</lastmod>
   </url><url>
     <loc>http://localhost:1399/experimenting/watch-when/</loc>
     <lastmod>2026-06-24T04:22:50+05:30</lastmod>
@@ -24,19 +24,19 @@
     <lastmod>2026-06-24T04:22:50+05:30</lastmod>
   </url><url>
     <loc>http://localhost:1399/working/bloooom/</loc>
-    <lastmod>2026-06-30T13:18:38+05:30</lastmod>
+    <lastmod>2026-06-30T19:15:10+05:30</lastmod>
   </url><url>
     <loc>http://localhost:1399/working/</loc>
-    <lastmod>2026-06-30T13:18:38+05:30</lastmod>
+    <lastmod>2026-06-30T19:15:10+05:30</lastmod>
   </url><url>
     <loc>http://localhost:1399/working/fast-cast/</loc>
-    <lastmod>2026-06-30T13:18:38+05:30</lastmod>
+    <lastmod>2026-06-30T19:15:10+05:30</lastmod>
   </url><url>
     <loc>http://localhost:1399/working/carvers/</loc>
-    <lastmod>2026-06-30T13:18:38+05:30</lastmod>
+    <lastmod>2026-06-30T19:15:10+05:30</lastmod>
   </url><url>
     <loc>http://localhost:1399/tags/ux/</loc>
-    <lastmod>2026-06-30T13:18:38+05:30</lastmod>
+    <lastmod>2026-06-30T19:15:10+05:30</lastmod>
   </url><url>
     <loc>http://localhost:1399/writing/why-designers-make-bad-founders/</loc>
     <lastmod>2026-04-03T03:21:01+05:30</lastmod>
@@ -72,5 +72,8 @@
   </url><url>
     <loc>http://localhost:1399/tech/</loc>
     <lastmod>2025-11-16T22:19:47+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1399/writing/</loc>
+    <lastmod>2025-10-30T22:48:27+05:30</lastmod>
   </url>
 </urlset>

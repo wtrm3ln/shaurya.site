@@ -27,15 +27,16 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "writing/what-is-a-product.md",
+                "file": "writing/ideas-and-f1.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "what-is-a-product"
+              "title": "ideas-and-f1"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -198,15 +199,17 @@
       "cmdr:Shell commands: Execute: Publish Hugo Site": false
     }
   },
-  "active": "e5bf721b6a76e108",
+  "active": "92c6ab9c07c0ef2c",
   "lastOpenFiles": [
-    "writing/bad-design.md",
     "writing/teaching and preaching.md",
+    "writing/ideas-and-f1.md",
+    "writing/nat-friedman.md",
+    "writing/being-annoying.md",
+    "writing/ideas-and-f1.md",
+    "writing/bad-design.md",
     "writing/why-designers-make-bad-founders.md",
     "writing/why beauty matters less in product design.md",
-    "writing/nat-friedman.md",
     "writing/consumption-and-privacy.md",
-    "writing/being-annoying.md",
     "working/carvers/index.md",
     "working/zentel/index.md",
     "writing/_index.md",

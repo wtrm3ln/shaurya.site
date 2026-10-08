@@ -1,13 +1,13 @@
 ---
-title: Bad design
+title: Creativity and F1
 date: 2026-07-02
 description: ""
 tags: []
 categories: []
 featuredImage: ""
-slug: bad-design
+slug: creativity-and-f1
 Excerpt: ""
-draft: true
+draft: false
 ---
 In racing terms, drivers at the back of the pack, behind the race leaders, experience something called *bad air*. This is when your car is running through hot air that has been through the exhausts of the cars ahead. This air slows you down, because it does not provide the necessary cooling effect that the engine expects.
 

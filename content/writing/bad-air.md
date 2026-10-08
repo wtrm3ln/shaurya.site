@@ -1,11 +1,11 @@
 ---
-title: Creativity and F1
+title: Bad Air
 date: 2026-07-02
 description: ""
 tags: []
 categories: []
 featuredImage: ""
-slug: creativity-and-f1
+slug: bad-air
 Excerpt: ""
 draft: false
 ---

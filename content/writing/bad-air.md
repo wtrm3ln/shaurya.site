@@ -1,6 +1,6 @@
 ---
 title: Bad Air
-date: 2026-07-02
+date: 2026-10-08
 description: ""
 tags: []
 categories: []

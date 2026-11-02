@@ -5,16 +5,16 @@
 
 <div class="heading-content" id="mainHeader">
     <div id="content" class="reveal">
-        <span class="heading-quote" id="heading">{{ .Site.Params.tagline | default "Finding my place between beauty and practicality" }}</span>
-        <p>{{ .Site.Params.subtitle | default "Software Designer | Creative Technologist" }}</p>
+        <span class="heading-quote" id="heading">{{ .Site.Data.site.home.tagline }}</span>
+        <p>{{ .Site.Data.site.home.subtitle }}</p>
     </div>
 </div>
 
 {{ end }} {{ define "main" }}
 <div class="reveal">
-    <h4>{{ .Site.Params.authorName | default "Shaurya singh" }}</h4>
-    <p>{{ .Site.Params.currentRole | markdownify }}</p>
-    <p>I design and build software, and tinker with physical products. I believe in technology as a tool to empower people. If you have an interesting idea, get in touch.</p>
+    <h4>{{ .Site.Data.site.name }}</h4>
+    <p>{{ .Site.Data.site.home.role | markdownify }}</p>
+    <p>{{ .Site.Data.site.home.intro | markdownify }}</p>
 </div>
 
 <div>
@@ -30,10 +30,10 @@
 
     <div class="container">
         <div class="filter-section">
-            <h4>work</h4>
-            <span style="margin-bottom: 0;">I want to see</span>
+            <h4>{{ .Site.Data.site.home.workHeading }}</h4>
+            <span style="margin-bottom: 0;">{{ .Site.Data.site.home.filterLabel }}</span>
             <div class="filter-buttons" id="filterButtons">
-                <button class="filter-btn active" onclick="filterProjects('all')">everything</button>
+                <button class="filter-btn active" onclick="filterProjects('all')">{{ .Site.Data.site.home.filterAll }}</button>
             </div>
         </div>
     </div>
@@ -94,7 +94,7 @@
     </div>
 
     <div class="experimenting-cta">
-        <p>Want to see more? <a href="/experimenting/">See what I'm tinkering on.</a></p>
+        <p>{{ .Site.Data.site.home.moreText }} <a href="/experimenting/">{{ .Site.Data.site.home.moreLink }}</a></p>
     </div>
 </div>
 

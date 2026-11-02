@@ -5,23 +5,17 @@
 {{ define "header-content" }}
 <canvas class="pixel-canvas" id="pixelCanvas"></canvas>
 <div class="heading-content">
-        <span class="heading-quote">Design,tech and ideas</span>
-        <p>If you’re thinking without writing, you only think you’re thinking.</p>
+        <span class="heading-quote">{{ .Site.Data.site.writing.tagline }}</span>
+        <p>{{ .Site.Data.site.writing.subtitle }}</p>
 </div>
 {{ end }}
 
 {{ define "main" }}
-{{ $journalRoot := .Site.GetPage "/build-journal" }}
-{{ $journalProjects := slice }}
-{{ with $journalRoot }}
-    {{ $journalProjects = .Sections.ByTitle }}
-{{ end }}
-
 <div class="writing-layout">
     <section class="writing-primary">
         <div class="narrow-container">
-            <h4>writing</h4>
-            <p>I write about design, tech and anything I'm thinking about. This is an exercise in me understanding how things work.</p>
+            <h4>{{ .Site.Data.site.writing.heading }}</h4>
+            <p>{{ .Site.Data.site.writing.intro }}</p>
 
             <div class="narrow-container">
             {{ range .Pages.ByDate.Reverse }}
@@ -49,32 +43,6 @@
             </div>
         </div>
     </section>
-
-
-    {{ if gt (len $journalProjects) 0 }}
-        <div style="position: sticky; top: 96px;">
-        <div class="build-journal-panel">
-            <div style="margin-bottom: 1.5rem;">
-                <h1>build journal</h1>
-            </div>
-                <div style="display: flex; flex-direction: column; gap: 1rem;">
-                {{ range $journalProjects }}
-                    <section>
-                        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 0.5rem; flex-wrap: wrap;">
-                            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-                            {{ with .Params.status }}
-                            <span class="tag tag-{{ . | urlize }}">{{ . }}</span>
-                            {{ end }}
-                        </div>
-                        {{ with .Params.description }}
-                        <p class="light-text">{{ . }}</p>
-                        {{ end }}
-                    </section>
-                {{ end }}
-                </div>
-            </div>
-        </div>
-    {{ end }}
 
 </div>
 

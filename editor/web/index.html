@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <button id="new-btn" title="New page (⌘N)">New…</button>
+      <div class="crumb" id="crumb"></div>
+      <div class="save-state" id="save-state"></div>
+      <div class="spacer"></div>
+      <button id="side-btn">Hide preview</button>
+      <button id="live-btn">View live site</button>
+      <button id="publish-btn" class="heavy">Publish</button>
+    </header>
+
+    <div class="workspace" id="workspace">
+      <nav class="sidebar" id="sidebar"></nav>
+
+      <section class="center">
+        <div class="view" id="view-page" hidden>
+          <div class="page-head">
+            <input class="title-input" id="title-input" placeholder="Title" spellcheck="true" aria-label="Title">
+            <div class="page-meta">
+              <button id="details-btn" class="flat">▸ Details</button>
+              <span class="url" id="page-url"></span>
+              <span class="spacer"></span>
+              <button id="delete-page-btn" class="flat">Delete page…</button>
+            </div>
+          </div>
+          <div class="details" id="details" hidden></div>
+          <div class="notices" id="notices"></div>
+          <div class="format-bar" id="format-bar">
+            <button data-cmd="bold" title="Bold (⌘B)"><b>B</b></button>
+            <button data-cmd="italic" title="Italic (⌘I)"><i>I</i></button>
+            <button data-cmd="strike" title="Strikethrough"><s>S</s></button>
+            <span class="gap"></span>
+            <button data-cmd="h1" title="Big heading">H1</button>
+            <button data-cmd="h2" title="Heading">H2</button>
+            <button data-cmd="h3" title="Small heading">H3</button>
+            <button data-cmd="h4" title="Section heading (shows in a case study's contents)">H4</button>
+            <span class="gap"></span>
+            <button data-cmd="quote" title="Quote">Quote</button>
+            <button data-cmd="bullets" title="Bulleted list">List</button>
+            <button data-cmd="numbers" title="Numbered list">1. List</button>
+            <span class="gap"></span>
+            <button id="link-btn" title="Link (⌘K)">Link</button>
+            <button id="image-btn" title="Add an image here">Image</button>
+            <button id="blocks-btn" title="Add metrics, columns, a gallery and more">Blocks…</button>
+            <button data-cmd="code" title="Inline code">Code</button>
+            <button data-cmd="rule" title="Divider">Line</button>
+            <span class="spacer"></span>
+            <button id="mode-btn" title="Switch between formatted text and raw markdown">Show markdown</button>
+          </div>
+          <div class="paper" id="paper"></div>
+        </div>
+
+        <div class="view scroll" id="view-site" hidden></div>
+        <div class="view scroll" id="view-images" hidden></div>
+      </section>
+
+      <div class="splitter" id="splitter" title="Drag to resize"></div>
+
+      <aside class="side" id="side">
+        <div class="tabs">
+          <button class="tab" data-tab="preview">Preview</button>
+          <button class="tab" data-tab="images">Images on this page</button>
+        </div>
+        <div class="pane" id="pane-preview">
+          <div class="preview-bar">
+            <button id="reload-btn">Reload</button>
+            <button id="phone-btn">Phone size</button>
+            <span class="url" id="preview-url"></span>
+            <span class="spacer"></span>
+            <span class="hint">drafts shown here</span>
+          </div>
+          <div class="preview-well" id="preview-well">
+            <iframe id="preview" title="Site preview"></iframe>
+          </div>
+        </div>
+        <div class="pane scroll" id="pane-images" hidden></div>
+      </aside>
+    </div>
+
+    <footer class="statusbar">
+      <span id="status-left"></span>
+      <span class="spacer"></span>
+      <span id="status-right"></span>
+    </footer>
+  </div>
+
+  <div id="modal-root"></div>
+  <input type="file" id="file-input" accept="image/*,video/mp4,video/webm,video/quicktime,.heic,.heif" multiple hidden>
+
+  <script src="fm.js"></script>
+  <script src="vendor/richtext.js"></script>
+  <script src="blocks.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

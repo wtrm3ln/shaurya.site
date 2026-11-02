@@ -1,0 +1,139 @@
+{
+  "name": "Shaurya singh",
+  "description": "Portfolio of Shaurya - Product Designer & Creative Technologist",
+  "home": {
+    "tagline": "Finding my place between beauty and practicality",
+    "subtitle": "Product Designer | Creative Technologist",
+    "role": "UX Design at [Wongdoody](https://www.wongdoody.com/)",
+    "intro": "I design and build software, and tinker with physical products. I believe in technology as a tool to empower people. If you have an interesting idea, get in touch.",
+    "workHeading": "work",
+    "filterLabel": "I want to see",
+    "filterAll": "everything",
+    "moreText": "Want to see more?",
+    "moreLink": "See what I'm tinkering on."
+  },
+  "writing": {
+    "tagline": "Design,tech and ideas",
+    "subtitle": "If you’re thinking without writing, you only think you’re thinking.",
+    "heading": "writing",
+    "intro": "I write about design, tech and anything I'm thinking about. This is an exercise in me understanding how things work."
+  },
+  "experimenting": {
+    "heading": "experimenting",
+    "intro": "More exploratory projects — small bets and curiosities."
+  },
+  "nav": {
+    "main": [
+      {
+        "label": "working",
+        "url": "/"
+      },
+      {
+        "label": "writing",
+        "url": "/writing/"
+      }
+    ],
+    "right": [
+      {
+        "label": "[ about me ]",
+        "url": "/about/"
+      },
+      {
+        "label": "[ resume ]",
+        "url": "/resume/"
+      }
+    ]
+  },
+  "footer": {
+    "heading": "creative techologist",
+    "columns": [
+      {
+        "title": "Site",
+        "links": [
+          {
+            "label": "Working",
+            "url": "/working"
+          },
+          {
+            "label": "Experimenting",
+            "url": "/experimenting"
+          },
+          {
+            "label": "Writing",
+            "url": "/writing"
+          },
+          {
+            "label": "About Me",
+            "url": "/about"
+          },
+          {
+            "label": "Resume",
+            "url": "/resume"
+          }
+        ]
+      },
+      {
+        "title": "Connect",
+        "links": [
+          {
+            "label": "Reach Out",
+            "url": "/contact"
+          },
+          {
+            "label": "Twitter",
+            "url": "https://x.com/shauryasdk"
+          },
+          {
+            "label": "GitHub",
+            "url": "https://github.com/m3lnn"
+          },
+          {
+            "label": "LinkedIn",
+            "url": "https://www.linkedin.com/in/probablyshaurya/"
+          }
+        ]
+      },
+      {
+        "title": "Tools",
+        "links": [
+          {
+            "label": "Tech Stack",
+            "url": "/tech"
+          },
+          {
+            "label": "Design Stack",
+            "url": "/design"
+          },
+          {
+            "label": "Style Stack",
+            "url": "/style"
+          },
+          {
+            "label": "My Workshop",
+            "url": "/workshop"
+          },
+          {
+            "label": "My Workstation",
+            "url": "/workstation"
+          }
+        ]
+      },
+      {
+        "title": "Fun",
+        "links": [
+          {
+            "label": "What I'm Doing Now",
+            "url": "/now"
+          },
+          {
+            "label": "Recommendations",
+            "url": "/recommendations"
+          }
+        ]
+      }
+    ],
+    "copyright": "Shaurya",
+    "bottomLabel": "About this site",
+    "bottomUrl": "/site"
+  }
+}

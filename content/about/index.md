@@ -14,4 +14,8 @@ I'm a Software Designer and Creative Technologist currently working as a UX Lead
 
 I studied Product Design at Indian School of Design and Innovation
 
+## Paintings
+
+{{< paintings >}}
+
 </div>

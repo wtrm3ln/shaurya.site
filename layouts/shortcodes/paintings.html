@@ -1,0 +1,9 @@
+{{/* Grid of every image in the page's paintings/ folder. Add or remove a
+     painting by adding or removing a file there. */}}
+{{ with .Page.Resources.Match "paintings/*" }}
+<div class="paintings">
+    {{ range . }}
+    <img src="{{ .RelPermalink }}" alt="A painting by {{ site.Data.site.name }}" loading="lazy">
+    {{ end }}
+</div>
+{{ end }}

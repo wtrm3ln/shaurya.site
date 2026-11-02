@@ -361,6 +361,13 @@ hr {
   max-width: 550px;
 }
 
+.paintings {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1em;
+  margin: 1em 0;
+}
+
 /* ==========================================
 HEADER
 ========================================== */

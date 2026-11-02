@@ -1,52 +1,24 @@
+{{ $footer := .Site.Data.site.footer }}
 <footer>
-    <div class="footer-head"{{ with .Params.bgColor }} style="color: {{ . }};"{{ end }}>creative techologist</div>
-    
+    <div class="footer-head"{{ with .Params.bgColor }} style="color: {{ . }};"{{ end }}>{{ $footer.heading }}</div>
+
     <div class="footer-content">
+        {{ range $footer.columns }}
         <div class="footer-column">
-            <h4>Site</h4>
+            <h4>{{ .title }}</h4>
             <ul>
-                <li><a href="/working">Working</a></li>
-                <li><a href="/experimenting">Experimenting</a></li>
-                <li><a href="/painting">Painting</a></li>
-                <li><a href="/writing">Writing</a></li>
-                <li><a href="/about">About Me</a></li>
-                <li><a href="/resume">Resume</a></li>
+                {{ range .links }}
+                <li><a href="{{ .url }}">{{ .label }}</a></li>
+                {{ end }}
             </ul>
         </div>
 
-        <div class="footer-column">
-            <h4>Connect</h4>
-            <ul>
-                <li><a href="/contact">Reach Out</a></li>
-                <li><a href="https://x.com/shauryasdk">Twitter</a></li>
-                <li><a href="https://github.com/m3lnn">GitHub</a></li>
-                <li><a href="https://www.linkedin.com/in/probablyshaurya/">LinkedIn</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-column">
-            <h4>Tools</h4>
-            <ul>
-                <li><a href="/tech">Tech Stack</a></li>
-                <li><a href="/design">Design Stack</a></li>
-                <li><a href="/style">Style Stack</a></li>
-                <li><a href="/workshop">My Workshop</a></li>
-                <li><a href="/workstation">My Workstation</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-column">
-            <h4>Fun</h4>
-            <ul>
-                <li><a href="/now">What I'm Doing Now</a></li>
-                <li><a href="/recommendations">Recommendations</a></li>
-            </ul>
-        </div>
+        {{ end }}
     </div>
 
     <div class="footer-bottom">
-        <span>&copy; {{ now.Year }} Shaurya</span>
-        <a href="/site">About this site</a>
+        <span>&copy; {{ now.Year }} {{ $footer.copyright }}</span>
+        <a href="{{ $footer.bottomUrl }}">{{ $footer.bottomLabel }}</a>
     </div>
     <p class="light-text">
         Last updated on {{ now.Format "January 02, 2006" }}

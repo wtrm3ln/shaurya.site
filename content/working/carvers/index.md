@@ -52,7 +52,7 @@ This project was my introduction to the UX design process. I followed a very sta
 
 ### What are the current infotainment systems and what do they offer?
 
-![Research Picture 1](working/carvers/images/research9.jpg)
+![Research Picture 1](images/research9.jpg)
 
 To kick off the project, I began by understanding and categorizing existing infotainment systems:
 
@@ -72,7 +72,7 @@ To kick off the project, I began by understanding and categorizing existing info
 
 {{< 2col-reverse >}}
   {{< col >}}
-![AAOS platform research](working/carvers/images/research11.jpg)
+![AAOS platform research](images/research11.jpg)
   {{< /col >}}
   {{< col >}}
 
@@ -94,7 +94,7 @@ To do this, I studied the existing infotainment systems and the features. I cate
 3.  Uncommon features: These were the features found in luxury car systems like the Porsche Communication Management (PCM) and MBUX OS. Features like predictive maintainance, ADAS, biometric authentication, driver profiles, AR navigation and in-car entertainment were already produced or in development.
     
 
-![Research Picture 2](working/carvers/images/research10.jpg)
+![Research Picture 2](images/research10.jpg)
 
 With this understanding, user research was conducted to undestand the pains and gains of car buyers, especially those in the luxury segment who expect the best performance and features from their vehicles and are able to pay for them.
 
@@ -104,7 +104,7 @@ With this understanding, user research was conducted to undestand the pains and 
 
 I (along with a teammate working on a similar project for economical cars) surveyed 55 car owners across the spectrum. The goal was to understand the features that users interacted with the most while driving and the pain points in their driving experience.
 
-![Research Picture 4](working/carvers/images/research11.jpg)
+![Research Picture 4](images/research11.jpg)
 
 Due to limited resourses, I was not able to conduct more extensive user research with dealerships and high end car buyers. Online user data (Netnography) was a substitute tool that allowed me to understand user sentiments and pains of this segment.
 
@@ -125,7 +125,7 @@ The research provided valuable insights into the driving experiences and prefere
 
 A major sentiment discovered online was how users preferred tactile control systems and simple infotainment system. This raises the question; why are car makers investing so heavily in digital interfaces when many users demanded tactile control over their cars?
 
-![Research Picture 5](working/carvers/images/research12.jpg)
+![Research Picture 5](images/research12.jpg)
 
 This was because digital infotainment systems were much easy to manufacture, assemble, repair and replace in cars compared to tactile switches that need to be individually designed and manufactured. Revamping the driving experience also becomes easier with a digital infotainment system compared to physical dials where new moulds would need to be made for any changes.
 
@@ -159,27 +159,27 @@ The results of user research were distilled into user personas and empathy maps,
 - Wants productivity without compromising safety
 {{< /persona >}}
 
-![Research 2 Picture 1](working/carvers/images/research1.jpg)
+![Research 2 Picture 1](images/research1.jpg)
 
 The user journeys built for the personas helped to reveal points of intervention and opportunities.
 
-![Research 2 Picture 3](working/carvers/images/research3.jpg)
+![Research 2 Picture 3](images/research3.jpg)
 
 With a comprihensive understanding of the experience, and a list of potential opportunities to the pain points in the processes, I got to ideating my system and its features. For this, I designed a custom tool to help me gain deeper insights and a wider range of ideas.
 
-![Research 2 Picture 5](working/carvers/images/research5.jpg)
+![Research 2 Picture 5](images/research5.jpg)
 
-![Research 2 Picture 4](working/carvers/images/research4.jpg)
+![Research 2 Picture 4](images/research4.jpg)
 
 The ideation process led to the final concept, and I developed user flows to integrate the proposed design interventions into the driving experience.
 
-![Research 2 Picture 6](working/carvers/images/research6.jpg)
+![Research 2 Picture 6](images/research6.jpg)
 
-![Research 2 Picture 7](working/carvers/images/research7.jpg)
+![Research 2 Picture 7](images/research7.jpg)
 
 The user flows allowed me to build an information archetecture that covered the entire infotainment system and its offerings.
 
-![Research 2 Picture 8](working/carvers/images/research8.jpg)
+![Research 2 Picture 8](images/research8.jpg)
 
 #### User Interface development
 
@@ -187,9 +187,9 @@ The user flows allowed me to build an information archetecture that covered the 
 
 Guided by the information architecture, I began with low-fidelity sketches on paper to ideate the interface's look and feel. The wireframes illustrate the UI concept, incorporating various grid layouts that adapt based on the driver’s speed and concentration levels. The design aims to be efficient, facilitating multitasking while minimizing cognitive load.
 
-![Design 2](working/carvers/images/Design2.jpg)
+![Design 2](images/Design2.jpg)
 
-![Design 3](working/carvers/images/Design3.jpg)
+![Design 3](images/Design3.jpg)
 
 ### 53% of surveyed drivers reported boredom or monotonous driving during their commutes.
 
@@ -205,7 +205,7 @@ To start the design process, I began by creating a moodboard with the help of a 
 
 > The visual appeal is crucial in the automobile space, significantly influencing buyers' purchase decisions. Hence, I focused heavily on the style and appearance of the interface, striving for an elegant yet contemporary design that aligns with the concept of a new and smarter infotainment system.
 
-![Design 5](working/carvers/images/Design5.jpg)
+![Design 5](images/Design5.jpg)
 
 -   **Typography:** I used a simple San-Serif typeface to ensure readability and complimented it with two fonts that brought character and appeal.
     
@@ -216,20 +216,20 @@ To start the design process, I began by creating a moodboard with the help of a 
 
 I created various reusable and responsive components for my design keeping both my colour schemes in mind. I see this as the beginnings of a design system for AAOS powerd infotainment systems.
 
-![Design 6](working/carvers/images/Design6.jpg)
+![Design 6](images/Design6.jpg)
 
 #### Final Design
 
 The final interface design incorporates a selection of features from the information architecture, focusing primarily on ride optimization. This segment of the system addresses key aspects such as navigation, ride start, and driving assistance, all aimed at enhancing the overall driving experience.
 
 {{< gallery >}}
-![Final design 1](working/carvers/images/final1.jpg)
-![Final design 2](working/carvers/images/final2.jpg)
+![Final design 1](images/final1.jpg)
+![Final design 2](images/final2.jpg)
 {{< /gallery >}}
 
 {{< gallery >}}
-![Final design 3](working/carvers/images/final3.jpg)
-![Final design 4](working/carvers/images/final4.jpg)
+![Final design 3](images/final3.jpg)
+![Final design 4](images/final4.jpg)
 {{< /gallery >}}
 
 {{< 2col >}}
@@ -240,7 +240,7 @@ The final interface design incorporates a selection of features from the informa
   {{< /col >}}
   {{< col >}}
 
-  ![undefined media 1](working/carvers/images/Feature_1.jpg)
+  ![undefined media 1](images/Feature_1.jpg)
 
 
   {{< /col >}}
@@ -249,7 +249,7 @@ The final interface design incorporates a selection of features from the informa
 
 {{< 2col >}}
   {{< col >}}
-  ![undefined media 1](working/carvers/images/Feature_2.jpg)
+  ![undefined media 1](images/Feature_2.jpg)
   {{< /col >}}
   {{< col >}}
 
@@ -272,7 +272,7 @@ Providing a dark mode is not only makes the design more accessible but is also a
 Google's AAOS allows vehicles to come with a play store and the option to install various apps configured for infotainment systems. The design includes app libraries in multiple layouts to ensure easy switching and easy navigation when required.
 
 
-![undefined media 1](working/carvers/images/Feature_3.jpg)
+![undefined media 1](images/Feature_3.jpg)
 
 #### Reflection
 

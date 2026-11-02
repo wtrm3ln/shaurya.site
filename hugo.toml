@@ -3,13 +3,6 @@ languageCode = 'en-us'
 title = 'working'
 enableGitInfo = true
 
-[params]
-  authorName = "Shaurya singh"
-  tagline = "Finding my place between beauty and practicality"
-  subtitle = "Product Designer | Creative Technologist"
-  currentRole = "UX Design at [Wongdoody](https://www.wongdoody.com/)"
-  description = "Portfolio of Shaurya - Product Designer & Creative Technologist"
-
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
@@ -20,5 +13,5 @@ enableGitInfo = true
     ordered = false
 
 [outputs]
-  section = ["HTML", "JSON"]
+  section = ["HTML"]
   home = ["HTML"]

@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> {{ .Title }} </title>
-    <meta name="description" content="{{ .Description | default .Site.Params.description }}">
-    
+    <meta name="description" content="{{ .Description | default .Site.Data.site.description }}">
+
 
     {{ $favicon := "assets/default.png" }}
 
     {{ if or (in .Permalink "/writing/") (eq .Section "writing") }}
     {{ $favicon = "assets/text.png" }}
-    {{ else if or (in .Permalink "/painting/") (eq .Section "painting") }}
-    {{ $favicon = "assets/click.png" }}
     {{ end }}
 
     <link rel="icon" href="{{ $favicon | relURL }}" type="image/png">
@@ -52,14 +50,15 @@
         <div id="navSentinel"></div>
         <div class="navigation">
             <div class="navigation-center">
-                <a href="{{ "/" | relURL }}" class="{{ if eq .RelPermalink "/" }}active{{ end }}">working</a>
-                <a href="{{ "/writing/" | relURL }}" class="{{ if eq .RelPermalink "/writing/" }}active{{ end }}">writing</a>
-                <a href="{{ "/painting/" | relURL }}" class="{{ if eq .RelPermalink "/painting/" }}active{{ end }}">painting</a>
+                {{ range .Site.Data.site.nav.main }}
+                <a href="{{ .url | relURL }}" class="{{ if eq $.RelPermalink .url }}active{{ end }}">{{ .label }}</a>
+                {{ end }}
             </div>
-            
+
             <div class="navigation-right" style="position: absolute; right: 10px;">
-                <a href="{{ "/about/" | relURL }}" class="{{ if eq .RelPermalink "/about/" }}active{{ end }}" data-expand="true">[ about me ]</a>
-                <a href="{{ "/resume/" | relURL }}" class="{{ if eq .RelPermalink "/resume/" }}active{{ end }}" data-expand="true">[ resume ]</a>
+                {{ range .Site.Data.site.nav.right }}
+                <a href="{{ .url | relURL }}" class="{{ if eq $.RelPermalink .url }}active{{ end }}" data-expand="true">{{ .label }}</a>
+                {{ end }}
             </div>
         </div>
 

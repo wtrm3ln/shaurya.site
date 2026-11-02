@@ -1,0 +1,17 @@
+{
+  "name": "portfolio-editor",
+  "private": true,
+  "description": "Only needed to rebuild web/vendor/richtext.js. The app itself runs with no dependencies.",
+  "scripts": {
+    "build": "esbuild src/richtext.js --bundle --minify --format=iife --global-name=RichText --target=safari16 --outfile=web/vendor/richtext.js"
+  },
+  "devDependencies": {
+    "@codemirror/commands": "6.8.1",
+    "@codemirror/lang-markdown": "6.3.2",
+    "@codemirror/language": "6.11.0",
+    "@codemirror/state": "6.5.2",
+    "@codemirror/view": "6.36.8",
+    "@lezer/highlight": "1.2.1",
+    "esbuild": "0.25.5"
+  }
+}

@@ -13,9 +13,11 @@ const basePadding = 40;
 const maxPadding = 120;
 const threshold = 80;
 
+// Columns are fixed; the cell size follows from the width so every pixel is a
+// square, and the row count follows from the (max) header height.
 const gridWidth = 100;
-const gridHeight = 30;
-const totalPixels = gridWidth * gridHeight;
+let gridHeight = 30;
+let totalPixels = gridWidth * gridHeight;
 
 const colorSets = [
     ['#FF6542', '#393939'],
@@ -97,21 +99,36 @@ function measureCanvas() {
         canvas.width = w;
         canvas.height = maxH;
     }
+    // Show the bitmap 1:1 (not stretched to the header's height) so the square
+    // cells stay square; the header clips whatever hangs below it.
+    canvas.style.height = `${canvas.height}px`;
+
+    const cell = canvas.width / gridWidth;
+    const rows = Math.ceil(canvas.height / cell);
+    if (rows !== gridHeight) {
+        gridHeight = rows;
+        totalPixels = gridWidth * gridHeight;
+        initPixels();
+    }
 }
 
 function drawPixels() {
-    const pixelWidth = Math.ceil(canvas.width / gridWidth);
-    const pixelHeight = Math.ceil(canvas.height / gridHeight);
+    const cell = canvas.width / gridWidth;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (let i = 0; i < totalPixels; i++) {
-        const x = Math.floor((i % gridWidth) * (canvas.width / gridWidth));
-        const y = Math.floor(Math.floor(i / gridWidth) * (canvas.height / gridHeight));
+        const col = i % gridWidth;
+        const row = Math.floor(i / gridWidth);
+        // Snap edges to whole pixels; adjacent cells share an edge so no gaps.
+        const x = Math.floor(col * cell);
+        const y = Math.floor(row * cell);
+        const w = Math.floor((col + 1) * cell) - x;
+        const h = Math.floor((row + 1) * cell) - y;
 
         const colorIndex = pixelStates[i] === 0 ? currentSetIndex : nextSetIndex;
         ctx.fillStyle = colorSets[colorIndex][0];
-        ctx.fillRect(x, y, pixelWidth, pixelHeight);
+        ctx.fillRect(x, y, w, h);
     }
 }
 
@@ -199,8 +216,8 @@ function handlePullEnd() {
 }
 
 // Initialize
-initPixels();
 measureCanvas();
+initPixels();
 applyThemeColors();
 scheduleRender();
 window.addEventListener('resize', () => {

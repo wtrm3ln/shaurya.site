@@ -5,7 +5,7 @@
     "tagline": "Finding my place between beauty and practicality",
     "subtitle": "Product Designer | Creative Technologist",
     "role": "UX Design at [Wongdoody](https://www.wongdoody.com/)",
-    "intro": "I design and build software, and tinker with physical products. I believe in technology as a tool to empower people. If you have an interesting idea, get in touch.",
+    "intro": "I design and build complicated software. Drawn to simplicity, craft and first-principles thinking.",
     "workHeading": "work",
     "filterLabel": "I want to see",
     "filterAll": "everything",
@@ -37,10 +37,6 @@
       {
         "label": "[ about me ]",
         "url": "/about/"
-      },
-      {
-        "label": "[ resume ]",
-        "url": "/resume/"
       }
     ]
   },
@@ -89,7 +85,7 @@
           },
           {
             "label": "LinkedIn",
-            "url": "https://www.linkedin.com/in/probablyshaurya/"
+            "url": "https://www.linkedin.com/in/ssdkr"
           }
         ]
       },
@@ -115,19 +111,6 @@
           {
             "label": "My Workstation",
             "url": "/workstation"
-          }
-        ]
-      },
-      {
-        "title": "Fun",
-        "links": [
-          {
-            "label": "What I'm Doing Now",
-            "url": "/now"
-          },
-          {
-            "label": "Recommendations",
-            "url": "/recommendations"
           }
         ]
       }

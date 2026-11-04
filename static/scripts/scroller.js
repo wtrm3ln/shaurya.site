@@ -14,9 +14,10 @@ const basePadding = 40;
 const maxPadding = 120;
 const threshold = 80;
 
-// Columns are fixed; the cell size follows from the width so every pixel is a
-// square, and the row count follows from the (max) header height.
-const gridWidth = 100;
+// Every pixel is a square of the same size on any screen; wider/taller
+// viewports just get more columns/rows.
+const cellSize = 10;
+let gridWidth = 100;
 let gridHeight = 30;
 let totalPixels = gridWidth * gridHeight;
 
@@ -116,9 +117,10 @@ function measureCanvas() {
     canvas.style.width = `${canvas.width}px`;
     canvas.style.height = `${canvas.height}px`;
 
-    const cell = canvas.width / gridWidth;
-    const rows = Math.ceil(canvas.height / cell);
-    if (rows !== gridHeight) {
+    const cols = Math.ceil(canvas.width / cellSize);
+    const rows = Math.ceil(canvas.height / cellSize);
+    if (cols !== gridWidth || rows !== gridHeight) {
+        gridWidth = cols;
         gridHeight = rows;
         totalPixels = gridWidth * gridHeight;
         initPixels();
@@ -126,7 +128,7 @@ function measureCanvas() {
 }
 
 function drawPixels() {
-    const cell = canvas.width / gridWidth;
+    const cell = cellSize;
 
     // Paint everything in the current colour, then only the cells that have
     // already flipped in the next one (most frames flip few or none).
@@ -177,7 +179,7 @@ function updatePixels(progress) {
 // bottom edge trails the pull — reading it (rather than predicting it) keeps
 // the page beside the white card from flipping early.
 function computePixelStates(headerBottom) {
-    const cell = canvas.width / gridWidth;
+    const cell = cellSize;
     const headerRows = headerBottom / cell;
     const bgThreshold = bgProgress(pullProgress);
 

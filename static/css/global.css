@@ -485,13 +485,16 @@ html.is-page-fading .main-content > *:not(.navigation) {
 
 }
 
+/* Covers the whole viewport behind all content. scroller.js sets the exact
+   pixel size so the square cells stay square. */
 .pixel-canvas {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: -1;
+    pointer-events: none;
 }
 
 

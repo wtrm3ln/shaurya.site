@@ -42,6 +42,11 @@
      {{ block "page-head" . }}{{ end }}
 </head>
 <body>
+    <!-- Full-page pixel background. Lives directly under <body> (not inside
+         the header) so the header and everything below it share one canvas
+         and always change colour together. Only scroller.js draws to it. -->
+    <canvas class="pixel-canvas" id="pixelCanvas"></canvas>
+
     <header class="header-content">
         {{ block "header-content" . }}{{ end }}
     </header>

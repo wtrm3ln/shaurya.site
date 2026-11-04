@@ -2,6 +2,7 @@ const mainHeader = document.getElementById('mainHeader');
 const canvas = document.getElementById('pixelCanvas');
 const content = document.getElementById('content');
 const heading = document.getElementById('heading');
+const headerEl = document.querySelector('.header-content');
 const body = document.body;
 
 // This effect only fully exists on pages that have the pixel header.
@@ -40,6 +41,8 @@ const headings = [
 
 let pixelStates = [];
 let pixelOrder = [];
+let pixelRank = [];     // each cell's place (0..1) in the random flip order
+let pullProgress = 0;   // 0..1, how far the current pull is toward max
 let startY = 0;
 let currentPull = 0;
 let reachedThreshold = false;
@@ -65,6 +68,11 @@ function initPixels() {
         const j = Math.floor(Math.random() * (i + 1));
         [pixelOrder[i], pixelOrder[j]] = [pixelOrder[j], pixelOrder[i]];
     }
+
+    pixelRank = new Array(totalPixels);
+    for (let k = 0; k < totalPixels; k++) {
+        pixelRank[pixelOrder[k]] = k / totalPixels;
+    }
 }
 
 
@@ -86,21 +94,26 @@ function getRandomIndex(currentIndex, arrayLength) {
     return newIndex;
 }
 
-// Size the canvas bitmap to the header's *maximum* height (fully pulled) so it
-// never has to be reallocated while the pull is in flight — reassigning
-// canvas.width/height is the expensive op Safari can't do every frame. The
-// grid is full-bleed and CSS stretches the canvas to fit, so the bitmap being
-// slightly taller than the resting header is invisible. Reads layout, so it
-// only runs at gesture start / on resize — never inside the per-frame render.
+// The canvas is the whole page background: a fixed, viewport-sized layer
+// behind the header, the white card and the footer. Because it is one surface,
+// every part of the page dissolves to the new colour together.
+//
+// Size the bitmap to the viewport so it never has to be reallocated while the
+// pull is in flight — reassigning canvas.width/height is the expensive op
+// Safari can't do every frame. Reads layout, so it only runs at gesture start
+// / on resize — never inside the per-frame render.
 function measureCanvas() {
-    const w = mainHeader.offsetWidth;
-    const maxH = mainHeader.offsetHeight + (maxPadding - basePadding) * 2;
-    if (canvas.width !== w || canvas.height < maxH) {
+    const w = document.documentElement.clientWidth;
+    const h = window.innerHeight;
+    // A zero-sized viewport (hidden tab / not laid out yet) would make the
+    // cell size 0 and the row count infinite; wait for the next resize.
+    if (!w || !h) return;
+    if (canvas.width !== w || canvas.height < h) {
         canvas.width = w;
-        canvas.height = maxH;
+        canvas.height = Math.max(h, canvas.height);
     }
-    // Show the bitmap 1:1 (not stretched to the header's height) so the square
-    // cells stay square; the header clips whatever hangs below it.
+    // Show the bitmap 1:1 so the square cells stay square.
+    canvas.style.width = `${canvas.width}px`;
     canvas.style.height = `${canvas.height}px`;
 
     const cell = canvas.width / gridWidth;
@@ -115,9 +128,14 @@ function measureCanvas() {
 function drawPixels() {
     const cell = canvas.width / gridWidth;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Paint everything in the current colour, then only the cells that have
+    // already flipped in the next one (most frames flip few or none).
+    ctx.fillStyle = colorSets[currentSetIndex][0];
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = colorSets[nextSetIndex][0];
 
     for (let i = 0; i < totalPixels; i++) {
+        if (pixelStates[i] === 0) continue;
         const col = i % gridWidth;
         const row = Math.floor(i / gridWidth);
         // Snap edges to whole pixels; adjacent cells share an edge so no gaps.
@@ -126,26 +144,47 @@ function drawPixels() {
         const w = Math.floor((col + 1) * cell) - x;
         const h = Math.floor((row + 1) * cell) - y;
 
-        const colorIndex = pixelStates[i] === 0 ? currentSetIndex : nextSetIndex;
-        ctx.fillStyle = colorSets[colorIndex][0];
         ctx.fillRect(x, y, w, h);
     }
 }
 
 
-// Pure state update — no layout reads, no drawing. The actual paint happens
-// once per frame in render().
-function updatePixels(progress) {
-    const pixelsToTurn = Math.floor(progress * totalPixels);
+// The header dissolves first, in step with the pull. The rest of the page
+// holds off until the pull is bgStart of the way to max, then follows with an
+// accelerating curve (slow at first, then fast) so it lands fully flipped at
+// the same moment the pull maxes out.
+const bgStart = 0.8;
+const bgCurve = 5;
 
-    pixelStates.fill(0);
-    for (let i = 0; i < pixelsToTurn; i++) {
-        pixelStates[pixelOrder[i]] = 1;
-    }
+function bgProgress(progress) {
+    if (progress <= bgStart) return 0;
+    const t = (progress - bgStart) / (1 - bgStart);
+    return (Math.exp(bgCurve * t) - 1) / (Math.exp(bgCurve) - 1);
+}
+
+// Records how far the pull is; the cells are worked out in render(), where the
+// header's real (still easing open) bottom edge can be read once per frame.
+function updatePixels(progress) {
+    pullProgress = progress;
 
     // Switch text color at 50% progress
     const textColorIndex = progress > 0.5 ? nextSetIndex : currentSetIndex;
     content.style.color = colorSets[textColorIndex][1];
+}
+
+// Which cells have flipped: header cells follow the pull, the rest of the page
+// follows bgProgress. The header's padding eases open over 400ms, so its real
+// bottom edge trails the pull — reading it (rather than predicting it) keeps
+// the page beside the white card from flipping early.
+function computePixelStates(headerBottom) {
+    const cell = canvas.width / gridWidth;
+    const headerRows = headerBottom / cell;
+    const bgThreshold = bgProgress(pullProgress);
+
+    for (let i = 0; i < totalPixels; i++) {
+        const inHeader = Math.floor(i / gridWidth) < headerRows;
+        pixelStates[i] = pixelRank[i] < (inHeader ? pullProgress : bgThreshold) ? 1 : 0;
+    }
 }
 
 function scheduleRender() {
@@ -159,6 +198,8 @@ function scheduleRender() {
 // canvas draw. Batched writes mean at most one layout/paint per frame.
 function render() {
     rafPending = false;
+    // Read before the padding writes below so it never forces a layout.
+    computePixelStates(headerEl.getBoundingClientRect().bottom);
     const newPadding = basePadding + currentPull;
     mainHeader.style.paddingTop = `${newPadding}px`;
     mainHeader.style.paddingBottom = `${newPadding}px`;
@@ -204,7 +245,7 @@ function handlePullEnd() {
     }
 
     reachedThreshold = false;
-    pixelStates.fill(0);
+    pullProgress = 0;
 
     // Commits the new colour (currentSetIndex now === nextSetIndex), or restores
     // the old one if the pull was released before reaching max.

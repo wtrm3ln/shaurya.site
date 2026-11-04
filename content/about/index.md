@@ -12,29 +12,63 @@ I am a designer who likes messy things. I like untangling the strings, understan
 
 I like simplicity, craft, and thinking from first principles.
 
-## What I have done
+#### Now
 
-I lead design at Infosys, on their flagship AI platform. I work closely with engineers on technically complex products, under direct CTO oversight. I have designed and shipped:
+### Lead, User Experience at Infosys
+Since July 2025
 
-- **Topaz Fabric Modernisation**, an agentic platform that helps enterprises modernise legacy systems. It has saved thousands of developer hours, and cut timelines of big modernisation projects by up to 80%.
-- **Ambient Agents**, a suite to manage agents that pick up tasks on their own, with ways for humans to review and approve the critical stuff.
-- **Prompt Optimiser**, a tool to manage and refine the system prompts of enterprise agents.
+I lead design on Infosys's flagship AI platform, working closely with engineers under direct CTO oversight.
 
-I am also on the AI Centre of Excellence core committee, where I train our 300+ designers on AI. I ran 15+ sessions in my first year, and started a newsletter.
+**Topaz Fabric Modernisation.** An agentic platform that helps enterprises modernise legacy systems. It has saved thousands of developer hours and cut timelines by up to 80%.
 
-I am building Worren, a privacy focused personal app builder for iPhones. It is in App Store beta.
+**Ambient Agents.** A suite to manage agents that take up tasks on their own, with ways for humans to review and approve critical actions.
 
-Before this, I was a Designpreneur Fellow at TCS, embedded in an agri-waste startup. I lived on a farm for months, researching North India's stubble-burning crisis, mapping the whole ecosystem and talking to farmers. That turned into a low-cost compaction device a farmer can run themselves.
+**Prompt Optimiser.** A tool to manage and refine the system prompts of enterprise agents.
 
-I was the only designer at Yaatrip, a social travel startup, and helped them raise seed funding. I built Bloooom, a portfolio platform for design and engineering students. I designed it, then built it myself in Next.js and Supabase. It had 100 users before I shut it down in early 2025.
+### AI Centre of Excellence at Infosys
+Core committee member
 
-Earlier, I worked at a glass studio in Mumbai, designing lighting and glass products. Before that I was an intern at a marketing agency, making campaigns for brands like GreenLam, VH1 and Daikin.
+I train our 300+ designers on AI. I ran 15+ sessions in my first year and started a newsletter.
 
-## Background
+### Building [Worren](https://worren.world)
+Since January 2026
 
-I studied Product Design at Atlas Skilltech University, from 2021 to 2025.
+A privacy focused personal app builder for iPhones. In App Store beta.
 
-I like to get my hands dirty, and I can wear many hats. I enjoy building things because I like understanding how complicated systems work, and that leads me to the gaps I can fill.
+#### Before
+
+### Designpreneur Fellow at TCS
+Jan to May 2025
+
+I was embedded in an agri-waste startup, and lived on a farm to research North India's stubble-burning crisis. I mapped the whole ecosystem and spoke to farmers. That became a low-cost compaction device a farmer can run themselves.
+
+### Built [Bloooom](https://bloooom.vercel.app)
+May 2024 to 2025
+
+A portfolio platform for design and engineering students. I designed it and built it myself in Next.js and Supabase. It had 100 users before I shut it down in early 2025.
+
+### Junior Product Designer at Yaatrip
+June to September 2024
+
+I was the only designer at a social travel startup. I owned the core product flows, the website and the fundraising decks, and helped them raise seed funding.
+
+### Industrial Design Intern at Rural Modern Glass Studio
+May to July 2023
+
+Designed lighting, architectural and glass products in Mumbai, and managed studio production.
+
+### Art Intern at MRM/McCann
+May to July 2022
+
+Marketing campaigns for GreenLam, VH1, Daikin and Glance.
+
+#### Education
+
+### Bachelor of Design, Product Design
+Atlas Skilltech University, 2021 to 2025
+
+
+Say hi - [LinkedIn](https://linkedin.com/in/ssdkr/) · [Email](mailto:shauryasinghdkr@gmail.com)
 
 ## Paintings
 

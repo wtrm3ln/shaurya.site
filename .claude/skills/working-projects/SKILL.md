@@ -1,6 +1,6 @@
 ---
 name: working-projects
-description: How to add or edit a project on the /working page — the three project kinds (case study, external link, NDA), every configurable front-matter field, ordering, the NDA modal, and the hover-cursor/message system. Use whenever adding a new project, changing how one behaves on click, editing the NDA modal, or touching project card hover states.
+description: How to add or edit a project on the /working page — the three project kinds (case study, external link, NDA), every configurable front-matter field, ordering, and the NDA modal. Use whenever adding a new project, changing how one behaves on click, editing the NDA modal, or touching project card hover states.
 ---
 
 # Adding a project to /working
@@ -21,11 +21,11 @@ aren't in it yet) — this doc is the source of truth.
 `type` decides how the card behaves when clicked **and** which Hugo template
 renders its permalink page, if any:
 
-| `type` | click behavior | cursor default | renders a page? |
-|---|---|---|---|
-| `case-study` | navigates to the project's own page | `click` | yes — `layouts/case-study/single.html` |
-| `external` | opens `externalurl` in a new tab | `external` | **no** |
-| `nda` | opens the shared NDA modal | `nda` | **no** |
+| `type` | click behavior | renders a page? |
+|---|---|---|
+| `case-study` | navigates to the project's own page | yes — `layouts/case-study/single.html` |
+| `external` | opens `externalurl` in a new tab | **no** |
+| `nda` | opens the shared NDA modal | **no** |
 
 Only `case-study` has a matching single-page template. `external` and `nda`
 projects have no `layouts/<type>/single.html`, no `layouts/working/single.html`,
@@ -54,10 +54,7 @@ cover: image.png           # relative to this bundle; used on the card AND
 
 type: "case-study"         # case-study | external | nda
 
-# --- hover cursor + message (optional, apply to any type) ---
-cursor: "click"            # click | external | nda — overrides the type default
 span: "full"               # optional; full = full-width card (smaller image left, text right). Omit for a half-width card
-messages: "take a look"    # single string, or a YAML list to cycle (see below)
 
 # --- only used when type = external ---
 externalurl: "https://example.com"
@@ -206,33 +203,12 @@ it stays visible over the cover image or the white body.
 Controller script: the inline `<script>` at the bottom of `layouts/index.html`
 (`open()`/`close()`, Escape key, backdrop click, focus return on close).
 
-## Hover cursor + message (any type, any link)
+## Hover cursor + message
 
-Independent of the project system — works on any element, anywhere:
-
-```html
-<a href="…" data-cursor="external" data-label="opens in a new tab">…</a>
-```
-
-- **`data-cursor`**: `click` | `external` | `nda` — swaps the OS pointer for
-  one of the three custom SVGs in `static/assets/`. Auto-defaults to
-  `external` for any `a[target="_blank"]`/`a.external`; an explicit
-  `data-cursor` always wins.
-- **`data-label`**: the message that rides next to the cursor on hover,
-  animated in with GSAP SplitText (stagger rise from below, then a perpetual
-  small wave). No attribute → no message; this is opt-in only, there's no
-  default text anywhere.
-- Multiple messages: make `data-label` a JSON array. The label cycles to the
-  next message every **3 seconds** (`CYCLE_MS` in `cursor-label.js`), replaying
-  the same stagger each time, for as long as the element stays hovered.
-
-On a project card, set `cursor:`/`messages:` in front matter — `layouts/index.html`
-turns those into `data-cursor`/`data-label` on the `.project-card` (a YAML
-list under `messages:` becomes the JSON array automatically).
-
-Text is white with `mix-blend-mode: difference`, so it reads over any
-background. GSAP + SplitText are self-hosted (`static/scripts/gsap.min.js`,
-`SplitText.min.js`) — no CDN dependency.
+Removed. The site uses the normal browser cursor everywhere; there are no
+custom cursor images, no `data-cursor`/`data-label` attributes and no
+following hover label. `cursor:` and `messages:` in a project's front matter
+are ignored.
 
 ## File map
 
@@ -245,17 +221,9 @@ background. GSAP + SplitText are self-hosted (`static/scripts/gsap.min.js`,
 | `layouts/shortcodes/*.html` | case-study content shortcodes (see section above) |
 | `static/css/content.css` | case-study page styles (hero, intro, `taggrid`) + `CASE-STUDY SHORTCODE COMPONENTS` (`cs-*`) |
 | `static/css/working.css` | card grid styles + NDA modal styles |
-| `static/css/global.css` | `CURSORS` + `CURSOR LABEL` sections |
-| `static/scripts/cursor-label.js` | hover-label controller (follow, stagger, cycling) |
-| `static/scripts/gsap.min.js`, `SplitText.min.js` | self-hosted GSAP + plugin |
-| `static/assets/{click,external,nda}.svg` | cursor images |
 
 ## Gotchas
 
-- **`gsap.killTweensOf(label)` without a property filter** kills the
-  `quickTo` x/y follow tweens along with whatever you meant to cancel, and the
-  label freezes in place instead of tracking the cursor. Always scope it, e.g.
-  `killTweensOf(label, 'opacity')`.
 - **`external`/`nda` projects render no page.** Don't add body content or link
   to `/working/<slug>/` expecting it to resolve for those types — only
   `case-study` gets a permalink.
@@ -271,9 +239,6 @@ background. GSAP + SplitText are self-hosted (`static/scripts/gsap.min.js`,
 Use the `hugo-pinned` launch config (port 1399, fixed — avoids the autoPort
 mismatch the default `hugo` config can hit with the preview tools). Useful
 checks in devtools:
-- `getComputedStyle(el).cursor` should end in the right `assets/*.svg` path
-- `document.getElementById('cursorLabel').textContent` after dispatching a
-  `mouseover` shows the current message
 - `document.documentElement.clientWidth`/`clientHeight` are more reliable than
   `window.innerWidth`/`innerHeight` in this preview tooling, which has
   sometimes reported 0 for the latter right after a reload.

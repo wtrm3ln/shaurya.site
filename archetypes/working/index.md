@@ -11,15 +11,6 @@ description: ""
 #   external   → opens `externalurl` in a new tab (live site)
 #   nda        → opens a modal with the info below (for NDA work)
 type: "case-study"
-# Cursor shown on hover. Defaults by type (case-study→click, external→external,
-# nda→nda). Override with one of: click | external | nda
-# cursor: "click"
-# Message(s) that ride with the cursor on hover. One string, or a list to cycle
-# through (each shown for 5s). Omit entirely for no message.
-# messages: "take a look"
-# messages:
-#   - "take a look"
-#   - "3 min read"
 # Only used when type = external:
 externalurl: ""
 # Only used when type = nda:

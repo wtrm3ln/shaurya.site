@@ -141,9 +141,6 @@
         <div class="case-study-main">
             <section class="case-study-intro">
                 <p class="project-name">{{ .Title }}</p>
-                {{ with .Params.Description }}
-                <h1>{{ . }}</h1>
-                {{ end }}
 
                 {{/* Tag grid: an array of {title, value} objects in front matter
                      (key: `taggrid`). Rendered as white 3D tags in a 4-col grid. */}}

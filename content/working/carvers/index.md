@@ -25,12 +25,6 @@ taggrid:
 
 Designing for a productive and unique driving experience through an Infotainment system while ensuring road safety and driver concentration.
 
-{{< metrics >}}
-  {{< metric value="55" label="car owners surveyed" >}}
-  {{< metric value="4 yrs" label="avg. life spent driving" >}}
-  {{< metric value="53%" label="report boredom at the wheel" >}}
-{{< /metrics >}}
-
 
 #### The Challenge
 

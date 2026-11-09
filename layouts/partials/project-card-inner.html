@@ -12,7 +12,7 @@
                 {{ with .Params.description }}{{ . }}{{ end }}
             </p>
         </div>
-        <div>
+        <div class="project-meta">
             {{ with .Params.tags }}
             <div class="project-tags">
                 {{ range . }}
@@ -20,6 +20,7 @@
                 {{ end }}
             </div>
             {{ end }}
+            {{ with .Params.year }}<span class="project-year">{{ . }}</span>{{ end }}
         </div>
     </div>
 </div>

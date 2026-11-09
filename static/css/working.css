@@ -129,6 +129,20 @@
   color: var(--dark);
 }
 
+.project-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.project-year {
+  margin-left: auto;
+  color: #a9a9a9;
+  font-size: 0.85em;
+  font-variant-numeric: tabular-nums;
+}
+
 .project-tags {
   display: flex;
   flex-wrap: wrap;

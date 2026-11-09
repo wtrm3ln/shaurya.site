@@ -64,7 +64,7 @@ BASE STYLES
   src: url("../fonts/FT88-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
 }
 
 /* Bold */
@@ -73,7 +73,7 @@ BASE STYLES
   src: url("../fonts/FT88-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
 }
 
 /* Italic */
@@ -82,7 +82,7 @@ BASE STYLES
   src: url("../fonts/FT88-Italic.woff2") format("woff2");
   font-weight: 400;
   font-style: italic;
-  font-display: swap;
+  font-display: optional;
 }
 
 /* Gothique */
@@ -100,7 +100,7 @@ BASE STYLES
   src: url("../fonts/FT88-School.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
 }
 
 /* ==========================================
@@ -243,104 +243,6 @@ img {
 
 
 /* ==========================================
-CURSORS
-========================================== */
-
-/* Custom hand cursors, one per interaction state. The number pair after the
-   url is the hotspot (the "click point") in image pixels.
-   - click.svg    → the default everywhere, and every normal/internal link
-   - external.svg → links that open a live site in a new tab
-   - nda.svg      → elements that open an NDA modal
-   Each falls back to a native cursor if the SVG can't load. */
-
-html,
-body {
-  cursor: url('/assets/click.svg') 5 3, auto;
-}
-
-a,
-button,
-summary,
-label,
-select,
-[role="button"],
-[onclick] {
-  cursor: url('/assets/click.svg') 5 3, pointer;
-}
-
-/* Auto default: anything that opens in a new tab gets the external cursor,
-   unless an explicit data-cursor overrides it below. */
-a[target="_blank"],
-a.external {
-  cursor: url('/assets/external.svg') 6 3, pointer;
-}
-
-/* Explicit per-element cursor via `data-cursor` (used on link tags directly and,
-   through Hugo, on project cards). The doubled `[data-cursor]` bumps specificity
-   so an author's choice wins over the auto rules above; the ` *` variants extend
-   the cursor to child content (e.g. a card's inner link and cover image). */
-[data-cursor="click"][data-cursor],
-[data-cursor="click"] * {
-  cursor: url('/assets/click.svg') 5 3, pointer;
-}
-
-[data-cursor="external"][data-cursor],
-[data-cursor="external"] * {
-  cursor: url('/assets/external.svg') 6 3, pointer;
-}
-
-[data-cursor="nda"][data-cursor],
-[data-cursor="nda"] * {
-  cursor: url('/assets/nda.svg') 6 3, pointer;
-}
-
-/* Keep a text caret where text is actually selected/entered. */
-input,
-textarea,
-[contenteditable="true"] {
-  cursor: text;
-}
-
-
-/* ==========================================
-CURSOR LABEL
-========================================== */
-
-/* A small caption that rides along with the cursor. Any element opts in with a
-   `data-label` attribute (a single message, or a JSON array to cycle through);
-   on hover, SplitText splits the text into characters and GSAP staggers them —
-   first rising up from below, then looping a perpetual wave that keeps running
-   while the label follows the cursor. Project cards set their message(s) from
-   the `messages` front-matter param (see layouts/index.html).
-   Driven by static/scripts/cursor-label.js. */
-.cursor-label {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 10002;
-  pointer-events: none;
-  font-family: "FT88", sans-serif;
-  font-size: 16px;
-  line-height: 1;
-  letter-spacing: 0.03em;
-  white-space: nowrap;
-  /* White through `difference` inverts whatever sits behind the label, so it
-     stays legible over any background colour. The bold weight plus a soft white
-     halo thicken the glyphs so they read clearly even over busy areas.
-     Opacity is driven by GSAP. */
-  color: #fff;
-  mix-blend-mode: difference;
-  opacity: 0;
-  will-change: transform;
-}
-
-/* SplitText injects the per-character spans; promote them for smoother motion. */
-.cursor-label .char {
-  will-change: transform;
-}
-
-
-/* ==========================================
 LAYOUT
 ========================================== */
 body {
@@ -351,6 +253,27 @@ body {
     margin: 0;
     font-size: 14px;
     position: relative;
+}
+
+/* ==========================================
+PAPER TEXTURE
+Two tiled SVG noise layers laid over the whole viewport: a fine grain, plus a
+softer, larger mottling that reads as paper fibre. `multiply` lets it darken
+whatever is underneath (white card, orange background, text) without tinting
+it. It never captures clicks. To make it stronger/weaker, change `opacity`.
+========================================== */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 10001;          /* above content + modals */
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  opacity: 0.18;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.45  0 0 0 0 0.4  0 0 0 0 0.33  0 0 0 1.1 -0.25'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='f' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012 0.05' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.5  0 0 0 0 0.45  0 0 0 0 0.38  0 0 0 0.9 -0.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+  background-size: 360px 360px, 900px 900px;
 }
 
 ::selection {
@@ -420,7 +343,7 @@ html.is-page-fading .main-content > *:not(.navigation) {
        shifts layout -- only its color transitions. */
     border-bottom: 1px solid transparent;
     transition: color 0.3s ease, border-color 0.4s ease;
-    margin-bottom: 5rem;
+    margin-bottom: 2rem;
     background-color: var(--white);
     z-index: 99;
     flex-wrap: wrap;

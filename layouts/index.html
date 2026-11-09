@@ -28,17 +28,7 @@
         {{ $type := .Params.type }}
         {{ if not $type }}{{ $type = cond (default false .Params.external) "external" "case-study" }}{{ end }}
 
-        {{/* Cursor shown on hover — from the `cursor` param, else by type. */}}
-        {{ $cursorMap := dict "case-study" "click" "external" "external" "nda" "nda" }}
-        {{ $cursor := .Params.cursor | default (index $cursorMap $type) }}
-
-        {{/* Hover message(s) from the `messages` param — a single string or a
-             list. No default: with none, the card shows no label. A list is
-             emitted as JSON so cursor-label.js can cycle through it. */}}
-        {{ $labelAttr := "" }}
-        {{ with .Params.messages }}{{ if reflect.IsSlice . }}{{ $labelAttr = jsonify . }}{{ else }}{{ $labelAttr = printf "%v" . }}{{ end }}{{ end }}
-
-        <div class="project-card show is-{{ $type }}{{ if eq .Params.span "full" }} span-full{{ end }}" data-cursor="{{ $cursor }}"{{ with $labelAttr }} data-label='{{ . }}'{{ end }}>
+        <div class="project-card show is-{{ $type }}{{ if eq .Params.span "full" }} span-full{{ end }}">
             {{ if eq $type "external" }}
             <a class="external" href="{{ .Params.externalurl }}" target="_blank" rel="noopener">
                 {{ partial "project-card-inner.html" . }}

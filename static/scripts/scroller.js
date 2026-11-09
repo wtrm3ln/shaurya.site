@@ -316,8 +316,27 @@ let wheelPhase = 'idle';    // 'idle' | 'pulling' | 'cooldown'
 let settleTimer = null;
 let rearmTimer = null;
 
+// The pull may only begin when a wheel gesture *starts* with the page already
+// at the top. Scrolling up from further down the page lands on scrollY === 0
+// while momentum events are still arriving; those must scroll normally and
+// never turn into a pull. A new gesture begins after the wheel has been quiet
+// for wheelGestureGap, and a gesture that leaves the top is disqualified.
+const wheelGestureGap = 120;  // ms of silence that ends one wheel gesture
+let lastWheelTime = 0;
+let gestureStartedAtTop = false;
+
 window.addEventListener('wheel', (e) => {
-    if (window.scrollY !== 0 || e.deltaY >= 0) return;
+    const now = performance.now();
+    if (now - lastWheelTime > wheelGestureGap) {
+        gestureStartedAtTop = window.scrollY === 0;
+    }
+    lastWheelTime = now;
+
+    if (window.scrollY !== 0) {
+        gestureStartedAtTop = false;
+        return;
+    }
+    if (!gestureStartedAtTop || e.deltaY >= 0) return;
     e.preventDefault();
 
     // Already committed — swallow trailing momentum without re-triggering, and

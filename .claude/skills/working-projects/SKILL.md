@@ -56,6 +56,7 @@ type: "case-study"         # case-study | external | nda
 
 # --- hover cursor + message (optional, apply to any type) ---
 cursor: "click"            # click | external | nda — overrides the type default
+span: "full"               # optional; full = full-width card (smaller image left, text right). Omit for a half-width card
 messages: "take a look"    # single string, or a YAML list to cycle (see below)
 
 # --- only used when type = external ---

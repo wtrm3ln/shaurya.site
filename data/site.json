@@ -3,12 +3,10 @@
   "description": "Portfolio of Shaurya - Product Designer & Creative Technologist",
   "home": {
     "tagline": "Finding my place between beauty and practicality",
-    "subtitle": "Product Designer | Creative Technologist",
+    "subtitle": "Software Designer | Creative Technologist",
     "role": "UX Design at [Wongdoody](https://www.wongdoody.com/)",
     "intro": "I design and build complicated software. Drawn to simplicity, craft and first-principles thinking.",
     "workHeading": "work",
-    "filterLabel": "I want to see",
-    "filterAll": "everything",
     "moreText": "Want to see more?",
     "moreLink": "See what I'm tinkering on."
   },
@@ -72,8 +70,8 @@
         "title": "Connect",
         "links": [
           {
-            "label": "Reach Out",
-            "url": "/contact"
+            "label": "Email",
+            "url": "mailto:shauryasinghdkr@gmail.com"
           },
           {
             "label": "Twitter",

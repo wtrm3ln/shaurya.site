@@ -131,8 +131,10 @@
     <div class="case-study-layout{{ if $hasSectionNav }} has-section-nav{{ end }}">
         {{ if $hasSectionNav }}
         <aside class="case-study-sidebar" aria-label="Case study sections">
-            <a class="back-link" href="/">← Back to work</a>
-            {{ $sectionNav }}
+            <div class="case-study-sidebar-inner">
+                <a class="back-link" href="/">← Back to work</a>
+                {{ $sectionNav }}
+            </div>
         </aside>
         {{ end }}
 
@@ -162,22 +164,6 @@
             </div>
         </div>
     </div>
-
-    <nav class="project-navigation">
-        {{ with .PrevInSection }}
-        <a href="{{ .Permalink }}" class="nav-link nav-prev">
-            <span class="nav-label">← Previous</span>
-            <span class="nav-title">{{ .Title }}</span>
-        </a>
-        {{ end }}
-
-        {{ with .NextInSection }}
-        <a href="{{ .Permalink }}" class="nav-link nav-next">
-            <span class="nav-label">Next →</span>
-            <span class="nav-title">{{ .Title }}</span>
-        </a>
-        {{ end }}
-    </nav>
 </article>
 {{ if $hasSectionNav }}
 <script src="/scripts/toc-scrollspy.js"></script>

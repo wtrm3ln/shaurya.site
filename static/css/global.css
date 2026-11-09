@@ -25,6 +25,17 @@
     --themed-primary: var(--orange);
     --themed-secondary: var(--dark);
 
+    /* Content width. The white card keeps its normal size; what sits inside it
+       (and the header text) is held to --content-max and centred once
+       there's room. --pad-x is the minimum side padding inside
+       the card; --gutter is the space between the card and the window edge. */
+    --content-max: 860px;
+    --pad-x: 6em;
+    --gutter: 2em;
+    /* Side padding that centres a --content-max column inside the card
+       (whose width is the window minus both gutters). */
+    --card-pad-x: max(var(--pad-x), calc((100% - 2 * var(--gutter) - var(--content-max)) / 2));
+
     /* Shadow-as-border: layered transparent shadows that adapt to any
        background, used for depth on buttons/cards instead of hard borders. */
     --shadow-border:
@@ -465,7 +476,9 @@ html.is-page-fading .main-content > *:not(.navigation) {
 }
 
 .heading-content{
-    padding: 40px 6em;
+    max-width: var(--content-max);
+    margin-inline: auto;
+    padding: 40px var(--pad-x);
     text-align: center;
     color: var(--themed-secondary);
     position: relative;
@@ -507,9 +520,9 @@ MAIN CONTENT
     border-radius: 20px;
     background: var(--white);
     min-height: 100vh;
-    margin: 0 2em;
+    margin: 0 var(--gutter);
     border-top: 3px solid var(--gray);;
-    padding: 0 6em 2em  6em;
+    padding: 0 var(--card-pad-x) 2em;
     color: var(--dark);
     z-index: 50;
     box-shadow: rgba(50, 50, 93, 0.15) 0px 50px 100px 20px, rgba(0, 0, 0, 0.1) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
@@ -519,10 +532,13 @@ MAIN CONTENT
     position: relative;
 }
 
+/* Full-bleed white, but the content stays in the same centred column: the
+   space the card's margin used to take moves into the side padding. */
 .main-content.expanded {
   margin: 0;
   min-height: 100vh;
   border-radius: 0;
+  padding-inline: max(var(--pad-x), calc((100% - var(--content-max)) / 2));
   transform: translateY(var(--expand-shift, 0px));
 }
 
@@ -530,6 +546,7 @@ MAIN CONTENT
   margin: 0;
   min-height: 100vh;
   border-radius: 0;
+  padding-inline: max(var(--pad-x), calc((100% - var(--content-max)) / 2));
   padding-bottom: 6em;
 }
 
@@ -539,15 +556,30 @@ FOOTER
 ========================================== */
 
 
+/* No white box: the footer sits straight on the coloured page, as wide as the
+   white content card above it (same side gutters), text in the secondary
+   colour. */
 footer {
-  border-radius: 20px;
-  background: var(--white);
-  margin: 2em;
-  border-bottom: 3px solid var(--gray);
-  padding: 2em 6em;
-  color: var(--dark);
+  margin: 0 var(--gutter);
+  padding: 2em 0;
+  color: var(--themed-secondary);
   z-index: 10;
-  box-shadow: rgba(50, 50, 93, 0.15) 0px 50px 100px 20px, rgba(0, 0, 0, 0.1) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+footer a {
+  color: inherit;
+  text-decoration-color: currentColor;
+}
+
+/* The hover highlight is always the light yellow, so the text goes dark to
+   stay readable even when the secondary colour is light. */
+footer a:hover {
+  color: var(--dark);
+  text-decoration-color: currentColor;
+}
+
+footer h4 {
+  color: inherit;
 }
 
 .footer-head {
@@ -555,7 +587,7 @@ footer {
   font-size: 3rem;
   margin: auto 0;
   margin: 3rem 0;
-  color: var(--themed-primary);
+  color: inherit;
   line-height: 1;
   text-align: center;
   text-wrap: balance;
@@ -581,13 +613,13 @@ footer {
 .footer-bottom {
   margin: 1rem auto 0;
   padding-top: 2rem;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid color-mix(in srgb, var(--themed-secondary) 25%, transparent);
   font-size: 0.9rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 30px;
-  color: var(--dark);
+  color: inherit;
 }
 
 .footer-bottom p {
@@ -605,16 +637,16 @@ RESPONSIVE BREAKPOINTS
 
 /* Tablet and below (max-width: 1024px) */
 @media (max-width: 1024px) {
+  :root {
+    --pad-x: 2em;
+  }
+
   .heading-content {
     padding: 40px 3em;
   }
 
   .main-content {
-    padding: 0 2em 1em 2em;
-  }
-
-  footer {
-    padding: 2em 2em;
+    padding-bottom: 1em;
   }
 
   .footer-content {
@@ -624,6 +656,10 @@ RESPONSIVE BREAKPOINTS
 
 /* Small tablet and large mobile (max-width: 768px) */
 @media (max-width: 768px) {
+  :root {
+    --gutter: 1em;
+  }
+
   body {
     font-size: 13px;
   }
@@ -648,14 +684,11 @@ RESPONSIVE BREAKPOINTS
   }
 
   .main-content {
-    margin: 0 1em;
     border-radius: 15px;
   }
 
   footer {
-    margin: 1em;
-    padding: 2em 2em;
-    border-radius: 15px;
+    margin-block: 1em;
   }
 
   .footer-head {
@@ -677,6 +710,11 @@ RESPONSIVE BREAKPOINTS
 
 /* Mobile (max-width: 480px) */
 @media (max-width: 480px) {
+  :root {
+    --pad-x: 1.5em;
+    --gutter: 0.5em;
+  }
+
   body {
     font-size: 12px;
   }
@@ -709,8 +747,7 @@ RESPONSIVE BREAKPOINTS
   }
 
   .main-content {
-    margin: 0 0.5em;
-    padding: 0 1.5em 1em 1.5em;
+    padding-bottom: 1em;
     border-radius: 10px;
   }
 
@@ -721,9 +758,8 @@ RESPONSIVE BREAKPOINTS
   }
 
   footer {
-    margin: 2em 0.5em;
-    padding: 1.5em 1.5em;
-    border-radius: 10px;
+    margin-block: 2em;
+    padding-block: 1.5em;
   }
 
   .footer-head {
@@ -753,6 +789,10 @@ RESPONSIVE BREAKPOINTS
 
 /* Extra small mobile (max-width: 320px) */
 @media (max-width: 320px) {
+  :root {
+    --pad-x: 1em;
+  }
+
   .navigation {
     gap: 10px;
     padding: 10px 5px;
@@ -763,11 +803,7 @@ RESPONSIVE BREAKPOINTS
   }
 
   .main-content {
-    padding: 0 1em;
-  }
-
-  footer {
-    padding: 1.5em 1em;
+    padding-bottom: 0;
   }
 
   .footer-head {

@@ -1,57 +1,19 @@
-/* Simplified & cleaned CSS */
-
-.filter-buttons {
-  display: flex;
-  gap: 1em;
-  flex-wrap: wrap;
-  display: inline;
-}
-
-.filter-btn {
-  font-family: 'Geologica';
-  font-weight: 400;
-  transition-property: scale, color, background-color, box-shadow;
-  transition-duration: 0.15s;
-  transition-timing-function: ease-out;
-  color: var(--dark);
-  text-transform: lowercase;
-  /* Shadow-as-border instead of a hard 1px border so the ring reads the
-     same against the white surface and any hover/active fill. */
-  box-shadow: var(--shadow-border);
-  border: none;
-  padding: 0.45em 0.75em;
-  border-radius: 8px;
-  background-color: white;
-  margin: 0.2em;
-  cursor: pointer;
-}
-
-.filter-btn:hover{
-  background-color: var(--gray);
-  box-shadow: var(--shadow-border-hover);
-}
-
-.filter-btn:active {
-  scale: 0.96;
-}
-
-.filter-btn.active {
-  background-color: var(--themed-primary);
-  color: var(--themed-secondary)
-}
-
-
 /* ===============================
    PROJECTS SECTION
    =============================== */
 
+/* The list is pulled 8px out on each side (the cards' own padding) so the
+   photo and text line up with the page column while the hover frame extends
+   beyond it. Done here rather than with negative margins on the cards, which
+   the column boxes clip. */
 .project-list {
+  margin-inline: -8px;
   columns: 2;
   column-gap: 1.5rem;
 }
 
 .project-card {
-  display: none;
+  display: inline-block;
   box-sizing: border-box;
   break-inside: avoid;
   /* Concentric: 8px inner image radius + 8px padding = 16px outer */
@@ -73,8 +35,46 @@
 }
 
 .project-card.show {
-  display: inline-block;
   width: 100%;
+}
+
+/* Full-span cards (front matter `span: full`): break out of the two columns and
+   run edge to edge, with a smaller, shorter image on the left and the text
+   beside it. Everything else is a half-width card in the column flow. */
+.project-card.span-full {
+  display: block;
+  column-span: all;
+}
+
+.span-full .project-content {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.span-full .cover-image {
+  flex: 0 0 26%;
+  width: 26%;
+  height: 140px;
+  object-fit: cover;
+}
+
+.span-full .project-body {
+  flex: 1;
+  gap: 0.8rem;
+}
+
+@media (max-width: 580px) {
+  .span-full .project-content {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .span-full .cover-image {
+    flex: none;
+    width: 100%;
+    height: auto;
+  }
 }
 
 .project-list a {

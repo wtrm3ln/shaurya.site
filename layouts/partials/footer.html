@@ -1,7 +1,5 @@
 {{ $footer := .Site.Data.site.footer }}
 <footer>
-    <div class="footer-head"{{ with .Params.bgColor }} style="color: {{ . }};"{{ end }}>{{ $footer.heading }}</div>
-
     <div class="footer-content">
         {{ range $footer.columns }}
         <div class="footer-column">

@@ -122,6 +122,61 @@
     return (fm.slice(0, b.start) + fm.slice(after)).replace(/\n$/, '');
   }
 
+  // Every top-level key, in the order it appears.
+  function keys(fm) {
+    const out = [];
+    for (const line of fm.split('\n')) {
+      const m = /^([A-Za-z_][\w.-]*)[ \t]*:/.exec(line);
+      if (m && !out.some((k) => k.toLowerCase() === m[1].toLowerCase())) out.push(m[1]);
+    }
+    return out;
+  }
+
+  // Guess what kind of value a key holds, so the form can pick a control.
+  function kindOf(fm, key) {
+    const b = block(fm, key);
+    if (!b) return 'text';
+    const v = b.inline.replace(/\s+#.*$/, '');
+    if (!v) {
+      if (!b.lines.length) return 'text';
+      return b.lines.every((l) => /^\s*-(\s|$)/.test(l)) ? 'list' : 'yaml';
+    }
+    if (v.startsWith('[')) return 'list';
+    if (v.startsWith('{') || v === '|' || v === '>' || /^[|>][-+]?$/.test(v)) return 'yaml';
+    if (/^(true|false)$/i.test(v)) return 'bool';
+    if (/^\d{4}-\d{2}-\d{2}([T ][\d:.]+(Z|[+-]\d{2}:?\d{2})?)?$/.test(v)) return 'date';
+    if (/^[-+]?\d+(\.\d+)?$/.test(v)) return 'barenum';
+    const u = unquote(v);
+    if (/^#[0-9a-f]{6}$/i.test(u)) return 'color';
+    if (/^[\w./ -]+\.(png|jpe?g|gif|webp|avif|svg)$/i.test(u)) return 'image';
+    if (u.length > 60) return 'area';
+    return 'text';
+  }
+
+  // The indented lines under a key, as text, without their shared indent.
+  function getBlock(fm, key) {
+    const b = block(fm, key);
+    if (!b) return '';
+    if (!b.lines.length) return b.inline;
+    const pad = Math.min(...b.lines.filter((l) => l.trim()).map((l) => /^\s*/.exec(l)[0].length));
+    const body = b.lines.map((l) => l.slice(pad)).join('\n');
+    return b.inline ? `${b.inline}\n${body}` : body;
+  }
+
+  function setBlock(fm, key, text) {
+    const lines = text.replace(/\s+$/, '').split('\n');
+    const indent = (ls) => ls.map((l) => (l ? `  ${l}` : l)).join('\n');
+    if (/^([|>][-+]?|\{.*\}|\[.*\])$/.test(lines[0].trim())) {
+      const rest = lines.slice(1);
+      return write(fm, key, `${key}: ${lines[0].trim()}${rest.length ? `\n${indent(rest)}` : ''}`);
+    }
+    return write(fm, key, `${key}:\n${indent(lines)}`);
+  }
+
+  exports.keys = keys;
+  exports.kindOf = kindOf;
+  exports.getBlock = getBlock;
+  exports.setBlock = setBlock;
   exports.split = split;
   exports.join = join;
   exports.get = get;

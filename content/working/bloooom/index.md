@@ -1,6 +1,6 @@
 ---
 title: "Bloooom"
-weight: 2
+weight: 5
 date: 2025-11-16T15:49:14+05:30
 year: 2024
 tags: [building]
@@ -12,6 +12,7 @@ messages: "design-dev student community"
 externalurl: "https://bloooom.vercel.app"
 cover: image.png
 bgColor: "#5FDD97"
+span: "full"
 ---
 
 A collaboration platform born from a simple observation: great ideas and great builders rarely find each other.

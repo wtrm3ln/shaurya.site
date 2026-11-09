@@ -242,6 +242,8 @@ async function listPages() {
       url,
       bundle,
       change: changed.get(rel) || null,
+      // Every setting this page uses, so its siblings can offer the same ones.
+      settings: FM.keys(fm).map((key) => [key, FM.kindOf(fm, key)]),
       ...previewFor(kind, rel, fm, url),
     });
   });

@@ -430,3 +430,8 @@ legend { font-weight: bold; padding: 0 5px; background: var(--g2); }
 
 .md-block { display: block; }
 .cm-line .md-block { display: inline-block; width: 100%; vertical-align: top; }
+.details-sub { margin: 10px 0 6px; padding-top: 6px; border-top: 1px solid var(--g4); font-size: 11px; color: var(--g5); text-transform: uppercase; letter-spacing: .04em; }
+.extra-field { display: flex; gap: 6px; align-items: start; }
+.extra-field > input, .extra-field > textarea, .extra-field > select, .extra-field > .image-field { flex: 1; min-width: 0; }
+.add-field { margin-top: 8px; }
+textarea.mono { font-family: Menlo, Monaco, monospace; font-size: 11px; }

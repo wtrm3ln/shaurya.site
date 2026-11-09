@@ -1,7 +1,10 @@
+/* The cover runs edge to edge at its natural proportions, but never taller
+   than 70vh -- past that it's cropped (object-fit: cover) rather than shrunk. */
 .case-study-hero {
   position: relative;
   width: 100%;
-  height: 50vh;
+  max-width: none;
+  max-height: 70vh;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -68,10 +71,9 @@
 
 .case-study-cover {
   display: block;
-  position: absolute;
-  inset: 0;
   width: 100%;
-  height: 100%;
+  height: auto;
+  max-height: 70vh;
   margin: 0;
   border-radius: 0;
   object-fit: cover;
@@ -162,15 +164,9 @@
 
 .case-study-layout {
   display: grid;
-  justify-content: center;
+  grid-template-columns: minmax(0, 1fr);
   width: 100%;
-}
-
-.case-study-layout.has-section-nav {
-    grid-template-columns: 1fr 5fr;
-  gap: clamp(2rem, 4vw, 4rem);
-  align-items: start;
-  justify-content: start;
+  position: relative;
 }
 
 .case-study-main {
@@ -183,7 +179,21 @@
   padding-top: 0;
 }
 
+/* The index lives beside the centred content column, in the white card's empty
+   side padding. The aside is a full-height rail hung off the column's left
+   edge; the inner box is what sticks while scrolling. Hidden below 1340px,
+   where that padding gets too narrow -- see the media query further down. */
 .case-study-sidebar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  /* More room than before: sits well clear of the content column and grows
+     with the free space on the left, up to 240px. */
+  right: calc(100% + 3rem);
+  width: clamp(150px, calc((100vw - 2 * var(--gutter) - var(--content-max)) / 2 - 4rem), 240px);
+}
+
+.case-study-sidebar-inner {
   position: sticky;
   top: 6rem;
   display: flex;
@@ -196,12 +206,22 @@
   margin-bottom: 0.5rem;
 }
 
+/* Hugo's TOC splits into several sibling <ul>s with empty <li>s wherever
+   heading levels are skipped. Flatten them into one column so every entry is
+   spaced identically. */
+.case-study-sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
 .case-study-sidebar nav ul {
-  display: grid;
-  gap: 0.7rem;
-  margin: 0;
-  padding: 0;
+  display: contents;
   list-style: none;
+}
+
+.case-study-sidebar nav li:empty {
+  display: none;
 }
 
 .case-study-sidebar nav ul ul {
@@ -209,7 +229,12 @@
 }
 
 .case-study-sidebar a {
-  display: inline-block;
+  display: block;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: color-mix(in srgb, var(--dark) 58%, transparent);
   font-family: "Geologica", sans-serif;
   font-size: 0.82rem;
@@ -221,6 +246,21 @@
 .case-study-sidebar a:hover {
   background: transparent;
   color: var(--themed-primary);
+}
+
+/* Long titles are cut with an ellipsis; on hover the link grows to show the
+   whole thing, on a white chip so it stays legible over the page. */
+.case-study-sidebar nav a:hover {
+  position: relative;
+  z-index: 5;
+  max-width: none;
+  width: max-content;
+  overflow: visible;
+  text-overflow: clip;
+  margin: -0.15rem -0.4rem;
+  padding: 0.15rem 0.4rem;
+  background: var(--white);
+  border-radius: 4px;
 }
 
 .case-study-sidebar a.active {
@@ -697,19 +737,26 @@ Geologica uppercase labels and headings, 10px radii.
   }
 }
 
-@media (max-width: 1024px) {
-  .case-study-header.has-section-nav {
-    display: flex;
-    padding: 0 clamp(1rem, 3vw, 2rem);
-  }
-
-  .case-study-layout.has-section-nav {
-    grid-template-columns: minmax(0, 760px);
-    justify-content: center;
-  }
-
+/* Not enough room beside the content column for the index (860px column +
+   150px index + gap, inside the card): drop it and fall back to the inline
+   back link. */
+@media (max-width: 1339px) {
   .case-study-sidebar {
     display: none;
+  }
+
+  .case-study-header.has-section-nav {
+    display: flex;
+  }
+
+  .case-study-header.has-section-nav .mobile-back-link {
+    display: inline-block;
+  }
+}
+
+@media (max-width: 1024px) {
+  .case-study-header.has-section-nav {
+    padding: 0 clamp(1rem, 3vw, 2rem);
   }
 
   .mobile-back-link {

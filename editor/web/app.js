@@ -414,7 +414,8 @@ function fieldRow(key, label, kind, opts = {}) {
   const fm = state.fm;
   const value = FM.get(fm, key);
   let control;
-  const clearIfEmpty = (v, write) => changeFm(!v && !FM.has(fm, key) ? state.fm : write(v));
+  // A borrowed setting left empty stays out of the file.
+  const clearIfEmpty = (v, write) => changeFm(!v && (opts.borrowed || !FM.has(fm, key)) ? FM.remove(state.fm, key) : write(v));
 
   switch (kind) {
     case 'bool':
@@ -430,7 +431,7 @@ function fieldRow(key, label, kind, opts = {}) {
       });
       break;
     case 'area':
-      control = el('textarea', { rows: 2, value, oninput: (e) => changeFm(FM.set(state.fm, key, e.target.value)) });
+      control = el('textarea', { rows: 2, value, oninput: (e) => clearIfEmpty(e.target.value, (v) => FM.set(state.fm, key, v)) });
       break;
     case 'select':
       control = el('select', {
@@ -487,6 +488,25 @@ function fieldRow(key, label, kind, opts = {}) {
       });
       break;
     }
+    case 'list':
+      control = el('textarea', {
+        rows: Math.min(6, Math.max(2, FM.getList(fm, key).length)),
+        value: FM.getList(fm, key).join('\n'),
+        oninput: (e) => {
+          const items = e.target.value.split('\n').map((s) => s.trim()).filter(Boolean);
+          changeFm(items.length ? FM.setList(state.fm, key, items) : FM.remove(state.fm, key));
+        },
+      });
+      break;
+    case 'yaml':
+      control = el('textarea', {
+        rows: Math.min(8, Math.max(2, FM.getBlock(fm, key).split('\n').length)),
+        spellcheck: false,
+        class: 'mono',
+        value: FM.getBlock(fm, key),
+        oninput: (e) => changeFm(e.target.value.trim() ? FM.setBlock(state.fm, key, e.target.value) : FM.remove(state.fm, key)),
+      });
+      break;
     case 'image':
       control = imagePicker(key, value);
       break;
@@ -494,8 +514,16 @@ function fieldRow(key, label, kind, opts = {}) {
       control = el('input', { type: 'text', value, oninput: (e) => clearIfEmpty(e.target.value, (v) => FM.set(state.fm, key, v)) });
   }
 
+  const input = control.matches('input, textarea, select') ? control : control.querySelector('input, textarea, select');
+  if (input && !input.id) input.id = `f-${key}`;
+
+  if (opts.removable) {
+    control = el('div', { class: 'extra-field' }, control,
+      el('button', { class: 'flat', title: `Remove ${key}`, onclick: () => { changeFm(FM.remove(state.fm, key)); renderDetails(); refreshSoon(); } }, '×'));
+  }
+
   return el('div', { class: `field${kind === 'bool' ? ' check' : ''}` },
-    el('label', { htmlFor: `f-${key}` }, label),
+    el('label', { htmlFor: `f-${key}`, title: key }, label),
     control,
     opts.note ? el('div', { class: 'note' }, opts.note) : null);
 }
@@ -535,12 +563,57 @@ function renderDetails() {
     return;
   }
   const fields = FIELDS[state.page.kind] || FIELDS.page;
+  // Anything else in the front matter gets a row too, with a control guessed
+  // from its value. `title` already has the big box at the top.
+  const known = new Set(['title', ...fields.map(([key]) => key.toLowerCase())]);
+  const extras = FM.keys(state.fm).filter((key) => !known.has(key.toLowerCase()));
+  const extraKind = (key) => {
+    const kind = FM.kindOf(state.fm, key);
+    const value = FM.get(state.fm, key);
+    if (kind === 'text' && value && state.media.items.some((m) => !m.isVideo && m.ref === value)) return 'image';
+    return kind;
+  };
+  // Settings other pages of the same kind use but this one doesn't yet.
+  // They show empty, and are only written once you fill them in.
+  const borrowed = new Map();
+  for (const other of state.pages) {
+    if (other.kind !== state.page.kind || other.path === state.page.path) continue;
+    for (const [key, kind] of other.settings || []) {
+      const lower = key.toLowerCase();
+      if (known.has(lower) || extras.some((k) => k.toLowerCase() === lower)) continue;
+      const seen = [...borrowed.keys()].find((k) => k.toLowerCase() === lower);
+      if (seen) borrowed.get(seen).from.push(other.title);
+      else borrowed.set(key, { kind, from: [other.title] });
+    }
+  }
+  const fromNote = (from) => `Used on ${from.length > 2 ? `${from.slice(0, 2).join(', ')} and ${from.length - 2} more` : from.join(' and ')}.`;
+  const addInput = el('input', { type: 'text', placeholder: 'new setting name', spellcheck: false });
+  const addField = () => {
+    const key = addInput.value.trim().replace(/\s+/g, '_');
+    if (!/^[A-Za-z_][\w.-]*$/.test(key)) { addInput.focus(); return; }
+    if (!FM.has(state.fm, key)) changeFm(FM.set(state.fm, key, ''));
+    renderDetails();
+    box.querySelector(`#f-${CSS.escape(key)}`)?.focus();
+  };
+  addInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') addField(); });
   box.replaceChildren(
     ...fields
       .filter(([, , , opts]) => !opts?.when || opts.when(state.fm))
       .map(([key, label, kind, opts]) => fieldRow(key, label, kind, opts)),
+    extras.length || borrowed.size ? el('div', { class: 'details-sub' }, 'Other settings') : null,
+    ...extras.map((key) => fieldRow(key, prettyKey(key), extraKind(key), { removable: true })),
+    ...[...borrowed].map(([key, { kind, from }]) => fieldRow(key, prettyKey(key), kind, { note: fromNote(from), borrowed: true })),
+    el('div', { class: 'field add-field' },
+      el('label', {}, 'Add a setting'),
+      el('div', { class: 'extra-field' }, addInput, el('button', { onclick: addField }, 'Add'))),
     el('div', { class: 'details-foot' },
       el('button', { class: 'flat', onclick: () => { state.rawDetails = true; renderDetails(); } }, 'Edit all settings as text')));
+}
+
+// "ndaBadge" → "Nda badge", "external_url" → "External url"
+function prettyKey(key) {
+  const words = key.replace(/[_.-]+/g, ' ').replace(/([a-z])([A-Z])/g, '$1 $2').trim().toLowerCase();
+  return words.charAt(0).toUpperCase() + words.slice(1);
 }
 
 function setDetailsOpen(open) {

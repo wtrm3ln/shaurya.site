@@ -11,30 +11,12 @@
 {{ end }} {{ define "main" }}
 <div class="reveal">
     <h4>{{ .Site.Data.site.name }}</h4>
-    <p>{{ .Site.Data.site.home.role | markdownify }}</p>
-    <p>{{ .Site.Data.site.home.intro | markdownify }}</p>
+    <p>{{ .Site.Data.site.home.intro | markdownify }} <br/>
+    {{ .Site.Data.site.home.role | markdownify }}</p>
 </div>
 
 <div>
     {{ $projects := where .Site.RegularPages "Section" "working" }}
-
-    {{ $allTags := slice }}
-
-    {{ range $projects }}
-    {{ range .Params.tags }}
-    {{ if not (in $allTags .) }}{{ $allTags = $allTags | append . }}{{ end }}
-    {{ end }}
-    {{ end }}
-
-    <div class="container">
-        <div class="filter-section">
-            <h4>{{ .Site.Data.site.home.workHeading }}</h4>
-            <span style="margin-bottom: 0;">{{ .Site.Data.site.home.filterLabel }}</span>
-            <div class="filter-buttons" id="filterButtons">
-                <button class="filter-btn active" onclick="filterProjects('all')">{{ .Site.Data.site.home.filterAll }}</button>
-            </div>
-        </div>
-    </div>
 
     <div class="project-list">
         {{ range $projects }}
@@ -56,7 +38,7 @@
         {{ $labelAttr := "" }}
         {{ with .Params.messages }}{{ if reflect.IsSlice . }}{{ $labelAttr = jsonify . }}{{ else }}{{ $labelAttr = printf "%v" . }}{{ end }}{{ end }}
 
-        <div class="project-card is-{{ $type }} {{ range .Params.tags }}tag-{{ . | urlize }} {{ end }}" data-tags="{{ delimit .Params.tags " , " }}" data-cursor="{{ $cursor }}"{{ with $labelAttr }} data-label='{{ . }}'{{ end }}>
+        <div class="project-card show is-{{ $type }}{{ if eq .Params.span "full" }} span-full{{ end }}" data-cursor="{{ $cursor }}"{{ with $labelAttr }} data-label='{{ . }}'{{ end }}>
             {{ if eq $type "external" }}
             <a class="external" href="{{ .Params.externalurl }}" target="_blank" rel="noopener">
                 {{ partial "project-card-inner.html" . }}
@@ -104,60 +86,6 @@
         <div class="nda-modal__body" id="ndaModalBody"></div>
     </div>
 </div>
-
-<script>
-    const allTags = [{{ range $allTags }}"{{ . }}",{{ end }}];
-    let activeFilters = new Set();
-
-    const filterContainer = document.getElementById('filterButtons');
-    allTags.forEach(tag => {
-        const btn = document.createElement('button');
-        btn.className = 'filter-btn';
-        btn.textContent = tag;
-        btn.onclick = () => toggleFilter(tag);
-        filterContainer.appendChild(btn);
-    });
-
-    filterProjects('all');
-
-    function filterProjects(filter) {
-        const projects = document.getElementsByClassName('project-card');
-        const buttons = document.getElementsByClassName('filter-btn');
-
-        if (filter === 'all') {
-            activeFilters.clear();
-            for (let i = 0; i < projects.length; i++) projects[i].classList.add('show');
-            for (let i = 0; i < buttons.length; i++) buttons[i].classList.remove('active');
-            buttons[0].classList.add('active');
-        }
-    }
-
-    function toggleFilter(tag) {
-        const buttons = document.getElementsByClassName('filter-btn');
-
-        if (activeFilters.has(tag)) {
-            activeFilters.delete(tag);
-        } else {
-            activeFilters.add(tag);
-        }
-
-        if (activeFilters.size === 0) {
-            filterProjects('all');
-            return;
-        }
-
-        buttons[0].classList.remove('active');
-        for (let i = 1; i < buttons.length; i++) {
-            buttons[i].classList.toggle('active', activeFilters.has(buttons[i].textContent));
-        }
-
-        const projects = document.getElementsByClassName('project-card');
-        for (let i = 0; i < projects.length; i++) {
-            const projectTags = projects[i].getAttribute('data-tags').split(',').map(t => t.trim());
-            projects[i].classList.toggle('show', projectTags.some(t => activeFilters.has(t)));
-        }
-    }
-</script>
 
 <script>
     // NDA modal: clone the matching project's <template> into the shared shell.

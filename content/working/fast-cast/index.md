@@ -15,6 +15,7 @@ messages:
 ndaBadge: "Private site"
 ndaNote: "The site is not open for external users to protect privacy."
 weight: 4
+draft: true
 ---
 
 Fast Cast is a marketplace that helps fashion students quickly find and book

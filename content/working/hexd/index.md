@@ -10,6 +10,7 @@ type: case-study
 cover: tempimageq9sm5e.jpg
 draft: false
 bgColor: "#ffd9a8"
+span: full
 ---
 Most recommendations ask what you like. hexd asks what you're going through, and looks for the film that has reached people who were in the same place.
 
@@ -50,7 +51,7 @@ That text is turned into a point on a map of meaning, where things that feel ali
 
 Then people take over. Every check-in adds what a film woke in someone and where they were in life, so over time a film's soul is mostly written by the people it reached.
 
-{{< figure src="watch-when.jpg" caption="Watch when: a moment, and films ranked by how well they meet it" alt="hexd's watch when page ranking films for 'you've lost someone close'" >}}
+{{< figure src="tempimagezoduee.jpg" caption="Watch when: a moment, and films ranked by how well they meet it" alt="hexd's watch when page ranking films for 'you've lost someone close'" >}}
 
 ---
 
@@ -70,7 +71,7 @@ Then people take over. Every check-in adds what a film woke in someone and where
   {{< /col >}}
 {{< /2col >}}
 
-{{< figure src="film.jpg" caption="A film's page: its details under a band tinted by its own poster, and everything you do below" alt="hexd film page for Aftersun" >}}
+{{< figure src="tempimagewuw6xr.jpg" caption="A film's page: its details under a band tinted by its own poster, and everything you do below" alt="hexd film page for Aftersun" >}}
 
 ---
 

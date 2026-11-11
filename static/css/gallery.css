@@ -58,12 +58,24 @@
 
 .g-item {
   display: block;
-  width: 100%;
-  height: auto;
   margin: 0 0 var(--g-gap);
   break-inside: avoid;
   opacity: 0;
   transition: opacity 0.5s ease;
+}
+
+.g-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.g-item figcaption {
+  margin-top: 0.5rem;
+  color: color-mix(in srgb, var(--dark, #000) 58%, transparent);
+  font-family: "Geologica", sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.35;
 }
 
 .is-masonry .g-item {

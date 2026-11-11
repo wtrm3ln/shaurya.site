@@ -655,7 +655,7 @@ async function readGallery(rel) {
   const make = (file, meta = {}) =>
     describeMedia(`${dir}/${file}`, files.get(file), {
       file,
-      title: String(meta.title ?? ''),
+      caption: String(meta.caption ?? meta.title ?? ''),
       notes: cleanNotes(meta.notes),
     });
 
@@ -683,9 +683,9 @@ async function writeGallery({ page, items }) {
     if (!file || seen.has(file) || !(await exists(path.join(abs, file)))) continue;
     seen.add(file);
     const entry = { file };
-    const title = String(item.title ?? '').trim();
     const notes = cleanNotes(item.notes);
-    if (title) entry.title = title;
+    const caption = String(item.caption ?? '').trim();
+    if (caption) entry.caption = caption;
     if (notes.length) entry.notes = notes;
     out.push(entry);
   }

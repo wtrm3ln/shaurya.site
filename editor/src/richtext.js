@@ -70,14 +70,15 @@ export function pairTags(tags) {
 }
 
 class ImageWidget extends WidgetType {
-  constructor(src, alt, resolve) {
+  constructor(src, alt, resolve, caption = '') {
     super();
     this.src = src;
     this.alt = alt;
     this.resolve = resolve;
+    this.caption = caption;
   }
   eq(other) {
-    return other.src === this.src && other.alt === this.alt;
+    return other.src === this.src && other.alt === this.alt && other.caption === this.caption;
   }
   toDOM(view) {
     const box = document.createElement('span');
@@ -92,11 +93,47 @@ class ImageWidget extends WidgetType {
       view.requestMeasure();
     };
     box.append(img);
+
+    // The caption sits under the picture, as on the site. Typing in it rewrites
+    // the quoted text after the image address in the markdown.
+    const cap = document.createElement('input');
+    cap.type = 'text';
+    cap.className = 'md-caption';
+    cap.placeholder = 'Add a caption';
+    cap.value = this.caption;
+    cap.addEventListener('mousedown', (e) => e.stopPropagation());
+    cap.addEventListener('keydown', (e) => {
+      e.stopPropagation();
+      if (e.key === 'Enter' || e.key === 'Escape') cap.blur();
+    });
+    cap.addEventListener('change', () => {
+      const at = view.posAtDOM(box);
+      const hit = findImageAt(view.state.doc, at);
+      if (!hit) return;
+      const next = cap.value.replace(/\s+/g, ' ').trim().replace(/"/g, '\u201D');
+      const raw = view.state.doc.sliceString(hit.from, hit.to);
+      const m = /^(!\[[^\]]*\]\(\s*<?[^)\s>]+>?)(?:\s+(?:"[^"]*"|'[^']*'))?\s*\)$/.exec(raw);
+      if (!m) return;
+      view.dispatch({ changes: { from: hit.from, to: hit.to, insert: `${m[1]}${next ? ` "${next}"` : ''})` } });
+    });
+    box.append(cap);
     return box;
   }
-  ignoreEvent() {
-    return false;
+  ignoreEvent(event) {
+    return event.target instanceof HTMLInputElement;
   }
+}
+
+// The markdown image that starts at or just before `pos`.
+function findImageAt(doc, pos) {
+  const line = doc.lineAt(Math.min(pos, doc.length));
+  const re = /!\[[^\]]*\]\([^)]*\)/g;
+  let best = null;
+  for (let m = re.exec(line.text); m; m = re.exec(line.text)) {
+    const from = line.from + m.index;
+    if (from <= pos || !best) best = { from, to: from + m[0].length };
+  }
+  return best;
 }
 
 class BlockWidget extends WidgetType {
@@ -239,9 +276,9 @@ function build(state, opts) {
         return undefined;
       } else if (name === 'Image') {
         const raw = doc.sliceString(from, to);
-        const m = /^!\[([^\]]*)\]\(\s*<?([^)\s>]+)>?/.exec(raw);
+        const m = /^!\[([^\]]*)\]\(\s*<?([^)\s>]+)>?(?:\s+"([^"]*)")?/.exec(raw);
         if (m) {
-          const widget = new ImageWidget(m[2], m[1], resolveImage);
+          const widget = new ImageWidget(m[2], m[1], resolveImage, m[3] || '');
           if (active(from, to)) {
             add(from, to, mark('md-imagesource'));
             out.push(Decoration.widget({ widget, side: 1 }).range(to));

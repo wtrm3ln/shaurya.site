@@ -33,7 +33,7 @@ images; click one to open the preview, with notes pinned on it). Any folder whos
 `layout: gallery` is one; **New… → Gallery** makes another.
 
 - The images are the image files in the page's folder. `gallery.json` beside them
-  holds what files can't: the order, each image's title (alt text) and its notes
+  holds what files can't: the order, each image's caption (shown under it, and its alt text) and its notes
   (`x` and `y` are fractions of the image's width and height).
 - In the app a gallery page shows a board instead of a text editor: drop, paste or
   "Add images…" to add, drag to reorder, click an image to pin notes on it
@@ -46,6 +46,14 @@ images; click one to open the preview, with notes pinned on it). Any folder whos
 - A new gallery isn't in the top menu until you add it under Home & site text.
   Give a menu item `"expand": true` in `data/site.json` to get the slide-up
   transition into a full-screen page.
+
+## Captions
+
+- **In page text:** an image's caption is the quoted text after its address,
+  `![alt](images/foo.png "Your caption")`. In the app, type it in the "Add a
+  caption" line under the picture. Handled by `layouts/_markup/render-image.html`.
+- **On gallery pages:** each image has a Caption field and its notes
+  (saved as `caption` in `gallery.json`). It shows under the image on the wall.
 
 ## Adding a block
 

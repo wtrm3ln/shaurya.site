@@ -480,3 +480,7 @@ legend { font-weight: bold; padding: 0 5px; background: var(--g2); }
 .extra-field > input, .extra-field > textarea, .extra-field > select, .extra-field > .image-field { flex: 1; min-width: 0; }
 .add-field { margin-top: 8px; }
 textarea.mono { font-family: Menlo, Monaco, monospace; font-size: 11px; }
+
+.md-image .md-caption { display: block; width: 100%; margin-top: 4px; padding: 3px 0; border: 0; border-bottom: 1px dashed var(--g4); background: transparent; font: 11px var(--mono); color: var(--g5); }
+.md-image .md-caption:focus { outline: 0; border-bottom-color: var(--ink); color: var(--ink); }
+.md-image.missing .md-caption { display: none; }

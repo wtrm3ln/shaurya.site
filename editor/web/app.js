@@ -884,7 +884,7 @@ function markGalleryDirty() {
 
 const gallerySaveBody = (page) => ({
   page,
-  items: state.gallery.items.map(({ file, title, notes }) => ({ file, title, notes })),
+  items: state.gallery.items.map(({ file, caption, notes }) => ({ file, caption, notes })),
 });
 
 async function flushGallery() {
@@ -934,7 +934,7 @@ function galleryTile(item, i) {
   el('div', { class: 'board-thumb' }, el('img', { src: item.url, alt: '', loading: 'lazy', decoding: 'async', draggable: false })),
   el('div', { class: 'board-info' },
     el('span', { class: 'board-num' }, String(i + 1)),
-    el('span', { class: 'board-name' }, item.title || item.file),
+    el('span', { class: 'board-name' }, item.caption || item.file),
     noteCount ? el('span', { class: 'board-notes' }, `${noteCount} note${noteCount === 1 ? '' : 's'}`) : null));
 
   tile.addEventListener('dragstart', (e) => {
@@ -996,7 +996,7 @@ function openAnnotator(start) {
   const pins = el('div', { class: 'ann-pins' });
   const frame = el('div', { class: 'ann-frame', title: 'Click to pin a note here' }, img, pins);
   const heading = el('div', { class: 'ann-heading' });
-  const title = el('input', { type: 'text', placeholder: 'Describes the image (alt text)' });
+  const caption = el('input', { type: 'text', placeholder: 'Optional line of text under the image' });
   const list = el('div', { class: 'ann-notes' });
   const item = () => items[index];
 
@@ -1086,8 +1086,8 @@ function openAnnotator(start) {
     selected = -1;
     const it = item();
     img.src = it.url;
-    img.alt = it.title || it.file;
-    title.value = it.title;
+    img.alt = it.caption || it.file;
+    caption.value = it.caption || '';
     heading.replaceChildren(
       el('b', {}, `${index + 1} of ${items.length}`),
       el('span', { class: 'ann-file', title: it.file }, it.file),
@@ -1098,8 +1098,8 @@ function openAnnotator(start) {
     drawPins();
   }
 
-  title.addEventListener('input', () => {
-    item().title = title.value;
+  caption.addEventListener('input', () => {
+    item().caption = caption.value;
     markGalleryDirty();
   });
 
@@ -1122,7 +1122,7 @@ function openAnnotator(start) {
     el('div', { class: 'ann-stage' }, frame),
     el('div', { class: 'ann-side' },
       heading,
-      el('div', { class: 'field' }, el('label', {}, 'Title'), title),
+      el('div', { class: 'field' }, el('label', {}, 'Caption'), caption, el('div', { class: 'hint' }, 'Shown under the image on the page.')),
       el('div', { class: 'subhead' }, 'Notes'),
       list));
 

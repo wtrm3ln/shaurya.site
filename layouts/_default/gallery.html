@@ -4,7 +4,7 @@
      The images are just the image files sitting in the section's folder. An
      optional gallery.json beside them holds the order, a title (used as the alt
      text) for each image, and its annotations:
-       { "items": [ { "file": "one.jpg", "title": "",
+       { "items": [ { "file": "one.jpg", "caption": "",
                       "notes": [ { "x": 0.4, "y": 0.3, "text": "…" } ] } ] }
      x and y are fractions (0 to 1) of the image's width and height. Images not
      listed there still show, after the listed ones. */}}
@@ -101,14 +101,19 @@
                 {{- if gt $base.Width 1600 }}{{ $large = $base.Resize "1600x q85" }}{{ end -}}
             {{- end -}}
             {{- $notes := $m.notes | default slice -}}
-            {{- $title := $m.title | default "" -}}
-            <img class="g-item" src="{{ $small.RelPermalink }}"
+            {{- /* One line of text per image: shown under it, and used as its alt text.
+                     (Older files stored it as "title"; still read.) */ -}}
+            {{- $caption := $m.caption | default $m.title | default "" -}}
+            <figure class="g-item">
+            <img src="{{ $small.RelPermalink }}"
                  {{ if ne $small.RelPermalink $large.RelPermalink }}srcset="{{ $small.RelPermalink }} {{ $small.Width }}w, {{ $large.RelPermalink }} {{ $large.Width }}w" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 34vw"{{ end }}
                  width="{{ $small.Width }}" height="{{ $small.Height }}"
-                 alt="{{ $title | default (printf "%s by %s" $.Title $.Site.Data.site.name) }}"
+                 alt="{{ $caption | default (printf "%s by %s" $.Title $.Site.Data.site.name) }}"
                  data-full="{{ $r.RelPermalink }}" data-nw="{{ $base.Width }}" data-nh="{{ $base.Height }}"
                  {{ with $notes }}data-notes="{{ printf "%s" (jsonify .) }}"{{ end }}
                  {{ if gt $i 5 }}loading="lazy"{{ end }} decoding="async">
+            {{ with $caption }}<figcaption>{{ . }}</figcaption>{{ end }}
+            </figure>
             {{ end }}
         </div>
         {{ else }}

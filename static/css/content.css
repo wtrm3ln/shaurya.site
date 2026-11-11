@@ -835,3 +835,21 @@ Geologica uppercase labels and headings, 10px radii.
     max-width: none;
   }
 }
+
+/* ---- captioned markdown image: ![alt](src "caption") ---- */
+.md-figure {
+  display: block;
+}
+
+.md-figure img {
+  margin-bottom: 0;
+}
+
+.md-caption {
+  display: block;
+  margin: 0.6rem 0 1.8rem;
+  color: color-mix(in srgb, var(--dark) 58%, transparent);
+  font-family: "Geologica", sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}

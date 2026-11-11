@@ -8,18 +8,19 @@
    the column boxes clip. */
 .project-list {
   margin-inline: -8px;
-  columns: 2;
-  column-gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  align-items: start;
 }
 
 .project-card {
-  display: inline-block;
+  display: block;
   box-sizing: border-box;
-  break-inside: avoid;
+  min-width: 0;
   /* Concentric: 8px inner image radius + 8px padding = 16px outer */
   border-radius: 16px;
   padding: 8px;
-  margin-bottom: 1.5rem;
   transition-property: background-color, box-shadow, scale;
   transition-duration: 0.2s;
   transition-timing-function: ease;
@@ -42,8 +43,7 @@
    run edge to edge, with a smaller, shorter image on the left and the text
    beside it. Everything else is a half-width card in the column flow. */
 .project-card.span-full {
-  display: block;
-  column-span: all;
+  grid-column: 1 / -1;
 }
 
 .span-full .project-content {
@@ -80,8 +80,14 @@
 }
 
 .project-list a {
+  display: block;
   text-decoration: none;
   color: var(--dark);
+}
+
+.project-list a:hover {
+  background: none;
+  text-decoration: none;
 }
 
 /* NDA cards use a <button> so they can open a modal rather than navigate.
@@ -176,7 +182,7 @@
 
 @media (max-width: 580px) {
   .project-list {
-    columns: 1;
+    grid-template-columns: 1fr;
   }
 }
 

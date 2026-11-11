@@ -1,0 +1,11 @@
+{{- /* Every markdown image on the site. Add a caption by putting it in quotes
+       after the address:   ![alt text](images/foo.png "Your caption")
+       With a caption the image gets a small line of text underneath it; without
+       one it is a plain image exactly as before. (Spans, not <figure>, because
+       Hugo wraps a lone image in a paragraph.) */ -}}
+{{- $caption := .Title -}}
+{{- if $caption -}}
+<span class="md-figure"><img src="{{ .Destination | safeURL }}" alt="{{ .Text | plainify | default ($caption | plainify) }}"><span class="md-caption">{{ $caption | markdownify }}</span></span>
+{{- else -}}
+<img src="{{ .Destination | safeURL }}" alt="{{ .Text | plainify }}">
+{{- end -}}

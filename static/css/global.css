@@ -103,6 +103,12 @@ BASE STYLES
   font-display: optional;
 }
 
+strong,
+b {
+  font-weight: 500;
+  color: var(--black);
+}
+
 /* ==========================================
 TYPOGRAPHY
 ========================================== */

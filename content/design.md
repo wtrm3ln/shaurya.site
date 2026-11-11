@@ -4,4 +4,4 @@ draft: false
 layout: "expanded"
 ---
 
-# Design Stack
+Design Stack

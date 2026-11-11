@@ -12,7 +12,7 @@ draft: false
 bgColor: "#ffd9a8"
 span: full
 ---
-Most recommendations ask what you like. hexd asks what you're going through, and looks for the film that has reached people who were in the same place.
+This project combines my love for movies and belief that a movie can be theraputic
 
 {{< metrics >}}
   {{< metric value="3,400" label="films on the map" >}}

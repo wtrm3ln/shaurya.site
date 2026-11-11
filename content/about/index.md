@@ -5,93 +5,85 @@ layout: "expanded"
 ---
 
 
-{{< 2col >}}
-  {{< col >}}
+We live in label-less times
 
-  {{< /col >}}
-  {{< col >}}
-I am a designer who likes messy things. I like untangling the strings, understanding all the nuances, and building mental models. Design is usually what comes out of that.
+The visible work, has never been as easy to replicate
 
-I like simplicity, craft, and thinking from first principles.
-#### Experience
+What remains, what matters, is what you do in the physical world
 
-[Wongdoody](https://www.wongdoody.com) · *since July 2025*
+And the ideas you are driven by
 
-**User Experience Lead**
+These are mine
 
-I lead design on Infosys's flagship AI platform, working closely with engineers under direct CTO oversight.
+- **Power of tools**: The tools we use influence what we create, how we create, and over time, how we act.
 
 
-**AI Council Member**
+- **Technology is a tool:** I believe in computer systems as "bicycles for the human mind".
 
-Training our 300+ designers on designing with AI. I ran 15+ training sessions in my first year at the company and started a newsletter.
-
----
+- **Technology is dangerous:** It is harder for people to spot the effects of technology on them. They are cognitive, build over time, and are harder to get rid of.
 
 
-
-[Digital Impact Square](https://www.digitalimpactsquare.com) · *Jan to May 2025*
-
-
-**Design Fellow**
-
-I was embedded in an agri-waste startup, and lived on a farm to research North India's stubble-burning crisis. I mapped the whole ecosystem and spoke to farmers. That became a low-cost compaction device a farmer can run themselves.
-
----
+- **Dark patterns are disgusting and depraved**
 
 
-
-Yaatrip · *2024*
-
-**Junior Product Designer**
-
-Sole designer at a social travel startup. 
-
----
+- **Human Autonomy:** The ultimate goal of technology is to increase human capability and preserve human autonomy.
 
 
+- **Malleability:** I treat everything (systems, people, life) as [malleable](https://itsmalleable.com) to some extent. 
 
-[Rural Modern Glass Studio](https://ruralmodern.glass)  · *2023*
-
-Industrial Design Intern 
-
-Designed lighting, architectural and glass products in Mumbai, and managed studio production.
-
----
-
-
-
-[MRM](https://www.mrm.com) · *2022*
-
-
-Art Intern
-
-Marketing campaigns for GreenLam, VH1, Daikin and Glance.
-
-#### Education
-
-BDes, Product Design 2021 - 2025
-
-Atlas Skilltech University
-
-
-Say hi - [LinkedIn](https://linkedin.com/in/ssdkr/) · [Email](mailto:shauryasinghdkr@gmail.com)
-  {{< /col >}}
-{{< /2col >}}
 
 </div>
 
 {{< 2col >}}
   {{< col >}}
-Painting helps me explore ideas and themes deeper. My work always starts with a strong theme or emption. The act of painting helps me explore it further and unravel it.
-
-I’ve been painting ever since I gained consciousness. Have exhibited my work twice.
-  {{< /col >}}
-  {{< col >}}
 
 ![](paintings/1.jpg)
 
 ![](paintings/2.jpg)
+[more](https://shaurya.site/painting)
+
+  {{< /col >}}
+  {{< col >}}
+I have been painting ever since I gained consciousness and have exhibited my work twice.
+
+Painting helps me explore ideas and themes deeper. My work always starts with a strong theme or emption. The act of painting helps me explore it further and unravel it.
+
+  {{< /col >}}
+{{< /2col >}}
+
+
+
+</div>
+
+
+
+{{< 2col >}}
+  {{< col >}}
+Inspired by Folk music, Medivial Fantasy and world building, Privacy-first technology, Human-Computer Interaction, Human-Centered Computing (HCC), Positive Technology, Human Autonomy
+
+
+Creative influences include John Singer Sargent, Amrita Shergil, Douglas C. Engelbart, Bret Victor, Rick Ruben, Matty Healy, [Jeff Mangum](https://www.neutralmilkhotel.org/faq.htm), George RR Martin and Paul Graham.
+  {{< /col >}}
+  {{< col >}}
+
+![](tempimagebxfq8o.jpg)
+
+
+![](tempimages9so3w.jpg)
+
+
+![](tempimagettwb1l.jpg)
+
+![](tempimageced3uo.jpg)
+
+![](tempimageefzfv0.jpg)
+
+
+![](tempimagex35ygg.jpg)
+
+![](img-6915.jpg)
+
+![](img-0556.jpg)
 
 
   {{< /col >}}

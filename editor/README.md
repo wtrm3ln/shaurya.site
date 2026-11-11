@@ -26,6 +26,27 @@ Needs Node, Hugo and git, all already installed through Homebrew.
 | Images on a single-file page, like writing | `static/images/<section>/<page>/` |
 | Project blocks | `layouts/shortcodes/` |
 
+## Gallery pages
+
+`painting` and `gallery` are full-screen image walls (3 columns, staggered, plain
+images; click one to open the preview, with notes pinned on it). Any folder whose `_index.md` says
+`layout: gallery` is one; **New… → Gallery** makes another.
+
+- The images are the image files in the page's folder. `gallery.json` beside them
+  holds what files can't: the order, each image's title (alt text) and its notes
+  (`x` and `y` are fractions of the image's width and height).
+- In the app a gallery page shows a board instead of a text editor: drop, paste or
+  "Add images…" to add, drag to reorder, click an image to pin notes on it
+  (click the picture to drop a pin, drag a pin to move it).
+- Layout: `layouts/_default/gallery.html`, the wall in `static/css/gallery.css` and
+  `static/scripts/gallery.js`.
+- Clicking any plain image on the site (About, case studies, galleries) opens the
+  preview: `static/scripts/preview.js` + `static/css/preview.css`. Images inside
+  links or buttons are skipped; add `data-no-preview` to skip one.
+- A new gallery isn't in the top menu until you add it under Home & site text.
+  Give a menu item `"expand": true` in `data/site.json` to get the slide-up
+  transition into a full-screen page.
+
 ## Adding a block
 
 Add a template to `layouts/shortcodes/` and it appears in the Blocks picker under

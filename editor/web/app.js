@@ -36,6 +36,7 @@ const state = {
   sideTab: 'preview',
   rawDetails: false,
   uploadTarget: null,
+  gallery: { items: [], dirty: false },
 };
 
 function remember(key, fallback) {
@@ -124,7 +125,7 @@ function dialog({ title, body, buttons, wide }) {
     document.addEventListener('keydown', onKey, true);
     openDialogs.add(close);
     back = el('div', { class: 'modal-back' },
-      el('div', { class: `dialog${wide ? ' wide' : ''}`, role: 'dialog', 'aria-label': title },
+      el('div', { class: `dialog${wide === 'full' ? ' full' : wide ? ' wide' : ''}`, role: 'dialog', 'aria-label': title },
         el('div', { class: 'dialog-title' }, el('span', {}, title)),
         el('div', { class: 'dialog-body' }, typeof body === 'function' ? body(close) : body),
         foot));
@@ -150,7 +151,7 @@ function promptBox(title, label, value = '', yes = 'OK') {
 
 // ---- sidebar -------------------------------------------------------------
 
-const GROUPS = ['Pages', 'Writing', 'Working', 'Experimenting'];
+const GROUPS = ['Pages', 'Galleries', 'Writing', 'Working', 'Experimenting'];
 
 function renderSidebar() {
   const box = $('sidebar');
@@ -260,9 +261,18 @@ async function openPage(rel) {
   $('title-input').value = FM.get(state.fm, 'title');
   $('page-url').textContent = page.ownPage ? page.url : '';
   const isQuote = page.kind === 'quote';
-  $('format-bar').hidden = isQuote;
+  const isGallery = page.kind === 'gallery';
+  $('format-bar').hidden = isQuote || isGallery;
   $('paper').classList.toggle('quote-mode', isQuote);
+  $('paper').classList.toggle('gallery-mode', isGallery);
+  $('gallery-board').hidden = !isGallery;
   editor.setDoc(state.parts.body);
+  if (isGallery) {
+    state.gallery = { items: [], dirty: false };
+    $('gallery-board').replaceChildren();
+    await loadGallery({ force: true });
+    renderGallery();
+  }
   setDetailsOpen(isQuote || remember(`details.${page.kind}`, false));
   renderNotices();
   setPreview(page.previewUrl);
@@ -294,6 +304,7 @@ async function flushSave() {
   if (state.dirty && state.page) state.saving = savePage().finally(() => (state.saving = null));
   await state.saving;
   await flushSite();
+  await flushGallery();
 }
 
 async function savePage(force) {
@@ -333,8 +344,13 @@ async function resolveConflict(res) {
 }
 
 async function checkDisk() {
-  if (state.view !== 'page' || !state.page || state.dirty || state.saving) return;
-  const data = await api('GET', `/api/page?path=${encodeURIComponent(state.page.path)}`).catch(() => null);
+  const asked = state.page?.path;
+  if (state.view !== 'page' || !asked || state.dirty || state.saving) return;
+  if (state.page.kind === 'gallery' && (await loadGallery()) && state.page?.path === asked) renderGallery();
+  const data = await api('GET', `/api/page?path=${encodeURIComponent(asked)}`).catch(() => null);
+  // The answer can land after you've clicked on another page. It's about the old
+  // one, so letting it through would paste its text over the page now open.
+  if (state.page?.path !== asked || state.dirty || state.saving) return;
   if (!data) {
     await refreshPages();
     if (!state.pages.some((p) => p.path === state.page?.path)) openFirstPage();
@@ -400,6 +416,10 @@ const FIELDS = {
   ],
   page: [
     ['description', 'Search description', 'text'],
+    DRAFT,
+  ],
+  gallery: [
+    ['description', 'Intro line', 'text', { note: 'Shown under the title. Optional.' }],
     DRAFT,
   ],
 };
@@ -636,6 +656,7 @@ function renderNotices() {
   if (FM.isTrue(state.fm, 'draft')) out.push(el('div', { class: 'notice' }, 'Draft: only you can see this. Untick Draft in Details to show it on the site.'));
   if (page.kind === 'working' && !page.ownPage) out.push(el('div', { class: 'notice' }, type(state.fm) === 'nda' ? 'What you write below shows inside the NDA popup.' : 'This opens a live site, so only the card on the home page is shown. Anything below stays unused.'));
   if (page.kind === 'experimenting' && !page.ownPage) out.push(el('div', { class: 'notice' }, 'Shown as a card on the experimenting page. Anything below stays unused.'));
+  if (page.kind === 'gallery' && !page.inNav) out.push(el('div', { class: 'notice' }, 'The top menu doesn’t link here yet. Add it under “Home & site text”, Top navigation.'));
   $('notices').replaceChildren(...out);
 }
 
@@ -665,9 +686,17 @@ function pickFiles(target) {
   $('file-input').click();
 }
 
-async function uploadFiles(files, { folder = '', onUploaded } = {}) {
+const isImageFile = (f) => f.type.startsWith('image/') || /\.(png|jpe?g|gif|webp|avif|svg|heic|heif|tiff?)$/i.test(f.name || '');
+
+async function uploadFiles(files, { folder = '', onUploaded, imagesOnly } = {}) {
   const page = state.page;
   if (!page) return;
+  if (imagesOnly) {
+    const images = files.filter(isImageFile);
+    if (images.length < files.length) toast(`Skipped ${files.length - images.length} file${files.length - images.length === 1 ? '' : 's'} that ${files.length - images.length === 1 ? 'isn’t' : 'aren’t'} an image.`);
+    files = images;
+    if (!files.length) return;
+  }
   const done = [];
   for (const [i, file] of files.entries()) {
     setSaveState(`Adding ${i + 1} of ${files.length}…`);
@@ -768,7 +797,7 @@ function renderPageImages() {
             const isCover = coverRef && item.ref === coverRef;
             const sub = el('div', { class: 'image-sub' }, isCover ? el('b', {}, coverKey === 'cover' ? 'Cover' : 'Top image') : item.used ? 'in use' : el('b', {}, 'not used yet'));
             return imageCard(item, [
-              el('button', { disabled: page.kind === 'quote', onclick: () => { editor.insertBlockAt(markdownFor(item)); } }, 'Insert'),
+              page.kind === 'gallery' ? null : el('button', { disabled: page.kind === 'quote', onclick: () => { editor.insertBlockAt(markdownFor(item)); } }, 'Insert'),
               coverKey && !item.isVideo && !isCover
                 ? el('button', { onclick: () => { changeFm(FM.set(state.fm, coverKey, item.ref)); renderPageImages(); renderDetails(); } }, coverKey === 'cover' ? 'Set cover' : 'Set top')
                 : null,
@@ -823,6 +852,308 @@ async function renderAllImages() {
       el('div', { class: 'toolbar-row' }, el('label', {}, 'Show'), select),
       cards.length ? el('div', { class: 'image-grid' }, cards) : el('div', { class: 'empty' }, 'Nothing here.')),
   );
+}
+
+// ---- gallery pages -------------------------------------------------------
+//
+// A gallery page is a board of its images. Adding is one step (drop them, paste
+// them, or press Add images). Clicking one opens a window with the picture big:
+// click where something is to pin a note there, then write it.
+
+// Reads the gallery from disk. Returns whether it replaced what's on screen.
+// Unless `force`, it leaves the list alone while there are unsaved edits or a
+// window is open on it: a late answer would swap the list out from under them.
+async function loadGallery({ force = false } = {}) {
+  const page = state.page;
+  if (!page || page.kind !== 'gallery') return false;
+  const data = await attempt(() => api('GET', `/api/gallery?page=${encodeURIComponent(page.path)}`));
+  if (!data || state.page?.path !== page.path) return false;
+  if (!force && (state.gallery.dirty || $('modal-root').children.length)) return false;
+  state.gallery.items = data.items;
+  state.gallery.dirty = false;
+  return true;
+}
+
+let galleryTimer;
+function markGalleryDirty() {
+  state.gallery.dirty = true;
+  setSaveState('Saving…');
+  clearTimeout(galleryTimer);
+  galleryTimer = setTimeout(flushGallery, 500);
+}
+
+const gallerySaveBody = (page) => ({
+  page,
+  items: state.gallery.items.map(({ file, title, notes }) => ({ file, title, notes })),
+});
+
+async function flushGallery() {
+  clearTimeout(galleryTimer);
+  if (!state.gallery.dirty || state.page?.kind !== 'gallery') return;
+  state.gallery.dirty = false;
+  try {
+    await api('PUT', '/api/gallery', gallerySaveBody(state.page.path));
+    setSaveState('Saved');
+    refreshSoon();
+  } catch (err) {
+    state.gallery.dirty = true;
+    setSaveState('NOT SAVED');
+    toast(`Couldn't save: ${err.message}`);
+  }
+}
+
+function addGalleryImages() {
+  pickFiles({ folder: '', imagesOnly: true, onUploaded: afterGalleryUpload });
+}
+
+async function afterGalleryUpload(done) {
+  await flushGallery();
+  await loadGallery({ force: true });
+  renderGallery();
+  if (done.length) toast(`Added ${done.length} image${done.length === 1 ? '' : 's'} at the end. Drag to reorder.`);
+}
+
+function moveGalleryItem(from, to) {
+  if (from === to) return;
+  const items = state.gallery.items;
+  items.splice(to, 0, items.splice(from, 1)[0]);
+  markGalleryDirty();
+  renderGallery();
+}
+
+let galleryDragFrom = null;
+
+function galleryTile(item, i) {
+  const noteCount = item.notes.length;
+  const tile = el('div', {
+    class: 'board-tile',
+    draggable: true,
+    title: item.file,
+    onclick: () => openAnnotator(i),
+  },
+  el('div', { class: 'board-thumb' }, el('img', { src: item.url, alt: '', loading: 'lazy', decoding: 'async', draggable: false })),
+  el('div', { class: 'board-info' },
+    el('span', { class: 'board-num' }, String(i + 1)),
+    el('span', { class: 'board-name' }, item.title || item.file),
+    noteCount ? el('span', { class: 'board-notes' }, `${noteCount} note${noteCount === 1 ? '' : 's'}`) : null));
+
+  tile.addEventListener('dragstart', (e) => {
+    galleryDragFrom = i;
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', item.file);
+    setTimeout(() => tile.classList.add('dragging'), 0);
+  });
+  tile.addEventListener('dragover', (e) => {
+    if (galleryDragFrom === null) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    tile.classList.add('drop-target');
+  });
+  tile.addEventListener('dragleave', () => tile.classList.remove('drop-target'));
+  tile.addEventListener('drop', (e) => {
+    if (galleryDragFrom === null) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const from = galleryDragFrom;
+    galleryDragFrom = null;
+    moveGalleryItem(from, i);
+  });
+  tile.addEventListener('dragend', () => {
+    galleryDragFrom = null;
+    document.querySelectorAll('.board-tile.dragging, .board-tile.drop-target').forEach((t) => t.classList.remove('dragging', 'drop-target'));
+  });
+  return tile;
+}
+
+function renderGallery() {
+  const box = $('gallery-board');
+  if (state.page?.kind !== 'gallery') return;
+  const items = state.gallery.items;
+  const anyNotes = items.some((it) => it.notes.length);
+  const hint = !items.length
+    ? 'Drop images anywhere on this board, paste them, or press Add images.'
+    : anyNotes
+      ? 'Drag to reorder. Click an image to edit its notes.'
+      : 'Drag to reorder. Click an image to pin notes on it.';
+  box.replaceChildren(
+    el('div', { class: 'board-bar' },
+      el('button', { class: 'heavy', onclick: addGalleryImages }, 'Add images…'),
+      el('span', { class: 'hint' }, hint),
+      el('span', { class: 'spacer' }),
+      el('span', { class: 'hint' }, `${items.length} image${items.length === 1 ? '' : 's'}`)),
+    items.length
+      ? el('div', { class: 'board-grid' }, items.map(galleryTile))
+      : el('div', { class: 'empty board-empty' }, 'No images yet.'));
+}
+
+// The note editor: the picture on the left, its words on the right.
+function openAnnotator(start) {
+  const items = state.gallery.items;
+  let index = start;
+  let selected = -1;
+
+  const img = el('img', { class: 'ann-img', alt: '', draggable: false });
+  const pins = el('div', { class: 'ann-pins' });
+  const frame = el('div', { class: 'ann-frame', title: 'Click to pin a note here' }, img, pins);
+  const heading = el('div', { class: 'ann-heading' });
+  const title = el('input', { type: 'text', placeholder: 'Describes the image (alt text)' });
+  const list = el('div', { class: 'ann-notes' });
+  const item = () => items[index];
+
+  const prune = () => {
+    const it = item();
+    const kept = it.notes.filter((n) => n.text.trim());
+    if (kept.length !== it.notes.length) {
+      it.notes = kept;
+      markGalleryDirty();
+    }
+  };
+
+  // Highlight one note and its pin without redrawing either (a redraw in the
+  // middle of dragging a pin would drop it).
+  const select = (n, focus) => {
+    selected = n;
+    pins.querySelectorAll('.ann-pin').forEach((pin, k) => pin.classList.toggle('sel', k === n));
+    list.querySelectorAll('.ann-note').forEach((row, k) => row.classList.toggle('sel', k === n));
+    if (focus && n >= 0) list.querySelectorAll('textarea')[n]?.focus();
+  };
+
+  function drawPins() {
+    pins.replaceChildren(...item().notes.map((note, n) => {
+      const pin = el('button', {
+        class: `ann-pin${n === selected ? ' sel' : ''}`,
+        title: 'Drag to move',
+        style: `left:${note.x * 100}%;top:${note.y * 100}%`,
+      }, String(n + 1));
+      pin.addEventListener('click', (e) => e.stopPropagation());
+      pin.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        pin.setPointerCapture(e.pointerId);
+        select(n, true);
+        const move = (m) => {
+          const r = img.getBoundingClientRect();
+          note.x = Math.min(1, Math.max(0, (m.clientX - r.left) / r.width));
+          note.y = Math.min(1, Math.max(0, (m.clientY - r.top) / r.height));
+          pin.style.left = `${note.x * 100}%`;
+          pin.style.top = `${note.y * 100}%`;
+        };
+        const up = () => {
+          pin.removeEventListener('pointermove', move);
+          pin.removeEventListener('pointerup', up);
+          markGalleryDirty();
+        };
+        pin.addEventListener('pointermove', move);
+        pin.addEventListener('pointerup', up);
+      });
+      return pin;
+    }));
+  }
+
+  function drawNotes() {
+    const notes = item().notes;
+    list.replaceChildren(
+      ...notes.map((note, n) => {
+        const box = el('textarea', { rows: 3, placeholder: 'What should people notice here?', value: note.text });
+        box.addEventListener('input', () => {
+          note.text = box.value;
+          markGalleryDirty();
+        });
+        box.addEventListener('focus', () => {
+          if (selected !== n) select(n, false);
+        });
+        return el('div', { class: `ann-note${n === selected ? ' sel' : ''}` },
+          el('span', { class: 'ann-num' }, String(n + 1)),
+          box,
+          el('button', {
+            class: 'flat',
+            title: 'Delete this note',
+            onclick: () => {
+              notes.splice(n, 1);
+              selected = -1;
+              markGalleryDirty();
+              drawNotes();
+              drawPins();
+            },
+          }, 'Delete'));
+      }),
+      ...(notes.length ? [] : [el('div', { class: 'ann-empty' }, 'No notes yet. Click the picture where you want one.')]));
+  }
+
+  function show(i) {
+    prune();
+    index = i;
+    selected = -1;
+    const it = item();
+    img.src = it.url;
+    img.alt = it.title || it.file;
+    title.value = it.title;
+    heading.replaceChildren(
+      el('b', {}, `${index + 1} of ${items.length}`),
+      el('span', { class: 'ann-file', title: it.file }, it.file),
+      el('span', { class: 'spacer' }),
+      el('button', { disabled: index === 0, onclick: () => show(index - 1) }, '‹ Previous'),
+      el('button', { disabled: index === items.length - 1, onclick: () => show(index + 1) }, 'Next ›'));
+    drawNotes();
+    drawPins();
+  }
+
+  title.addEventListener('input', () => {
+    item().title = title.value;
+    markGalleryDirty();
+  });
+
+  // Click the picture to pin a note there.
+  frame.addEventListener('click', (e) => {
+    if (e.target !== img) return;
+    const r = img.getBoundingClientRect();
+    item().notes.push({
+      x: Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)),
+      y: Math.min(1, Math.max(0, (e.clientY - r.top) / r.height)),
+      text: '',
+    });
+    markGalleryDirty();
+    drawNotes();
+    drawPins();
+    select(item().notes.length - 1, true);
+  });
+
+  const body = el('div', { class: 'annotator' },
+    el('div', { class: 'ann-stage' }, frame),
+    el('div', { class: 'ann-side' },
+      heading,
+      el('div', { class: 'field' }, el('label', {}, 'Title'), title),
+      el('div', { class: 'subhead' }, 'Notes'),
+      list));
+
+  show(start);
+
+  dialog({
+    title: 'Image & notes',
+    wide: 'full',
+    body,
+    buttons: [
+      {
+        label: 'Delete image…',
+        left: true,
+        run: async (close) => {
+          const it = item();
+          if (!(await confirmBox('Delete image', `Move ${it.file} to the Trash? It leaves the live site next time you publish.`, 'Delete'))) return;
+          const gone = await attempt(() => api('POST', '/api/media/delete', { path: it.path }));
+          if (!gone) return;
+          items.splice(index, 1);
+          markGalleryDirty();
+          close('deleted');
+        },
+      },
+      { label: 'Done', primary: true, value: true },
+    ],
+  }).then(async (result) => {
+    if (result !== 'deleted') prune();
+    await flushGallery();
+    if (result === 'deleted') await reloadCurrentPageMedia();
+    renderGallery();
+  });
 }
 
 // ---- site text -----------------------------------------------------------
@@ -993,6 +1324,7 @@ async function newPage() {
     ['quote', 'Writing: a quote'],
     ['working', 'Working: a project'],
     ['experimenting', 'Experimenting: a side project'],
+    ['gallery', 'Gallery: a full-screen wall of images'],
     ['page', 'Page: its own address, like Now'],
   ];
   const kindSelect = el('select', {}, kinds.map(([v, label]) => el('option', { value: v }, label)));
@@ -1051,6 +1383,10 @@ function changeLabel(p) {
   const page = state.pages.find((x) => x.path === p);
   if (page) return page.title;
   if (p === 'data/site.json') return 'Home & site text';
+  if (p.endsWith('/gallery.json')) {
+    const home = state.pages.find((x) => x.bundle && dirname(x.path) === dirname(p));
+    if (home) return `${home.title}: order & notes`;
+  }
   return p.replace(/^content\//, '');
 }
 
@@ -1059,7 +1395,7 @@ const isContent = (p) => p.startsWith('content/') || p.startsWith('static/images
 function suggestMessage(files) {
   const named = (f) => changeLabel(f.path);
   const verb = { new: 'add', changed: 'update', deleted: 'remove' };
-  const content = files.filter((f) => f.path.endsWith('.md') || f.path === 'data/site.json');
+  const content = files.filter((f) => f.path.endsWith('.md') || f.path === 'data/site.json' || f.path.endsWith('/gallery.json'));
   const pick = content.length ? content : files;
   if (pick.length === 1) return `${verb[pick[0].status]} ${named(pick[0])}`;
   if (pick.length <= 3) return `update ${pick.map(named).join(', ')}`;
@@ -1276,7 +1612,7 @@ function insertLink() {
   }).then(() => editor.focus());
 }
 
-function makeDropTarget(node, getFolder) {
+function makeDropTarget(node, getFolder, extra = {}) {
   const has = (e) => e.dataTransfer?.types?.includes('Files');
   node.addEventListener('dragover', (e) => {
     if (!has(e)) return;
@@ -1290,7 +1626,7 @@ function makeDropTarget(node, getFolder) {
     if (!has(e)) return;
     e.preventDefault();
     node.classList.remove('dropping');
-    uploadFiles([...e.dataTransfer.files], { folder: getFolder(e) });
+    uploadFiles([...e.dataTransfer.files], { folder: getFolder(e), ...extra });
   });
 }
 
@@ -1360,6 +1696,16 @@ function wire() {
     return head?.querySelector('.folder-head span')?.textContent.replace(/\/$/, '').replace('This page', '') || '';
   });
 
+  // A gallery board takes dropped or pasted images straight onto the wall.
+  makeDropTarget($('gallery-board'), () => '', { imagesOnly: true, onUploaded: afterGalleryUpload });
+  document.addEventListener('paste', (e) => {
+    if (state.view !== 'page' || state.page?.kind !== 'gallery' || $('modal-root').children.length) return;
+    const files = [...(e.clipboardData?.files || [])].filter(isImageFile);
+    if (!files.length) return;
+    e.preventDefault();
+    uploadFiles(files, { imagesOnly: true, onUploaded: afterGalleryUpload });
+  });
+
   $('phone-btn').onclick = () => {
     const on = $('preview-well').classList.toggle('phone');
     $('phone-btn').classList.toggle('on', on);
@@ -1417,6 +1763,14 @@ function wire() {
     checkDisk();
   });
   window.addEventListener('pagehide', () => {
+    if (state.gallery.dirty && state.page?.kind === 'gallery') {
+      fetch('/api/gallery', {
+        method: 'PUT',
+        keepalive: true,
+        headers: { 'X-Portfolio': '1', 'Content-Type': 'application/json' },
+        body: JSON.stringify(gallerySaveBody(state.page.path)),
+      });
+    }
     if (!state.dirty || !state.page) return;
     fetch('/api/page', {
       method: 'PUT',

@@ -1,0 +1,124 @@
+{{/* Full-screen image wall. Used by any section whose _index.md says
+       layout: gallery   (painting, gallery, and any the Portfolio app adds).
+
+     The images are just the image files sitting in the section's folder. An
+     optional gallery.json beside them holds the order, a title (used as the alt
+     text) for each image, and its annotations:
+       { "items": [ { "file": "one.jpg", "title": "",
+                      "notes": [ { "x": 0.4, "y": 0.3, "text": "…" } ] } ] }
+     x and y are fractions (0 to 1) of the image's width and height. Images not
+     listed there still show, after the listed ones. */}}
+
+{{- $s := newScratch -}}
+{{- with .Resources.GetMatch "gallery.json" -}}
+  {{- with . | transform.Unmarshal -}}
+    {{- range .items -}}
+      {{- $s.SetInMap "meta" .file . -}}
+      {{- $s.Add "order" (slice .file) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $meta := $s.Get "meta" | default dict -}}
+{{- $order := $s.Get "order" | default slice -}}
+
+{{- $images := .Resources.ByType "image" -}}
+{{- range $images -}}{{- $s.SetInMap "byName" .Name . -}}{{- end -}}
+{{- $byName := $s.Get "byName" | default dict -}}
+{{- range $order -}}
+  {{- with index $byName . -}}{{- $s.Add "ordered" (slice .) -}}{{- end -}}
+{{- end -}}
+{{- range $images -}}
+  {{- if not (in $order .Name) -}}{{- $s.Add "ordered" (slice .) -}}{{- end -}}
+{{- end -}}
+{{- $ordered := $s.Get "ordered" | default slice -}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .Title }}</title>
+    <meta name="description" content="{{ .Description | default .Site.Data.site.description }}">
+
+    <link rel="icon" type="image/x-icon" href="/assets/default.png">
+
+    <!-- No header on this layout, so clear any page-transition flags left by
+         the page we came from (same as expanded.html). -->
+    <script>
+    if (sessionStorage.getItem('siteSettle')) sessionStorage.removeItem('siteSettle');
+    if (sessionStorage.getItem('sitePageFade')) sessionStorage.removeItem('sitePageFade');
+    </script>
+
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/preview.css?v={{ (os.Stat "static/css/preview.css").ModTime.Unix }}">
+    <link rel="stylesheet" href="/css/gallery.css?v={{ (os.Stat "static/css/gallery.css").ModTime.Unix }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap" rel="stylesheet">
+    <noscript><style>.g-item { opacity: 1 !important; }</style></noscript>
+</head>
+<body>
+
+    <main class="main-content default-expanded gallery-page">
+        <div id="navSentinel"></div>
+        <div class="navigation">
+            <div class="navigation-center">
+                {{ range .Site.Data.site.nav.main }}
+                <a href="{{ .url | relURL }}" class="{{ if eq $.RelPermalink .url }}active{{ end }}" data-expand="true">{{ .label }}</a>
+                {{ end }}
+            </div>
+
+            <div class="navigation-right" style="position: absolute; right: 10px;">
+                {{ range .Site.Data.site.nav.right }}
+                <a href="{{ .url | relURL }}" class="{{ if eq $.RelPermalink .url }}active{{ end }}" data-expand="true">{{ .label }}</a>
+                {{ end }}
+            </div>
+        </div>
+
+        <header class="gallery-head">
+            <h4>{{ .Title }}</h4>
+            {{ with .Description }}<p>{{ . }}</p>{{ end }}
+            {{ with .Content }}<div class="gallery-intro">{{ . }}</div>{{ end }}
+        </header>
+
+        {{ if $ordered }}
+        <div class="gallery-grid" id="galleryGrid">
+            {{ range $i, $r := $ordered }}
+            {{- $m := index $meta $r.Name | default dict -}}
+            {{- /* Phone photos are often stored sideways with a "rotate me" tag that
+                     browsers obey but Hugo's resizer doesn't, so turn those upright first. */ -}}
+            {{- $base := $r -}}
+            {{- if eq $r.MediaType.SubType "jpeg" -}}
+                {{- $turn := 1 -}}
+                {{- with $r.Exif }}{{ with .Tags.Orientation }}{{ $turn = int . }}{{ end }}{{ end -}}
+                {{- if ne $turn 1 }}{{ $base = $r.Filter images.AutoOrient }}{{ end -}}
+            {{- end -}}
+            {{- $small := $base -}}
+            {{- $large := $base -}}
+            {{- if in (slice "jpeg" "png" "webp") $r.MediaType.SubType -}}
+                {{- if gt $base.Width 800 }}{{ $small = $base.Resize "800x q85" }}{{ end -}}
+                {{- if gt $base.Width 1600 }}{{ $large = $base.Resize "1600x q85" }}{{ end -}}
+            {{- end -}}
+            {{- $notes := $m.notes | default slice -}}
+            {{- $title := $m.title | default "" -}}
+            <img class="g-item" src="{{ $small.RelPermalink }}"
+                 {{ if ne $small.RelPermalink $large.RelPermalink }}srcset="{{ $small.RelPermalink }} {{ $small.Width }}w, {{ $large.RelPermalink }} {{ $large.Width }}w" sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 34vw"{{ end }}
+                 width="{{ $small.Width }}" height="{{ $small.Height }}"
+                 alt="{{ $title | default (printf "%s by %s" $.Title $.Site.Data.site.name) }}"
+                 data-full="{{ $r.RelPermalink }}" data-nw="{{ $base.Width }}" data-nh="{{ $base.Height }}"
+                 {{ with $notes }}data-notes="{{ printf "%s" (jsonify .) }}"{{ end }}
+                 {{ if gt $i 5 }}loading="lazy"{{ end }} decoding="async">
+            {{ end }}
+        </div>
+        {{ else }}
+        <p class="gallery-empty">Nothing here yet.</p>
+        {{ end }}
+    </main>
+
+        <script src="/scripts/expander.js?v={{ (os.Stat "static/scripts/expander.js").ModTime.Unix }}"></script>
+    <script src="/scripts/nav-sticky.js?v={{ (os.Stat "static/scripts/nav-sticky.js").ModTime.Unix }}"></script>
+    <script src="/scripts/preview.js?v={{ (os.Stat "static/scripts/preview.js").ModTime.Unix }}"></script>
+    <script src="/scripts/gallery.js?v={{ (os.Stat "static/scripts/gallery.js").ModTime.Unix }}"></script>
+</body>
+</html>

@@ -238,7 +238,52 @@ textarea { resize: vertical; }
 .format-bar i { font-family: var(--serif); }
 
 .paper { flex: 1; min-height: 0; overflow: hidden; background: var(--g0); box-shadow: inset 1px 1px 0 var(--lo); display: flex; flex-direction: column; }
-.paper.quote-mode { display: none; }
+.paper.quote-mode, .paper.gallery-mode { display: none; }
+
+/* ---- gallery board ---- */
+
+.gallery-board { flex: 1; min-height: 0; overflow: auto; padding: 10px; background: var(--g0); box-shadow: inset 1px 1px 0 var(--lo); }
+.gallery-board.dropping { outline: 3px dashed var(--ink); outline-offset: -6px; }
+.board-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-bottom: 10px; }
+.board-bar .hint { white-space: normal; }
+.board-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 8px; }
+.board-tile { display: flex; flex-direction: column; min-width: 0; border: 1px solid var(--ink); background: var(--g1); box-shadow: 1px 1px 0 var(--ink); cursor: default; }
+.board-tile:hover { background: var(--g0); }
+.board-tile:active { box-shadow: none; transform: translate(1px, 1px); }
+.board-tile.dragging { opacity: .35; }
+.board-tile.drop-target { outline: 3px solid var(--ink); outline-offset: 1px; }
+.board-thumb { height: 118px; display: grid; place-items: center; overflow: hidden; border-bottom: 1px solid var(--ink); background: var(--g3) repeating-conic-gradient(var(--g4) 0 25%, var(--g3) 0 50%) 0 0 / 12px 12px; }
+.board-thumb img { display: block; max-width: 100%; max-height: 100%; pointer-events: none; }
+.board-info { display: flex; align-items: baseline; gap: 6px; padding: 3px 6px; min-width: 0; font-size: 11px; }
+.board-num { flex: none; padding: 0 4px; background: var(--ink); color: #fff; font: bold 10px var(--mono); }
+.board-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.board-notes { flex: none; color: var(--g5); font: 10px var(--mono); }
+.board-empty { padding: 60px 20px; }
+
+/* ---- the note editor ---- */
+
+.dialog.full { width: min(1120px, 100%); }
+.dialog.full .dialog-body { padding: 0; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.annotator { display: grid; grid-template-columns: minmax(0, 1fr) 290px; height: min(660px, 74vh); min-height: 0; }
+.ann-stage { display: grid; place-items: center; min-width: 0; min-height: 0; padding: 12px; overflow: hidden; border-right: 2px solid var(--ink); background: var(--g4) repeating-conic-gradient(var(--g5) 0 25%, var(--g4) 0 50%) 0 0 / 14px 14px; }
+.ann-frame { position: relative; display: inline-block; max-width: 100%; line-height: 0; cursor: crosshair; }
+.ann-img { display: block; max-width: 100%; max-height: calc(min(660px, 74vh) - 26px); border: 1px solid var(--ink); background: var(--g3); user-select: none; }
+.ann-pins { position: absolute; inset: 0; pointer-events: none; }
+.ann-pin { position: absolute; width: 22px; height: 22px; padding: 0; transform: translate(-50%, -50%); display: grid; place-items: center; border: 2px solid #fff; background: var(--ink); color: #fff; font: bold 11px/1 var(--ui); box-shadow: 1px 1px 0 var(--ink), 0 0 0 1px var(--ink); cursor: grab; pointer-events: auto; touch-action: none; }
+.ann-pin:active:not(:disabled) { transform: translate(-50%, -50%); box-shadow: 1px 1px 0 var(--ink), 0 0 0 1px var(--ink); background: var(--ink); cursor: grabbing; }
+.ann-pin.sel { background: #fff; color: var(--ink); border-color: var(--ink); z-index: 1; }
+.ann-side { display: flex; flex-direction: column; min-height: 0; overflow: auto; padding: 10px; background: var(--g2); }
+.ann-side .field { grid-template-columns: 52px 1fr; margin-bottom: 6px; }
+.ann-heading { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--g4); }
+.ann-heading .ann-file { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--g5); font: 10px var(--mono); }
+.ann-heading button { padding: 1px 6px; font-size: 11px; }
+.ann-notes { display: flex; flex-direction: column; gap: 6px; }
+.ann-note { display: grid; grid-template-columns: 22px 1fr; gap: 3px 6px; align-items: start; padding: 5px; border: 1px solid var(--g4); background: var(--g1); }
+.ann-note.sel { border-color: var(--ink); background: var(--g0); box-shadow: 1px 1px 0 var(--ink); }
+.ann-note textarea { grid-column: 2; }
+.ann-note .flat { grid-column: 2; justify-self: end; font-size: 11px; }
+.ann-num { grid-row: 1; width: 22px; height: 22px; display: grid; place-items: center; background: var(--ink); color: #fff; font: bold 11px var(--ui); }
+.ann-empty { padding: 10px; border: 1px dashed var(--g4); color: var(--g5); text-align: center; }
 
 /* ---- writing surface ---- */
 

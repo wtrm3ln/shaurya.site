@@ -40,6 +40,7 @@
     <link rel="preload" href="/fonts/FT88-Gothique.woff2" as="font" type="font/woff2" crossorigin>
 
     <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/preview.css?v={{ (os.Stat "static/css/preview.css").ModTime.Unix }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -62,7 +63,8 @@
         <div class="navigation">
             <div class="navigation-center">
                 {{ range .Site.Data.site.nav.main }}
-                <a href="{{ .url | relURL }}" class="{{ if eq $.RelPermalink .url }}active{{ end }}">{{ .label }}</a>
+                {{/* `expand: true` on a nav item slides the card up over the header on the way to a full-screen page. */}}
+                <a href="{{ .url | relURL }}" class="{{ if eq $.RelPermalink .url }}active{{ end }}"{{ if .expand }} data-expand="true"{{ end }}>{{ .label }}</a>
                 {{ end }}
             </div>
 
@@ -82,6 +84,7 @@
     <script src="/scripts/scroller.js?v={{ (os.Stat "static/scripts/scroller.js").ModTime.Unix }}"></script>
     <script src="/scripts/expander.js?v={{ (os.Stat "static/scripts/expander.js").ModTime.Unix }}"></script>
 
+    <script src="/scripts/preview.js?v={{ (os.Stat "static/scripts/preview.js").ModTime.Unix }}"></script>
     <script src="/scripts/nav-sticky.js?v={{ (os.Stat "static/scripts/nav-sticky.js").ModTime.Unix }}"></script>
 </body>
 </html>

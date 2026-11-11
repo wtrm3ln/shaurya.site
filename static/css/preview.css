@@ -1,0 +1,149 @@
+/* ===============================
+   IMAGE PREVIEW
+   Any plain image in the page content opens here when clicked. No buttons:
+   scroll or pinch to zoom, drag to pan, double-click to toggle, click the
+   background or press Esc to close. static/scripts/preview.js builds it.
+   =============================== */
+
+img.is-zoomable {
+  cursor: zoom-in;
+}
+
+/* Above the paper-grain overlay (z-index 10001) so the image stays clean. */
+.pv {
+  position: fixed;
+  inset: 0;
+  z-index: 10002;
+  background: rgba(0, 0, 0, 0.45);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  overflow: hidden;
+  transition: opacity 0.22s ease, visibility 0.22s ease;
+}
+
+.pv.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.pv.is-zoomed { cursor: grab; }
+.pv.is-dragging { cursor: grabbing; }
+
+/* The canvas is the image's own pixel size; preview.js moves and scales it,
+   so a zoom of 1 is true full size. */
+.pv-canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.pv-canvas.is-anim {
+  transition: transform 0.28s cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Small black border that stays 1px however far you zoom. */
+.pv-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  border: calc(1px / var(--z, 1)) solid #000;
+  outline: none;
+  border-radius: 0;
+  pointer-events: none;
+}
+
+/* ---- notes pinned on an image ---- */
+
+.pv-pins {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.pv.is-flying .pv-pins {
+  visibility: hidden;
+}
+
+/* Pins keep one size however far you zoom: undo the canvas scale. */
+.pv-pin {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--orange, #FF6542);
+  color: #fff;
+  font: 500 11px/1 "Geologica", sans-serif;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(calc(1 / var(--z, 1)));
+  transition: background-color 0.15s ease;
+}
+
+.pv-pin:hover,
+.pv-pin.is-open,
+.pv-pin:focus-visible {
+  background: #393939;
+  z-index: 2;
+  outline: none;
+}
+
+.pv-note {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  width: max-content;
+  max-width: 260px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: #fff;
+  color: #393939;
+  font: 400 13px/1.45 "Geologica", sans-serif;
+  text-align: left;
+  white-space: pre-wrap;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  transform: translateX(-50%) translateY(4px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+}
+
+.pv-pin:hover .pv-note,
+.pv-pin:focus-visible .pv-note,
+.pv-pin.is-open .pv-note {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Set by preview.js when a pin is near an edge of the screen. */
+.pv-note.below { bottom: auto; top: calc(100% + 10px); }
+.pv-note.at-left { left: -4px; transform: translateY(4px); }
+.pv-note.at-right { left: auto; right: -4px; transform: translateY(4px); }
+.pv-pin:hover .pv-note.at-left,
+.pv-pin:focus-visible .pv-note.at-left,
+.pv-pin.is-open .pv-note.at-left,
+.pv-pin:hover .pv-note.at-right,
+.pv-pin:focus-visible .pv-note.at-right,
+.pv-pin.is-open .pv-note.at-right { transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .pv-canvas.is-anim { transition: none; }
+}

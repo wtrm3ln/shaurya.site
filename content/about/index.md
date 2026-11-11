@@ -9,7 +9,7 @@ We live in label-less times
 
 The visible work, has never been as easy to replicate
 
-What remains, what matters, is what you do in the physical world
+What remains, what matters, is what you do in the real world
 
 And the ideas you are driven by
 
@@ -84,7 +84,7 @@ Creative influences include John Singer Sargent, Amrita Shergil, Douglas C. Enge
 ![](img-6915.jpg)
 
 ![](img-0556.jpg)
-
+[gallery](https://shaurya.site/gallery) of more creative inspirations
 
   {{< /col >}}
 {{< /2col >}}

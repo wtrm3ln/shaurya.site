@@ -19,8 +19,6 @@ layout: "expanded"
 
   {{< /col >}}
   {{< col >}}
-I am a designer who likes messy things. I like untangling the strings, understanding all the nuances, and building mental models. Design is usually what comes out of that.
-
 I am drawn to simplicity, craft, and thinking from first principles.
 #### Experience
 

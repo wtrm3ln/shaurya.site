@@ -17,6 +17,7 @@
     </script>
 
     <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/preview.css?v={{ (os.Stat "static/css/preview.css").ModTime.Unix }}">
     <!-- The 2col / 3col column blocks are styled in this file. -->
     <link rel="stylesheet" href="/css/content.css">
 
@@ -46,6 +47,7 @@
     </main>
 
     <script src="/scripts/expander.js?v={{ (os.Stat "static/scripts/expander.js").ModTime.Unix }}"></script>
+    <script src="/scripts/preview.js?v={{ (os.Stat "static/scripts/preview.js").ModTime.Unix }}"></script>
     <script src="/scripts/nav-sticky.js?v={{ (os.Stat "static/scripts/nav-sticky.js").ModTime.Unix }}"></script>
     </body>
 

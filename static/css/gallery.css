@@ -1,0 +1,91 @@
+/* ===============================
+   GALLERY PAGES (painting, gallery, …)
+   Full-width wall of plain images; clicking one opens preview.js. Layout: layouts/_default/gallery.html
+   =============================== */
+
+/* Edge to edge: the usual centred column gives way to a slim gutter. */
+.main-content.default-expanded.gallery-page {
+  --g-pad: clamp(10px, 1.4vw, 24px);
+  --g-gap: clamp(10px, 1.2vw, 18px);
+  padding-inline: var(--g-pad);
+  padding-bottom: 5em;
+}
+
+.gallery-head {
+  max-width: 640px;
+  margin: 0 0 1.6rem;
+}
+
+.gallery-head h4 {
+  margin: 0 0 0.5rem;
+}
+
+.gallery-head p {
+  margin: 0 0 0.5em;
+  color: #6b6b6b;
+}
+
+.gallery-empty {
+  color: #a9a9a9;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+/* ---- the wall ----
+   Without JavaScript the browser flows items down three CSS columns. With it
+   (gallery.js) the items are dealt into columns by height, so the reading
+   order runs left to right and no row lines up with the next. */
+
+.gallery-grid {
+  columns: 3;
+  column-gap: var(--g-gap);
+}
+
+.gallery-grid.is-masonry {
+  columns: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--g-gap);
+}
+
+.g-col {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--g-gap);
+}
+
+.g-item {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 0 var(--g-gap);
+  break-inside: avoid;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.is-masonry .g-item {
+  margin: 0;
+}
+
+.g-item.in {
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  .gallery-grid { columns: 2; }
+}
+
+@media (max-width: 560px) {
+  .gallery-grid { columns: 1; }
+}
+
+/* Four links across the top need to wrap rather than stack on a phone. */
+@media (max-width: 480px) {
+  .gallery-page .navigation-center {
+    flex-wrap: wrap;
+    gap: 6px 18px;
+  }
+}

@@ -61,6 +61,14 @@
             "url": "/writing"
           },
           {
+            "label": "Painting",
+            "url": "/painting"
+          },
+          {
+            "label": "Gallery",
+            "url": "/gallery"
+          },
+          {
             "label": "About Me",
             "url": "/about"
           },

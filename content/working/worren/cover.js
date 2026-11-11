@@ -1,7 +1,7 @@
 // Worren's cover: the character from worren.world's footer, in the middle of its grass, going
-// through what it does there — waving, watching a pointer, hopping, sniffing the grass,
-// stretching and watching a butterfly go by, one after another while the grass sways. Hover
-// over it and it watches the real pointer instead.
+// through what it does there — waving, hopping, sniffing the grass, stretching and watching
+// a butterfly go by, one after another while the grass sways. Hover over it and it watches
+// the pointer instead.
 //
 // The same canvas is the thumbnail on the home page and the banner on the project page
 // (partials/cover.html), so everything is measured from the canvas's own size.
@@ -17,8 +17,6 @@ const ART = {
   heart: [' r r ', 'rrrrr', 'rrrrr', ' rrr ', '  r  '],
   flyOpen: ['ww ww', 'wwkww', ' wkw '],
   flyShut: ['  k  ', ' wkw ', ' wkw '],
-  // the pointer it watches
-  arrow: ['k     ', 'kk    ', 'kwk   ', 'kwwk  ', 'kwwwk ', 'kwwwwk', 'kwwkkk', 'kk    ', 'k     '],
 }
 
 const rand = (a, b) => a + Math.floor(Math.random() * (b - a + 1))
@@ -38,7 +36,7 @@ function scene(canvas) {
   const rest = () => ({ crouch: 0, ears: false, twitch: -1, tail: false, stretched: false, eyes: 'open', look: 0, down: 0, mouth: false, arm: null })
   let pose = rest(), y = 0, facing = -1
   let ticks = 0, hold = 0, blinkAt = 30, blinkEnd = 0
-  let fly = null, pointer = null, real = null, particles = [], rustles = [], gust = null, gustAt = FPS * 3
+  let fly = null, real = null, particles = [], rustles = [], gust = null, gustAt = FPS * 3
   const show = choreography()
 
   function measure() {
@@ -97,13 +95,6 @@ function scene(canvas) {
       fly.y = fly.home + Math.sin(ticks * 0.35) * cell * 0.7
       if (fly.x < -cell * 3 || fly.x > W + cell * 3) fly = null
     }
-    if (pointer) {
-      pointer.t++
-      const p = pointer.path(pointer.t / pointer.length)
-      pointer.x = p.x; pointer.y = p.y
-      if (pointer.y > ground - px * 3) rustle(column(pointer.x))
-      if (pointer.t >= pointer.length) pointer = null
-    }
     // someone's pointer outranks everything: it watches them
     if (real && ticks - real.at < FPS * 3) { watch(real); return }
     if (hold > 0) { hold--; return }
@@ -124,7 +115,7 @@ function scene(canvas) {
     yield FPS
     yield* wave()
     for (;;) {
-      const acts = [watching, hop, sniff, stretch, butterfly, wave]
+      const acts = [hop, sniff, stretch, butterfly, wave]
       for (let i = acts.length - 1; i > 0; i--) { const j = rand(0, i); [acts[i], acts[j]] = [acts[j], acts[i]] }
       for (const act of acts) {
         pose = rest(); y = 0
@@ -182,26 +173,6 @@ function scene(canvas) {
       yield 1
     }
   }
-  // A pointer comes in, goes round it and leaves; it keeps its eyes on it.
-  function* watching() {
-    const fromRight = Math.random() < 0.5
-    const h = head()
-    const a = { x: fromRight ? W + cell * 2 : -cell * 2, y: h.y - cell * 3 }
-    const b = { x: h.x + (fromRight ? -1 : 1) * cell * 8, y: ground - px }
-    const c = { x: h.x + (fromRight ? 1 : -1) * cell * 6, y: h.y - cell * 4 }
-    const d = { x: fromRight ? -cell * 2 : W + cell * 2, y: ground - cell * 2 }
-    const curve = (t) => {
-      // through a, b, c and on to d, smoothly
-      const pts = [a, b, c, d], seg = Math.min(Math.floor(t * 3), 2), u = t * 3 - seg
-      const p0 = pts[Math.max(seg - 1, 0)], p1 = pts[seg], p2 = pts[seg + 1], p3 = pts[Math.min(seg + 2, 3)]
-      const cr = (k) => 0.5 * (2 * p1[k] + (-p0[k] + p2[k]) * u + (2 * p0[k] - 5 * p1[k] + 4 * p2[k] - p3[k]) * u * u + (-p0[k] + 3 * p1[k] - 3 * p2[k] + p3[k]) * u * u * u)
-      return { x: cr('x'), y: cr('y') }
-    }
-    pointer = { t: 0, length: FPS * 6, path: curve, x: a.x, y: a.y }
-    while (pointer) { watch(pointer); yield 1 }
-    pose.ears = false; pose.twitch = 1; yield 4
-  }
-
   // ── the grass ──
   function weather() {
     if (!gust && ticks >= gustAt) gust = { from: ticks, dir: Math.random() < 0.5 ? 1 : -1 }
@@ -290,7 +261,6 @@ function scene(canvas) {
     drawWorren()
     drawGrass(true)
     if (fly) art(ticks % 4 < 2 ? ART.flyOpen : ART.flyShut, fly.x - 2.5 * px, fly.y)
-    if (pointer) art(ART.arrow, pointer.x, pointer.y + ART.arrow.length * px)
     for (const p of particles) {
       if (p.rows) art(p.rows, p.x, p.y)
       else { ctx.fillStyle = p.color; ctx.fillRect(Math.round(p.x), Math.round(p.y), px, px) }

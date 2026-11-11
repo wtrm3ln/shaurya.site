@@ -193,6 +193,8 @@ function classify(rel, fm) {
   const parts = rel.replace(/^content\//, '').split('/');
   const file = parts[parts.length - 1];
   const [top] = parts;
+  // A folder whose _index.md says `layout: gallery` is a full-screen image wall.
+  if ((file === '_index.md' || file === 'index.md') && FM.get(fm, 'layout') === 'gallery') return 'gallery';
   if (top === 'writing' && parts.length > 1) {
     if (file === '_index.md') return null;
     return FM.isTrue(fm, 'isQuote') || FM.has(fm, 'quote') ? 'quote' : 'writing';
@@ -202,7 +204,7 @@ function classify(rel, fm) {
   return 'page';
 }
 
-const GROUP = { page: 'Pages', writing: 'Writing', quote: 'Writing', working: 'Working', experimenting: 'Experimenting' };
+const GROUP = { page: 'Pages', gallery: 'Galleries', writing: 'Writing', quote: 'Writing', working: 'Working', experimenting: 'Experimenting' };
 
 function previewFor(kind, rel, fm, url) {
   const type = FM.get(fm, 'type');
@@ -218,8 +220,18 @@ function previewFor(kind, rel, fm, url) {
   return { previewUrl: url || '/', ownPage: true };
 }
 
+async function navUrls() {
+  try {
+    const { nav = {} } = JSON.parse(await fsp.readFile(path.join(ROOT, SITE_JSON), 'utf8'));
+    const norm = (u) => `/${String(u || '').replace(/^\/+|\/+$/g, '')}/`.replace(/^\/\/$/, '/');
+    return new Set([...(nav.main || []), ...(nav.right || [])].map((l) => norm(l.url)));
+  } catch {
+    return new Set();
+  }
+}
+
 async function listPages() {
-  const [links, changes] = await Promise.all([hugoPermalinks(), gitChanges()]);
+  const [links, changes, inNav] = await Promise.all([hugoPermalinks(), gitChanges(), navUrls()]);
   const changed = new Map(changes.files.map((f) => [f.path, f.status]));
   const pages = [];
   await walk(path.join(ROOT, 'content'), async (abs, name) => {
@@ -229,8 +241,11 @@ async function listPages() {
     const { fm } = FM.split(raw);
     const kind = classify(rel, fm);
     if (!kind) return;
-    const url = links.get(rel) || '';
     const bundle = name === 'index.md' || name === '_index.md';
+    // Hugo's page list leaves out section pages like a gallery's _index.md, but
+    // their address is simply their folder.
+    const sectionUrl = name === '_index.md' ? `/${rel.replace(/^content\//, '').replace(/_index\.md$/, '')}` : '';
+    const url = links.get(rel) || sectionUrl;
     pages.push({
       path: rel,
       kind,
@@ -242,6 +257,8 @@ async function listPages() {
       url,
       bundle,
       change: changed.get(rel) || null,
+      // Whether the top menu links to it (galleries are easy to forget to add).
+      inNav: inNav.has(`/${url.replace(/^\/+|\/+$/g, '')}/`.replace(/^\/\/$/, '/')),
       // Every setting this page uses, so its siblings can offer the same ones.
       settings: FM.keys(fm).map((key) => [key, FM.kindOf(fm, key)]),
       ...previewFor(kind, rel, fm, url),
@@ -267,7 +284,7 @@ async function listPages() {
       const wb = b.weight ?? Infinity;
       return wa - wb || a.title.localeCompare(b.title);
     }
-    if (a.group === 'Pages') return a.title.localeCompare(b.title);
+    if (a.group === 'Pages' || a.group === 'Galleries') return a.title.localeCompare(b.title);
     return byDate(a, b);
   });
 
@@ -325,6 +342,9 @@ function newPageFile(kind, title) {
         slug,
         text: `---\ntitle: ${yamlTitle}\ndate: ${now}\nyear: ${year}\ntags: []\nfeatured: true\nslug: ${slug}\ndescription: ""\nexternal: true\nexternalurl: ""\ncover: ""\ndraft: false\n---\n`,
       };
+    case 'gallery':
+      // A folder of its own: the images go in beside _index.md.
+      return { rel: `content/${slug}/_index.md`, slug, text: `---\ntitle: ${yamlTitle}\ndescription: ""\nlayout: gallery\ndraft: false\n---\n` };
     case 'page':
       return { rel: `content/${slug}.md`, slug, text: `---\ntitle: ${yamlTitle}\ndraft: false\nlayout: "expanded"\n---\n` };
     default:
@@ -337,7 +357,7 @@ async function createPage({ kind, title }) {
   const file = newPageFile(kind, title.trim());
   let rel = file.rel;
   let n = 2;
-  while ((await exists(path.join(ROOT, rel))) || (await exists(path.join(ROOT, rel.replace(/\/index\.md$/, ''))))) {
+  while ((await exists(path.join(ROOT, rel))) || (await exists(path.join(ROOT, rel.replace(/\/_?index\.md$/, ''))))) {
     rel = file.rel.replace(file.slug, `${file.slug}-${n}`);
     n += 1;
   }
@@ -349,7 +369,10 @@ async function createPage({ kind, title }) {
 async function deletePage({ path: rel }) {
   const abs = safe(rel, ['content']);
   const name = path.basename(abs);
-  await moveToTrash(name === 'index.md' ? path.dirname(abs) : abs);
+  // A page with a folder of its own takes its images with it (but never the
+  // whole content folder, if the page happens to sit at its top).
+  const ownFolder = (name === 'index.md' || name === '_index.md') && path.dirname(abs) !== path.join(ROOT, 'content');
+  await moveToTrash(ownFolder ? path.dirname(abs) : abs);
   return { ok: true };
 }
 
@@ -392,6 +415,8 @@ function describeMedia(fileRel, stat, extra = {}) {
 const referenced = (text, ref) => text.toLowerCase().includes(ref.toLowerCase());
 // The paintings shortcode shows its whole folder, so those files never get named.
 const inPaintingsGrid = (text, ref) => ref.startsWith('paintings/') && text.includes('{{< paintings');
+// A gallery page shows every image in its folder, so none of them get named either.
+const inGalleryPage = (text, ref) => !ref.includes('/') && /^layout:\s*["']?gallery["']?\s*$/m.test(text);
 
 async function pageMedia(rel) {
   safe(rel, ['content']);
@@ -406,7 +431,7 @@ async function pageMedia(rel) {
     seenFolders.add(folder);
     if (!isMedia(name)) return;
     const stat = await fsp.stat(abs);
-    items.push(describeMedia(fileRel, stat, { ref, folder, used: referenced(raw, ref) || referenced(raw, name) || inPaintingsGrid(raw, ref) }));
+    items.push(describeMedia(fileRel, stat, { ref, folder, used: referenced(raw, ref) || referenced(raw, name) || inPaintingsGrid(raw, ref) || inGalleryPage(raw, ref) }));
   });
   items.sort((a, b) => a.path.localeCompare(b.path));
   return { items, folders: [...seenFolders].sort(), dir };
@@ -433,7 +458,7 @@ async function allMedia() {
       }
       if (owner) {
         const ref = fileRel.slice(owner.dir.length + 1);
-        if (referenced(owner.raw, ref) || referenced(owner.raw, name) || inPaintingsGrid(owner.raw, ref)) usedBy.push({ path: owner.rel, title: owner.title });
+        if (referenced(owner.raw, ref) || referenced(owner.raw, name) || inPaintingsGrid(owner.raw, ref) || inGalleryPage(owner.raw, ref)) usedBy.push({ path: owner.rel, title: owner.title });
       }
     } else {
       const ref = `/${fileRel.replace(/^static\//, '')}`;
@@ -569,7 +594,104 @@ async function renameMedia({ path: rel, newName }) {
     }
     if (next !== raw) await writeAtomic(mdAbs, next);
   });
+
+  // A gallery remembers its notes by file name, so follow the rename.
+  const metaAbs = path.join(path.dirname(target), GALLERY_FILE);
+  if (await exists(metaAbs)) {
+    try {
+      const meta = JSON.parse(await fsp.readFile(metaAbs, 'utf8'));
+      let changed = false;
+      for (const item of meta.items || []) {
+        if (item.file === oldName) {
+          item.file = newFileName;
+          changed = true;
+        }
+      }
+      if (changed) await writeAtomic(metaAbs, `${JSON.stringify(meta, null, 2)}\n`);
+    } catch {}
+  }
   return { path: newRel };
+}
+
+// ---- galleries -----------------------------------------------------------
+
+// A gallery page is a folder of images plus one gallery.json beside them that
+// holds what the files can't: the order, a title (alt text), and the notes
+// pinned on each image (x and y are fractions of its width and height).
+const GALLERY_FILE = 'gallery.json';
+
+const clamp01 = (n) => Math.min(1, Math.max(0, Math.round(n * 10000) / 10000));
+
+function cleanNotes(notes) {
+  if (!Array.isArray(notes)) return [];
+  return notes
+    .map((n) => ({ x: Number(n?.x), y: Number(n?.y), text: String(n?.text ?? '').slice(0, 2000) }))
+    .filter((n) => Number.isFinite(n.x) && Number.isFinite(n.y) && n.text.trim())
+    .map((n) => ({ x: clamp01(n.x), y: clamp01(n.y), text: n.text }));
+}
+
+async function galleryFolder(rel) {
+  safe(rel, ['content']);
+  const name = path.basename(rel);
+  if (name !== 'index.md' && name !== '_index.md') throw new UserError('This page has no folder for images.');
+  return imageHome(rel).dir;
+}
+
+async function readGallery(rel) {
+  const dir = await galleryFolder(rel);
+  const abs = path.join(ROOT, dir);
+  const files = new Map();
+  for (const entry of await fsp.readdir(abs, { withFileTypes: true }).catch(() => [])) {
+    if (!entry.isFile() || entry.name.startsWith('.') || !IMAGE_EXT.has(path.extname(entry.name).toLowerCase())) continue;
+    files.set(entry.name, await fsp.stat(path.join(abs, entry.name)));
+  }
+
+  let saved = [];
+  try {
+    const meta = JSON.parse(await fsp.readFile(path.join(abs, GALLERY_FILE), 'utf8'));
+    if (Array.isArray(meta.items)) saved = meta.items;
+  } catch {}
+
+  const make = (file, meta = {}) =>
+    describeMedia(`${dir}/${file}`, files.get(file), {
+      file,
+      title: String(meta.title ?? ''),
+      notes: cleanNotes(meta.notes),
+    });
+
+  // Saved order first; anything new (just added) follows, oldest first.
+  const items = [];
+  const seen = new Set();
+  for (const meta of saved) {
+    if (!files.has(meta?.file) || seen.has(meta.file)) continue;
+    seen.add(meta.file);
+    items.push(make(meta.file, meta));
+  }
+  const fresh = [...files.keys()].filter((f) => !seen.has(f)).sort((a, b) => files.get(a).mtimeMs - files.get(b).mtimeMs || a.localeCompare(b, undefined, { numeric: true }));
+  for (const file of fresh) items.push(make(file));
+  return { items, dir };
+}
+
+async function writeGallery({ page, items }) {
+  const dir = await galleryFolder(page);
+  if (!Array.isArray(items)) throw new UserError('Nothing to save.');
+  const abs = path.join(ROOT, dir);
+  const out = [];
+  const seen = new Set();
+  for (const item of items) {
+    const file = path.basename(String(item?.file ?? ''));
+    if (!file || seen.has(file) || !(await exists(path.join(abs, file)))) continue;
+    seen.add(file);
+    const entry = { file };
+    const title = String(item.title ?? '').trim();
+    const notes = cleanNotes(item.notes);
+    if (title) entry.title = title;
+    if (notes.length) entry.notes = notes;
+    out.push(entry);
+  }
+  const target = path.join(abs, GALLERY_FILE);
+  if (out.length || (await exists(target))) await writeAtomic(target, `${JSON.stringify({ items: out }, null, 2)}\n`);
+  return { ok: true };
 }
 
 async function deleteMedia({ path: rel }) {
@@ -938,6 +1060,10 @@ async function api(req, res, url) {
       return sendJson(res, 200, await renameMedia(await readJson(req)));
     case 'POST /api/media/delete':
       return sendJson(res, 200, await deleteMedia(await readJson(req)));
+    case 'GET /api/gallery':
+      return sendJson(res, 200, await readGallery(q.get('page')));
+    case 'PUT /api/gallery':
+      return sendJson(res, 200, await writeGallery(await readJson(req)));
     case 'GET /api/preview-ready':
       return sendJson(res, 200, await previewReady(q.get('url')));
     case 'GET /api/blocks':

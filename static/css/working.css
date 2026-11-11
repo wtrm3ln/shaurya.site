@@ -48,7 +48,8 @@
 
 .span-full .project-content {
   flex-direction: row;
-  align-items: flex-start;
+  /* the text column is as tall as the cover, so the date can sit at its foot */
+  align-items: stretch;
   gap: 1.5rem;
 }
 
@@ -62,6 +63,7 @@
 .span-full .project-body {
   flex: 1;
   gap: 0.8rem;
+  justify-content: space-between;
 }
 
 @media (max-width: 580px) {
@@ -111,6 +113,11 @@
   /* Inner radius of the concentric pair with .project-card (16 − 8 padding) */
   border-radius: 8px;
   display: block;
+}
+
+/* A live cover (partials/cover.html) has no size of its own: give it an image's shape. */
+.cover-scene.cover-image {
+  aspect-ratio: 16 / 10;
 }
 
 .project-body {

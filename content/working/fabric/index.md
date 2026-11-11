@@ -1,6 +1,5 @@
 ---
 title: "Topaz Fabric"
-weight: 1
 year: 2026
 tags: [ux, product design, ]
 featured: true
@@ -13,6 +12,7 @@ messages:
   - "agentsss!!"
 ndaBadge: "Confidential"
 ndaNote: "This one's under wraps — reach out for the story."
+weight: 4
 ---
 
 ### Agents are invading the workplace

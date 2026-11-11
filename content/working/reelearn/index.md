@@ -10,7 +10,7 @@ type: case-study
 cover: tempimagej7vojw.jpg
 draft: false
 span: full
-weight: 6
+weight: 5
 ---
 # Learning, for goldfishes
 

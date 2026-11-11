@@ -11,6 +11,7 @@ cover: tempimageq9sm5e.jpg
 draft: false
 bgColor: "#ffd9a8"
 span: full
+weight: 2
 ---
 This project combines my love for movies and belief that a movie can be theraputic
 

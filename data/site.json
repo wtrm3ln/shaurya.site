@@ -11,14 +11,14 @@
     "moreLink": "See what I'm tinkering on."
   },
   "writing": {
-    "tagline": "Design,tech and ideas",
-    "subtitle": "If you’re thinking without writing, you only think you’re thinking.",
+    "tagline": "If you're thinking without writing, you only think you're thinking.",
+    "subtitle": "",
     "heading": "writing",
-    "intro": "I write about design, tech and anything I'm thinking about. This is an exercise in me understanding how things work."
+    "intro": "Notes on design, psychology, technology and creativity."
   },
   "experimenting": {
     "heading": "experimenting",
-    "intro": "More exploratory projects — small bets and curiosities."
+    "intro": "small bets and curiosities"
   },
   "nav": {
     "main": [

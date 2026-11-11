@@ -79,6 +79,12 @@
   object-fit: cover;
 }
 
+/* A live banner (partials/cover.html): wide, but never shorter than the character needs. */
+.case-study-cover.cover-scene {
+  aspect-ratio: 21 / 9;
+  min-height: 280px;
+}
+
 .project-meta-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -769,8 +775,21 @@ Geologica uppercase labels and headings, 10px radii.
     margin-bottom: 1.6rem;
   }
 
+  /* phones: a shorter cover (40vh instead of 70vh) so the title shows sooner */
   .case-study-hero {
-    height: 70vh;
+    height: 40vh;
+    max-height: 40vh;
+  }
+
+  .case-study-cover {
+    height: 100%;
+    max-height: 40vh;
+  }
+
+  /* a live banner fills the taller hero, where an image keeps its own shape */
+  .case-study-cover.cover-scene {
+    height: 100%;
+    aspect-ratio: auto;
   }
 
   .project-meta-grid {

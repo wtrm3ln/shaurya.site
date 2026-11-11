@@ -1,6 +1,5 @@
 ---
 title: "Carvers"
-weight: 1
 date: 2025-11-16T14:33:31+05:30
 year: 2023
 tags: [ux]
@@ -20,6 +19,7 @@ taggrid:
     value: "2 months"
   - title: "Year"
     value: "2023"
+weight: 3
 ---
 
 

@@ -76,15 +76,18 @@ Designed lighting, architectural and glass products in Mumbai, and managed studi
 **Art Intern**
 
 Marketing campaigns for GreenLam, VH1, Daikin and Glance.
+  {{< /col >}}
+{{< /2col >}}
+
 
 #### Education
 
 BDes, Product Design 2021 - 2025
 
 Atlas Skilltech University
-  {{< /col >}}
-{{< /2col >}}
+
 
 </div>
+
 
 Say hi - [LinkedIn](https://linkedin.com/in/ssdkr/) · [Email](mailto:shauryasinghdkr@gmail.com)

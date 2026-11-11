@@ -1,0 +1,15 @@
+{{/* A project's cover, as a card thumbnail or a case study's banner.
+     Context: dict "page" (the project) and "class" (the class it takes there).
+     `coverScene` is a script in the page bundle that draws a live cover on a
+     canvas instead of an image (see working/worren/cover.js); otherwise it's
+     the `cover` image. */}}
+{{ $page := .page }}
+{{ $class := .class }}
+{{ with and $page.Params.coverScene ($page.Resources.GetMatch $page.Params.coverScene) }}
+<canvas class="{{ $class }} cover-scene" data-scene="{{ .RelPermalink }}" role="img" aria-label="{{ $page.Title }}"></canvas>
+<script type="module" src="{{ .RelPermalink }}"></script>
+{{ else }}
+{{ with $page.Resources.GetMatch $page.Params.cover }}
+<img src="{{ .RelPermalink }}" alt="{{ $page.Title }}" class="{{ $class }}">
+{{ end }}
+{{ end }}

@@ -1,6 +1,5 @@
 ---
 title: Zentel
-weight: 4
 date: 2025-11-16T14:33:31+05:30
 year: 2025
 tags:
@@ -25,4 +24,5 @@ taggrid:
     value: "2023"
 draft: true
 span: full
+weight: 5
 ---

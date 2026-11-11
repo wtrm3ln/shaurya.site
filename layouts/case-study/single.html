@@ -114,8 +114,12 @@
 {{ end }}
 {{ end }}
 <div class="heading-content case-study-hero">
+    {{ if .Params.coverScene }}
+    {{ partial "cover.html" (dict "page" . "class" "case-study-cover") }}
+    {{ else }}
     {{ with $cover }}
     <img class="case-study-cover" src="{{ . }}" alt="{{ $.Title }}">
+    {{ end }}
     {{ end }}
 </div>
 {{ end }}

@@ -29,9 +29,9 @@
        (and the header text) is held to --content-max and centred once
        there's room. --pad-x is the minimum side padding inside
        the card; --gutter is the space between the card and the window edge. */
-    --content-max: 860px;
-    --pad-x: 6em;
-    --gutter: 2em;
+    --content-max: clamp(520px, 78vw, 980px); /* narrows with the window so side padding stays generous when zoomed */
+    --pad-x: 2.5rem;
+    --gutter: 1rem;
     /* Side padding that centres a --content-max column inside the card
        (whose width is the window minus both gutters). */
     --card-pad-x: max(var(--pad-x), calc((100% - 2 * var(--gutter) - var(--content-max)) / 2));
@@ -50,6 +50,7 @@
 
 /* Crisper, thinner text rendering on macOS */
 html {
+    font-size: 120%; /* 19.2px base: scales every rem size on the site */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -151,7 +152,7 @@ h4 {
   font-family: "Geologica", sans-serif;
   font-weight: 400;
   font-style: normal;
-  font-size: 14px;
+  font-size: 17px;
   margin: 0;
   text-transform: uppercase;
   opacity: 0.5;
@@ -257,7 +258,7 @@ body {
     font-style: normal;
     background-color: var(--themed-primary);
     margin: 0;
-    font-size: 14px;
+    font-size: 17px;
     position: relative;
 }
 
@@ -567,7 +568,7 @@ RESPONSIVE BREAKPOINTS
 /* Tablet and below (max-width: 1024px) */
 @media (max-width: 1024px) {
   :root {
-    --pad-x: 2em;
+    --pad-x: 1.75rem;
   }
 
   .heading-content {
@@ -590,7 +591,7 @@ RESPONSIVE BREAKPOINTS
   }
 
   body {
-    font-size: 13px;
+    font-size: 16px;
   }
 
   h1, h2 {
@@ -640,12 +641,12 @@ RESPONSIVE BREAKPOINTS
 /* Mobile (max-width: 480px) */
 @media (max-width: 480px) {
   :root {
-    --pad-x: 1.5em;
+    --pad-x: 1.25rem;
     --gutter: 0.5em;
   }
 
   body {
-    font-size: 12px;
+    font-size: 14.5px;
   }
 
   h1, h2 {
@@ -719,7 +720,7 @@ RESPONSIVE BREAKPOINTS
 /* Extra small mobile (max-width: 320px) */
 @media (max-width: 320px) {
   :root {
-    --pad-x: 1em;
+    --pad-x: 1rem;
   }
 
   .navigation {

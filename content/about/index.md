@@ -7,7 +7,7 @@ layout: "expanded"
 
 We live in label-less times
 
-The visible work, has never been as easy to replicate
+The visible work, has never been easier to replicate
 
 What remains, what matters, is what you do in the real world
 
@@ -23,7 +23,11 @@ These are mine
 - **Technology is dangerous:** It is harder for people to spot the effects of technology on them. They are cognitive, build over time, and are harder to get rid of.
 
 
-- **Dark patterns are disgusting and depraved**
+- Dark patterns are disgusting and depraved.
+
+
+- A good designer is an educated designer. A deep understanding of technology, business, economics, and psycology is necessary to produce *exceptional* work.
+
 
 
 - **Human Autonomy:** The ultimate goal of technology is to increase human capability and preserve human autonomy.

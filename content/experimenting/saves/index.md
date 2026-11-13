@@ -9,5 +9,5 @@ slug: saves
 description: Putting my bookmarks online
 external: true
 externalurl: https://saves.shaurya.site/
-cover: image.png
+cover: image.jpg
 ---

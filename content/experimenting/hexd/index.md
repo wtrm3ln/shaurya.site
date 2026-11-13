@@ -9,7 +9,7 @@ description: "Soul searching for films: matching people to the film for the mome
 type: "case-study"
 messages: "films for the moment you're in"
 externalurl: "https://hexd-7xr.pages.dev"
-cover: image.png
+cover: image.jpg
 bgColor: "#FBEFC4"
 taggrid:
   - title: "Role"

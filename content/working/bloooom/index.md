@@ -9,7 +9,7 @@ description: "Helping student designers and developers build together"
 type: "case-study"
 messages: "design-dev student community"
 externalurl: "https://bloooom.vercel.app"
-cover: image.png
+cover: image.jpg
 bgColor: "#5FDD97"
 span: "full"
 weight: 6
@@ -113,7 +113,7 @@ I focused on reducing friction during onboarding so users could quickly publish 
 Alongside the product, I designed the visual identity, logo, interface, and interaction patterns.
   {{< /col >}}
   {{< col >}}
-![Bloooom interface](image.png)
+![Bloooom interface](image.jpg)
   {{< /col >}}
 {{< /2col >}}
 

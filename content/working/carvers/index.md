@@ -8,7 +8,7 @@ slug: "carvers"
 description: "Rethinking the experience of driving a car"
 type: "case-study"
 messages: "view case study"
-cover: cover.png
+cover: cover.jpg
 bgColor: "#BFAFFE"
 taggrid:
   - title: "Role played"
